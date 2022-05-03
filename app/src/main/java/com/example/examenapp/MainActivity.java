@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setTitle("Kalender");
+
         bottomNavigationView = findViewById(R.id.bottonNav);
 
         //Sets the container to home fragment which should be default
@@ -35,9 +37,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+                        setTitle("Kalender");
                         return true;
                     case R.id.workout:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
+                        setTitle("Alla Övningar");
                         return true;
                 }
 
