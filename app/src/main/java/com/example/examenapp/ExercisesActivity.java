@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,10 +18,22 @@ public class ExercisesActivity extends AppCompatActivity {
 
     ListView exercisesList;
 
+    ImageButton imgButton;
+
+    ChooseExerciseFragment chooseExerciseFragment = new ChooseExerciseFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+
+        imgButton = findViewById(R.id.addExerciseBtn);
+        imgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.chooseContainer, chooseExerciseFragment).commit();
+            }
+        });
 
         String date = getIntent().getStringExtra("date");
         setTitle(date + " - Valda Övningar");
