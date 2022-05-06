@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/exercisesLayout"
     tools:context=".ExercisesActivity">
 
     <ListView
@@ -33,9 +32,8 @@
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.974"
+        app:layout_constraintTop_toBottomOf="@+id/exercisesList"
+        app:layout_constraintVertical_bias="0.976"
         app:srcCompat="@drawable/ic_baseline_add_box_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
