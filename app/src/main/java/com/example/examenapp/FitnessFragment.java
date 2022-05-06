@@ -26,16 +26,7 @@ public class FitnessFragment extends Fragment {
         exercisesList = view.findViewById(R.id.allExercisesList);
         exercisesList.setBackgroundColor(Color.RED);
 
-        ArrayList<String> exercisesArray = new ArrayList<>();
-        exercisesArray.add("Bänkpress");
-        exercisesArray.add("Militärpress");
-        exercisesArray.add("Lateral Raises");
-        exercisesArray.add("Bicep Curls");
-        exercisesArray.add("Benböj");
-        exercisesArray.add("Pull Ups");
-        exercisesArray.add("Chins");
-        exercisesArray.add("Farmers Walk");
-        exercisesArray.add("Dips");
+        ArrayList<String> exercisesArray = Exercises.getExercises();
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, exercisesArray);
         exercisesList.setAdapter(arrayAdapter);
