@@ -1,6 +1,7 @@
 package com.example.examenapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +21,8 @@ public class ExercisesActivity extends AppCompatActivity {
 
     ImageButton imgButton;
 
+    ConstraintLayout layout;
+
     ChooseExerciseFragment chooseExerciseFragment = new ChooseExerciseFragment();
 
     @Override
@@ -27,11 +30,29 @@ public class ExercisesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
+        layout = findViewById(R.id.exercisesLayout);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //If choose fragment is visable
+                if(chooseExerciseFragment.isVisible()) {
+                    getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
+                }
+                //Toast.makeText(getApplicationContext(), "Clicked outside fragment", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         imgButton = findViewById(R.id.addExerciseBtn);
         imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.chooseContainer, chooseExerciseFragment).commit();
+                //If choose fragment is visable
+                if(chooseExerciseFragment.isVisible()) {
+                    getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
+
+                } else {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.chooseContainer, chooseExerciseFragment).commit();
+                }
             }
         });
 
@@ -51,13 +72,20 @@ public class ExercisesActivity extends AppCompatActivity {
         exercisesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Start exercise activity and send the data
 
-                String exerciseName = adapterView.getItemAtPosition(i).toString();
+                //If choose fragment is visable
+                if(chooseExerciseFragment.isVisible()) {
+                    getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
 
-                Intent exerciseIntent = new Intent(ExercisesActivity.this, ExerciseActivity.class);
-                exerciseIntent.putExtra("exercise_name", exerciseName);
-                startActivity(exerciseIntent);
+                } else {
+                    //Start exercise activity and send the data
+
+                    String exerciseName = adapterView.getItemAtPosition(i).toString();
+
+                    Intent exerciseIntent = new Intent(ExercisesActivity.this, ExerciseActivity.class);
+                    exerciseIntent.putExtra("exercise_name", exerciseName);
+                    startActivity(exerciseIntent);
+                }
             }
         });
     }
