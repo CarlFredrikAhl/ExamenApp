@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExerciseDataActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/design_default_color_primary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/toolbarText"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:text="Valda Övningar"
+            android:textColor="@color/white"
+            android:textSize="24dp"></TextView>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:id="@+id/setsTitle"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:text="Number of Sets">
+    </TextView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:id="@+id/setsPicker"
+        android:layout_below="@id/setsTitle"
+        android:inputType="number">
+    </EditText>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/repsPickerTitle"
+        android:paddingLeft="10dp"
+        android:layout_below="@id/setsPicker"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:text="Number of Reps">
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchTitle"
+        android:paddingLeft="10dp"
+        android:textSize="18dp"
+        android:layout_below="@id/repsPickerTitle"
+        android:text="Till Failure">
+
+    </TextView>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/repsPickerTitle"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/repsPicker"
+        android:paddingLeft="10dp"
+        android:inputType="number"
+        android:visibility="invisible">
+
+    </EditText>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/switchTitle"
+        android:checked="true"
+        android:id="@+id/failureSwitch"
+        android:gravity="start"></Switch>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/weightPickerTitle"
+        android:layout_below="@id/repsPicker"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:text="Weight Amount (Kg)">
+    </TextView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weightPickerTitle"
+        android:id="@+id/weightPicker"
+        android:inputType="number"
+        android:visibility="visible">
+    </EditText>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:paddingLeft="10dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/restTimePickerTitle"
+        android:layout_below="@id/weightPicker"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:text="Rest Time (Sec)">
+    </TextView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/restTimePickerTitle"
+        android:id="@+id/restTimePicker"
+        android:inputType="number"
+        android:visibility="visible">
+    </EditText>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:text="Done"
+        android:id="@+id/doneBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/restTimePicker"
+        android:layout_marginTop="20dp">
+    </Button>
+
+</RelativeLayout>
