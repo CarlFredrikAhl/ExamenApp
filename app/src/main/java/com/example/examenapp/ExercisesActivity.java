@@ -1,6 +1,7 @@
 package com.example.examenapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,7 +25,13 @@ public class ExercisesActivity extends AppCompatActivity {
 
     ImageView imgButton;
 
+    TextView toolbarText;
+
+    Toolbar toolbar;
+
     RelativeLayout layout;
+
+    private static ArrayAdapter arrayAdapter;
 
     ChooseExerciseFragment chooseExerciseFragment = new ChooseExerciseFragment();
 
@@ -32,15 +40,27 @@ public class ExercisesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(chooseExerciseFragment.isVisible()) {
+                    closeChooseFragment();
+                }
+            }
+        });
+
+        toolbarText = findViewById(R.id.toolbarText);
+
         layout = findViewById(R.id.exercisesLayout);
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //If choose fragment is visable
                 if(chooseExerciseFragment.isVisible()) {
-                    getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
+                    closeChooseFragment();
                 }
-                Toast.makeText(getApplicationContext(), "Clicked outside fragment", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -50,7 +70,7 @@ public class ExercisesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //If choose fragment is visable
                 if(chooseExerciseFragment.isVisible()) {
-                    getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
+                    closeChooseFragment();
 
                 } else {
                     getSupportFragmentManager().beginTransaction().replace(R.id.chooseContainer, chooseExerciseFragment).commit();
@@ -59,14 +79,15 @@ public class ExercisesActivity extends AppCompatActivity {
         });
 
         String date = getIntent().getStringExtra("date");
-        setTitle(date + " - Valda Övningar");
+        toolbarText.setText(date + " - Valda Övningar");
+
 
         exercisesList = findViewById(R.id.exercisesList);
         exercisesList.setBackgroundColor(Color.RED);
 
         ArrayList<String> exercisesArray = Exercises.getExercises();
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exercisesArray);
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exercisesArray);
         exercisesList.setAdapter(arrayAdapter);
         exercisesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -74,8 +95,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
                 //If choose fragment is visable
                 if(chooseExerciseFragment.isVisible()) {
-                    getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
-                    arrayAdapter.notifyDataSetChanged();
+                    closeChooseFragment();
 
                 } else {
                     //Start exercise activity and send the data
@@ -88,5 +108,15 @@ public class ExercisesActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //Closes the choose fragment and reload the list data
+    public void closeChooseFragment() {
+        getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
+        //arrayAdapter.notifyDataSetChanged();
+    }
+
+    public static void updateListview() {
+        arrayAdapter.notifyDataSetChanged();
     }
 }

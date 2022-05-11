@@ -40,6 +40,7 @@ public class ChooseExerciseFragment extends Fragment {
                 String exerciseName = adapterView.getItemAtPosition(i).toString();
 
                 Exercises.addExercise(exerciseName);
+                ExercisesActivity.updateListview();
             }
         });
 
