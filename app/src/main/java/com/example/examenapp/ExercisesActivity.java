@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,9 +21,9 @@ public class ExercisesActivity extends AppCompatActivity {
 
     ListView exercisesList;
 
-    ImageButton imgButton;
+    ImageView imgButton;
 
-    ConstraintLayout layout;
+    RelativeLayout layout;
 
     ChooseExerciseFragment chooseExerciseFragment = new ChooseExerciseFragment();
 
@@ -38,7 +40,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 if(chooseExerciseFragment.isVisible()) {
                     getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
                 }
-                //Toast.makeText(getApplicationContext(), "Clicked outside fragment", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Clicked outside fragment", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -73,6 +75,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 //If choose fragment is visable
                 if(chooseExerciseFragment.isVisible()) {
                     getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
+                    arrayAdapter.notifyDataSetChanged();
 
                 } else {
                     //Start exercise activity and send the data

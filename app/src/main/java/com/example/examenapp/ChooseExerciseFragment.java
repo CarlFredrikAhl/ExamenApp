@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,19 +28,20 @@ public class ChooseExerciseFragment extends Fragment {
         exercisesList = view.findViewById(R.id.chooseExerciseListView);
         exercisesList.setBackgroundColor(Color.BLUE);
 
-        ArrayList<String> exercisesArray = new ArrayList<>();
-        exercisesArray.add("Bänkpress");
-        exercisesArray.add("Militärpress");
-        exercisesArray.add("Lateral Raises");
-        exercisesArray.add("Bicep Curls");
-        exercisesArray.add("Benböj");
-        exercisesArray.add("Pull Ups");
-        exercisesArray.add("Chins");
-        exercisesArray.add("Farmers Walk");
-        exercisesArray.add("Dips");
+        ArrayList<String> exercisesArray = Exercises.getAllExercises();
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, exercisesArray);
         exercisesList.setAdapter(arrayAdapter);
+        exercisesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getActivity(), "Pressed exercise", Toast.LENGTH_SHORT).show();
+
+                String exerciseName = adapterView.getItemAtPosition(i).toString();
+
+                Exercises.addExercise(exerciseName);
+            }
+        });
 
         return view;
     }
