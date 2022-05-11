@@ -57,6 +57,7 @@ public class ExerciseDataActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         toolbarText = findViewById(R.id.toolbarText);
         String exerciseName = getIntent().getStringExtra("exercise_name");
