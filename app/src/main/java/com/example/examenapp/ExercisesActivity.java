@@ -3,7 +3,9 @@ package com.example.examenapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +30,8 @@ public class ExercisesActivity extends AppCompatActivity {
 
     RelativeLayout layout;
 
+    SharedPreferences sharedPreferences;
+
     private static ArrayAdapter arrayAdapter;
 
     ChooseExerciseFragment chooseExerciseFragment = new ChooseExerciseFragment();
@@ -36,6 +40,9 @@ public class ExercisesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+
+        //How we save the data (locally)
+        sharedPreferences = getSharedPreferences("ExercisesData", Context.MODE_PRIVATE);
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -116,5 +123,15 @@ public class ExercisesActivity extends AppCompatActivity {
 
     public static void updateListview() {
         arrayAdapter.notifyDataSetChanged();
+    }
+
+    //Saving the data
+    public void saveData() {
+        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+
+    }
+
+    public void getData() {
+
     }
 }
