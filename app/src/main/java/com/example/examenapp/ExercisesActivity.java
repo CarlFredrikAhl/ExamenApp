@@ -1,9 +1,11 @@
 package com.example.examenapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -119,6 +121,8 @@ public class ExercisesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                Toast.makeText(getApplicationContext(), "Long clicked", Toast.LENGTH_SHORT).show();
+
                 //If choose fragment is visable
                 if(chooseExerciseFragment.isVisible()) {
                     closeChooseFragment();
@@ -134,6 +138,31 @@ public class ExercisesActivity extends AppCompatActivity {
                     exerciseIntent.putExtra("date", date);
                     startActivity(exerciseIntent);
                 }
+            }
+        });
+        exercisesList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int exerciseId = i;
+
+                //AlertDialog and able to remove exercise
+                AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
+                alert.setTitle("Delete Exercise");
+                alert.setMessage("Are you sure you want to delete exercise?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Delete exercises
+                        Exercises.removeExercise(getApplicationContext(), exerciseId);
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                return true;
             }
         });
     }

@@ -75,6 +75,15 @@ public final class Exercises {
         id++;
     }
 
+    public static void removeExercise(Context context, int id) {
+        for(int i = 0; i < exercises.size(); i++) {
+            if(exercises.get(i).id == id)
+                exercises.remove(i);
+        }
+        saveData(context);
+        ExercisesActivity.updateListview();
+    }
+
     public static void saveData(Context context) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor saveEditor = sharedPreferences.edit();
