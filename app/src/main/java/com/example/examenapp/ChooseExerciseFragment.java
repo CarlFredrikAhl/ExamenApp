@@ -14,16 +14,22 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class ChooseExerciseFragment extends Fragment {
 
     ListView exercisesList;
+
+    String date;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_choose_exercise, container, false);
+
+        date = ExercisesActivity.date;
 
         exercisesList = view.findViewById(R.id.chooseExerciseListView);
         exercisesList.setBackgroundColor(Color.BLUE);
@@ -36,11 +42,14 @@ public class ChooseExerciseFragment extends Fragment {
         exercisesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), "Pressed exercise", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Pressed exercise", Toast.LENGTH_SHORT).show();
 
                 String exerciseName = adapterView.getItemAtPosition(i).toString();
 
-                Exercises.addExercise(exerciseName);
+                //Create exercise
+                Exercise exercise = new Exercise(exerciseName, date);
+
+                Exercises.addExercise(exercise);
                 ExercisesActivity.updateListview();
             }
         });

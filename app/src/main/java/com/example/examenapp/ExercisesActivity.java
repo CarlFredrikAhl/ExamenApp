@@ -17,10 +17,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExercisesActivity extends AppCompatActivity {
 
-    ListView exercisesList;
+    private static ListView exercisesList;
+
+    private static ArrayList<Exercise> exercises;
+    private static ArrayList<String> exercisesArray;
 
     ImageView imgButton;
 
@@ -34,12 +38,16 @@ public class ExercisesActivity extends AppCompatActivity {
 
     private static ArrayAdapter arrayAdapter;
 
+    public static String date;
+
     ChooseExerciseFragment chooseExerciseFragment = new ChooseExerciseFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+
+        exercises = Exercises.getExercises();
 
         //How we save the data (locally)
         sharedPreferences = getSharedPreferences("ExercisesData", Context.MODE_PRIVATE);
@@ -83,14 +91,15 @@ public class ExercisesActivity extends AppCompatActivity {
             }
         });
 
-        String date = getIntent().getStringExtra("date");
+        date = getIntent().getStringExtra("date");
         toolbarText.setText(date + " - Valda Övningar");
 
 
         exercisesList = findViewById(R.id.exercisesList);
         exercisesList.setBackgroundColor(Color.RED);
 
-        ArrayList<String> exercisesArray = Exercises.getExercises();
+        //Change this later
+        exercisesArray = getExercisesName();
 
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exercisesArray);
         exercisesList.setAdapter(arrayAdapter);
@@ -122,7 +131,24 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     public static void updateListview() {
-        arrayAdapter.notifyDataSetChanged();
+        arrayAdapter.clear();
+        exercises = Exercises.getExercises();
+        exercisesArray = getExercisesName();
+        arrayAdapter = new ArrayAdapter(arrayAdapter.getContext(), android.R.layout.simple_list_item_1, exercisesArray);
+        exercisesList.setAdapter(arrayAdapter);
+    }
+
+    private static ArrayList<String> getExercisesName() {
+        ArrayList<String> names = new ArrayList<>();
+
+        if(exercises!=null) {
+            for(Exercise exercise : exercises) {
+                String name = exercise.name;
+                names.add(name);
+            }
+        }
+
+        return names;
     }
 
     //Saving the data
