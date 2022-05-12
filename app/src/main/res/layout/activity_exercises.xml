@@ -19,7 +19,7 @@
             android:id="@+id/toolbarText"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:text="Valda Övningar"
+            android:text="Övningar"
             android:textColor="@color/white"
             android:textSize="24dp"></TextView>
 

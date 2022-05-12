@@ -35,14 +35,34 @@
         android:text="Number of Sets">
     </TextView>
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/multipleSetsTitle"
         android:paddingLeft="10dp"
-        android:id="@+id/setsPicker"
+        android:textSize="18dp"
         android:layout_below="@id/setsTitle"
-        android:inputType="number">
-    </EditText>
+        android:text="Multiple sets">
+    </TextView>
+
+
+    <Switch
+        android:id="@+id/multipleSetsSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/multipleSetsTitle"
+        android:checked="true"
+        android:gravity="start"></Switch>
+
+    <EditText
+        android:id="@+id/setsPicker"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setsTitle"
+        android:layout_alignParentEnd="true"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        android:visibility="invisible"></EditText>
 
     <TextView
         android:layout_width="match_parent"
@@ -68,7 +88,7 @@
     </TextView>
 
     <EditText
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/repsPickerTitle"
         android:layout_alignParentEnd="true"

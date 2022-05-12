@@ -9,6 +9,8 @@ public final class Exercises {
 
     private static ArrayList<String> allExercises = new ArrayList<>();
 
+    private static int id = 0;
+
     public static ArrayList<String> getAllExercises() {
         allExercises.add("Dumbbell Incline Benchpress");
         allExercises.add("Dumbbell Benchpress");
@@ -56,7 +58,9 @@ public final class Exercises {
         return exercises;
     }
 
-    public static void addExercise(Exercise exercise) {
+    public static void addExercise(String name, String date) {
+        Exercise exercise = new Exercise(name, date, id);
         exercises.add(exercise);
+        id++;
     }
 }

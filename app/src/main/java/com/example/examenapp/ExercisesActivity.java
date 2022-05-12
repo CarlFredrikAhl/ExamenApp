@@ -92,7 +92,7 @@ public class ExercisesActivity extends AppCompatActivity {
         });
 
         date = getIntent().getStringExtra("date");
-        toolbarText.setText(date + " - Valda Övningar");
+        toolbarText.setText(date + " - Övningar");
 
 
         exercisesList = findViewById(R.id.exercisesList);
@@ -118,6 +118,8 @@ public class ExercisesActivity extends AppCompatActivity {
 
                     Intent exerciseIntent = new Intent(ExercisesActivity.this, ExerciseDataActivity.class);
                     exerciseIntent.putExtra("exercise_name", exerciseName);
+                    exerciseIntent.putExtra("exercise_id", i);
+                    exerciseIntent.putExtra("date", date);
                     startActivity(exerciseIntent);
                 }
             }

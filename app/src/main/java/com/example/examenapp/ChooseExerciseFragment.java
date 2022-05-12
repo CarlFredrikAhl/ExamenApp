@@ -46,10 +46,8 @@ public class ChooseExerciseFragment extends Fragment {
 
                 String exerciseName = adapterView.getItemAtPosition(i).toString();
 
-                //Create exercise
-                Exercise exercise = new Exercise(exerciseName, date);
-
-                Exercises.addExercise(exercise);
+                //Add exercise
+                Exercises.addExercise(exerciseName, date);
                 ExercisesActivity.updateListview();
             }
         });

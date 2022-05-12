@@ -1,29 +1,37 @@
 package com.example.examenapp;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Exercise {
     String name;
+    String date;
+    int id;
 
     private static ArrayList<MySet> sets;
 
-    String date;
-
-    public Exercise(String name, ArrayList<MySet> sets, String date) {
+    public Exercise(String name, ArrayList<MySet> sets, String date, int id) {
         this.name = name;
         this.sets = sets;
         this.date = date;
+        this.id = id;
     }
 
     //If no sets is added yet
-    public Exercise(String name, String date) {
+    public Exercise(String name, String date, int id) {
         this.name = name;
         this.date = date;
+        this.id = id;
     }
 
     public void addSet(MySet set) {
         sets.add(set);
+    }
+
+    public void addSets(ArrayList<MySet> sets) {
+        this.sets = sets;
     }
 
     //Retrieves the personal record (most weight lifted)
