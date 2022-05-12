@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                Toast.makeText(getActivity(), "Clicked Date", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Clicked Date", Toast.LENGTH_SHORT).show();
 
                 String date = i + "/" + (i1 + 1) + "/" + i2;
 

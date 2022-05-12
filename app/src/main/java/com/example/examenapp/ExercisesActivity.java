@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +28,13 @@ public class ExercisesActivity extends AppCompatActivity {
     private static ArrayList<String> exercisesArray;
 
     ImageView imgButton;
+    ImageView saveButton;
 
     TextView toolbarText;
 
     Toolbar toolbar;
 
     RelativeLayout layout;
-
-    SharedPreferences sharedPreferences;
 
     private static ArrayAdapter arrayAdapter;
 
@@ -47,10 +47,13 @@ public class ExercisesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
-        exercises = Exercises.getExercises();
+        try {
+            Exercises.loadData(getApplicationContext());
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Couldn't load data", Toast.LENGTH_SHORT).show();
+        }
 
-        //How we save the data (locally)
-        sharedPreferences = getSharedPreferences("ExercisesData", Context.MODE_PRIVATE);
+        exercises = Exercises.getExercises();
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,6 +77,15 @@ public class ExercisesActivity extends AppCompatActivity {
                 if(chooseExerciseFragment.isVisible()) {
                     closeChooseFragment();
                 }
+            }
+        });
+
+        saveButton = findViewById(R.id.saveExercisesBtn);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Exercises.saveData(getApplicationContext());
+                Toast.makeText(getApplicationContext(), "Data saved", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -151,15 +163,5 @@ public class ExercisesActivity extends AppCompatActivity {
         }
 
         return names;
-    }
-
-    //Saving the data
-    public void saveData() {
-        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
-
-    }
-
-    public void getData() {
-
     }
 }
