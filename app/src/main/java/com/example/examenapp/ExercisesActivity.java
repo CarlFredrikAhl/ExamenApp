@@ -49,14 +49,6 @@ public class ExercisesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
-        try {
-            Exercises.loadData(getApplicationContext(), date);
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Couldn't load data", Toast.LENGTH_SHORT).show();
-        }
-
-        exercises = Exercises.getExercises();
-
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -70,6 +62,17 @@ public class ExercisesActivity extends AppCompatActivity {
         });
 
         toolbarText = findViewById(R.id.toolbarText);
+
+        date = getIntent().getStringExtra("date");
+        toolbarText.setText(date + " - Övningar");
+
+        try {
+            Exercises.loadData(getApplicationContext(), date);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Couldn't load data", Toast.LENGTH_SHORT).show();
+        }
+
+        exercises = Exercises.getExercises();
 
         layout = findViewById(R.id.exercisesLayout);
         layout.setOnClickListener(new View.OnClickListener() {
@@ -105,10 +108,6 @@ public class ExercisesActivity extends AppCompatActivity {
             }
         });
 
-        date = getIntent().getStringExtra("date");
-        toolbarText.setText(date + " - Övningar");
-
-
         exercisesList = findViewById(R.id.exercisesList);
         //exercisesList.setBackgroundColor(Color.GRAY);
 
@@ -142,8 +141,6 @@ public class ExercisesActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int exerciseId = i;
-
-                Toast.makeText(getApplicationContext(), String.valueOf(exerciseId), Toast.LENGTH_SHORT).show();
 
                 //AlertDialog and able to remove exercise
                 AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
