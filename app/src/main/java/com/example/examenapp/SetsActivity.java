@@ -7,6 +7,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class SetsActivity extends AppCompatActivity {
 
@@ -51,8 +53,13 @@ public class SetsActivity extends AppCompatActivity {
             String weight = String.valueOf(set.weight);
             String restTime = String.valueOf(set.restTime);
 
-            setsData.add("Sets: " + nrOfSets + ", Reps: " + reps + ", Weight: " + weight + " Kg, Rest: " + restTime);
+            setsData.add("Sets: " + nrOfSets + ", Reps: " + reps + ", Weight: " + weight + " Kg, Rest: " + restTime + " Sec");
         }
+
+        HashSet uniqueSets = new HashSet();
+        uniqueSets.addAll(setsData);
+        setsData.clear();
+        setsData.addAll(uniqueSets);
 
         return setsData;
     }
