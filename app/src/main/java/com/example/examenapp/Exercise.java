@@ -10,7 +10,7 @@ public class Exercise {
     String date;
     String id;
 
-    private static ArrayList<MySet> sets;
+    ArrayList<MySet> sets;
 
     public Exercise(String name, ArrayList<MySet> sets, String date) {
         this.name = name;
@@ -20,9 +20,10 @@ public class Exercise {
     }
 
     //If no sets is added yet
-    public Exercise(String name, String date) {
+    public Exercise(String name, String date, ArrayList<MySet> sets) {
         this.name = name;
         this.date = date;
+        this.sets = sets;
         id = UUID.randomUUID().toString();
     }
 
@@ -34,6 +35,7 @@ public class Exercise {
         this.sets = sets;
     }
 
+    /*
     //Retrieves the personal record (most weight lifted)
     public static float getPr() {
         float pr = 0;
@@ -59,4 +61,6 @@ public class Exercise {
 
         return maxWeight;
     }
+
+     */
 }

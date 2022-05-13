@@ -70,7 +70,7 @@ public final class Exercises {
     }
 
     public static void addExercise(String name, String date) {
-        Exercise exercise = new Exercise(name, date);
+        Exercise exercise = new Exercise(name, date, new ArrayList<>());
         exercises.add(exercise);
         id++;
     }

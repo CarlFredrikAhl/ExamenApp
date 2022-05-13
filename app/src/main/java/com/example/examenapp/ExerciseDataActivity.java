@@ -118,9 +118,13 @@ public class ExerciseDataActivity extends AppCompatActivity {
                 //Add the set to the right exercise
                 for(int i = 0; i < Exercises.getExercises().size(); i++) {
 
-                    if(Exercises.getExercises().get(i).id == exerciseId) {
+                    if(Exercises.getExercises().get(i).id.equals(exerciseId)) {
                         //Add the set/sets to the exercise
-                        Exercises.getExercises().get(i).addSets(sets);
+                        Exercises.getExercises().get(i).sets = sets;
+
+                        //Save data
+                        Exercises.saveData(getApplicationContext(), date);
+                        break;
                     }
                 }
 

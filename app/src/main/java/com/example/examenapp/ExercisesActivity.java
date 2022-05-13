@@ -128,21 +128,33 @@ public class ExercisesActivity extends AppCompatActivity {
         exercisesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Get the clicked exercise
+                Exercise clickedExercise = exercises.get(i);
 
                 //If choose fragment is visable
                 if(chooseExerciseFragment.isVisible()) {
                     closeChooseFragment();
 
                 } else {
-                    //Start exercise activity and send the data
+                    if(clickedExercise.sets == null || clickedExercise.sets.size() == 0) {
+                        //Start exercise data activity and send the data
 
-                    String exerciseName = adapterView.getItemAtPosition(i).toString();
+                        //Save data
+                        Exercises.saveData(getApplicationContext(), date);
 
-                    Intent exerciseIntent = new Intent(ExercisesActivity.this, ExerciseDataActivity.class);
-                    exerciseIntent.putExtra("exercise_name", exerciseName);
-                    exerciseIntent.putExtra("exercise_id", i);
-                    exerciseIntent.putExtra("date", date);
-                    startActivity(exerciseIntent);
+                        String exerciseName = adapterView.getItemAtPosition(i).toString();
+
+                        Intent exerciseIntent = new Intent(ExercisesActivity.this, ExerciseDataActivity.class);
+                        exerciseIntent.putExtra("exercise_name", exerciseName);
+                        exerciseIntent.putExtra("exercise_id", clickedExercise.id);
+                        exerciseIntent.putExtra("date", date);
+                        startActivity(exerciseIntent);
+
+                    } else {
+                        //Start set activity
+                        Toast.makeText(getApplicationContext(), "Exercise has " + String.valueOf(clickedExercise.sets.size()),
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
