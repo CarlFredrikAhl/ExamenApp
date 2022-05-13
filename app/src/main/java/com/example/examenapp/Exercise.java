@@ -8,22 +8,22 @@ import java.util.UUID;
 public class Exercise {
     String name;
     String date;
-    int id;
+    String id;
 
     private static ArrayList<MySet> sets;
 
-    public Exercise(String name, ArrayList<MySet> sets, String date, int id) {
+    public Exercise(String name, ArrayList<MySet> sets, String date) {
         this.name = name;
         this.sets = sets;
         this.date = date;
-        this.id = id;
+        id = UUID.randomUUID().toString();
     }
 
     //If no sets is added yet
-    public Exercise(String name, String date, int id) {
+    public Exercise(String name, String date) {
         this.name = name;
         this.date = date;
-        this.id = id;
+        id = UUID.randomUUID().toString();
     }
 
     public void addSet(MySet set) {

@@ -70,29 +70,19 @@ public final class Exercises {
     }
 
     public static void addExercise(String name, String date) {
-        Exercise exercise = new Exercise(name, date, id);
+        Exercise exercise = new Exercise(name, date);
         exercises.add(exercise);
         id++;
     }
 
-    public static void removeExercise(Context context, int exerciseId, String date) {
+    public static void removeExercise(Context context, String exerciseId, String date) {
+        //Loop through exercises and remove the right one
         for(int i = 0; i < exercises.size(); i++) {
             if(exercises.get(i).id == exerciseId) {
-
-                //The exercises with higher id should decrease the id with 1
-                for (int j = 0; j < exercises.size(); j++) {
-                    if (j > exercises.get(i).id) {
-                        exercises.get(j).id -= 1;
-                    }
-                }
-
                 exercises.remove(i);
-                //Redcuce id with one
-                id-=1;
-
-                break;
             }
         }
+
         saveData(context, date);
         ExercisesActivity.updateListview();
     }

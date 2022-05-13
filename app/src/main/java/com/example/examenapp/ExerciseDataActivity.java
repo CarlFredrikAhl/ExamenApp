@@ -31,7 +31,7 @@ public class ExerciseDataActivity extends AppCompatActivity {
 
     TextView toolbarText;
 
-    int exerciseId;
+    String exerciseId;
 
     String date;
 
@@ -40,7 +40,7 @@ public class ExerciseDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_data);
 
-        exerciseId = getIntent().getIntExtra("exercise_id", -1);
+        exerciseId = getIntent().getStringExtra("exercise_id");
         date = getIntent().getStringExtra("date");
 
         setsPicker = findViewById(R.id.setsPicker);

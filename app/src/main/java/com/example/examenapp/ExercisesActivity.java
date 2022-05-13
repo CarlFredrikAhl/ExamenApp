@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ExercisesActivity extends AppCompatActivity {
 
-    private static ListView exercisesList;
+    public static ListView exercisesList;
 
     private static ArrayList<Exercise> exercises;
     private static ArrayList<String> exercisesArray;
@@ -159,7 +159,7 @@ public class ExercisesActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Delete exercises
-                        Exercises.removeExercise(getApplicationContext(), exerciseId, date);
+                        Exercises.removeExercise(getApplicationContext(), exercises.get(exerciseId).id, date);
                         saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
                     }
                 });
