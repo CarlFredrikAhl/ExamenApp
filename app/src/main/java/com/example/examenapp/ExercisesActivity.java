@@ -154,6 +154,10 @@ public class ExercisesActivity extends AppCompatActivity {
                         //Start set activity
                         Toast.makeText(getApplicationContext(), "Exercise has " + String.valueOf(clickedExercise.sets.size()),
                                 Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(ExercisesActivity.this, SetsActivity.class);
+                        intent.putExtra("exercise_id", clickedExercise.id);
+                        startActivity(intent);
                     }
                 }
             }
