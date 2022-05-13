@@ -32,14 +32,15 @@ public class ExerciseDataActivity extends AppCompatActivity {
     TextView toolbarText;
 
     String exerciseId;
-
     String date;
+    String activiyFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_data);
 
+        activiyFlag = getIntent().getStringExtra("flag");
         exerciseId = getIntent().getStringExtra("exercise_id");
         date = getIntent().getStringExtra("date");
 
@@ -126,6 +127,13 @@ public class ExerciseDataActivity extends AppCompatActivity {
                         Exercises.saveData(getApplicationContext(), date);
                         break;
                     }
+                }
+
+                if(activiyFlag == "fromSetsActivity") {
+                    //Go back to sets list
+                    Intent intent = new Intent(ExerciseDataActivity.this, SetsActivity.class);
+                    intent.putExtra("added_set", true);
+                    startActivity(intent);
                 }
 
                 //Go back to exercises list
