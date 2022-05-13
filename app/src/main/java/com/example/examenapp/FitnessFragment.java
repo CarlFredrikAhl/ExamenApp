@@ -24,7 +24,7 @@ public class FitnessFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fitness, container, false);
 
         exercisesList = view.findViewById(R.id.allExercisesList);
-        exercisesList.setBackgroundColor(Color.RED);
+       //exercisesList.setBackgroundColor(Color.GRAY);
 
         ArrayList<String> exercisesArray = Exercises.getAllExercises();
 

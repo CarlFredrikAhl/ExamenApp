@@ -32,7 +32,7 @@ public class ChooseExerciseFragment extends Fragment {
         date = ExercisesActivity.date;
 
         exercisesList = view.findViewById(R.id.chooseExerciseListView);
-        exercisesList.setBackgroundColor(Color.BLUE);
+        exercisesList.setBackgroundColor(Color.GRAY);
 
         //Fix so that you can choose only exercises you haven't already chosen
         ArrayList<String> exercisesArray = Exercises.getAllExercises();

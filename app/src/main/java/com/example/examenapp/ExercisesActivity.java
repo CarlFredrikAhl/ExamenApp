@@ -50,7 +50,7 @@ public class ExercisesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercises);
 
         try {
-            Exercises.loadData(getApplicationContext());
+            Exercises.loadData(getApplicationContext(), date);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Couldn't load data", Toast.LENGTH_SHORT).show();
         }
@@ -86,7 +86,7 @@ public class ExercisesActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Exercises.saveData(getApplicationContext());
+                Exercises.saveData(getApplicationContext(), date);
                 Toast.makeText(getApplicationContext(), "Data saved", Toast.LENGTH_SHORT).show();
             }
         });
@@ -110,7 +110,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
 
         exercisesList = findViewById(R.id.exercisesList);
-        exercisesList.setBackgroundColor(Color.RED);
+        //exercisesList.setBackgroundColor(Color.GRAY);
 
         //Change this later
         exercisesArray = getExercisesName();
@@ -143,7 +143,7 @@ public class ExercisesActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int exerciseId = i;
 
-                Toast.makeText(getApplicationContext(), "Long clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(exerciseId), Toast.LENGTH_SHORT).show();
 
                 //AlertDialog and able to remove exercise
                 AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
@@ -153,7 +153,7 @@ public class ExercisesActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Delete exercises
-                        Exercises.removeExercise(getApplicationContext(), exerciseId);
+                        Exercises.removeExercise(getApplicationContext(), exerciseId, date);
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {

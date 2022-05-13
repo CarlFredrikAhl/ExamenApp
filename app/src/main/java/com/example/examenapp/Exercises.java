@@ -75,32 +75,45 @@ public final class Exercises {
         id++;
     }
 
-    public static void removeExercise(Context context, int id) {
+    public static void removeExercise(Context context, int exerciseId, String date) {
         for(int i = 0; i < exercises.size(); i++) {
-            if(exercises.get(i).id == id)
+            if(exercises.get(i).id == exerciseId) {
+
+                //The exercises with higher id should decrease the id with 1
+                for (int j = 0; j < exercises.size(); j++) {
+                    if (j > exercises.get(i).id) {
+                        exercises.get(j).id -= 1;
+                    }
+                }
+
                 exercises.remove(i);
+                //Redcuce id with one
+                id-=1;
+
+                break;
+            }
         }
-        saveData(context);
+        saveData(context, date);
         ExercisesActivity.updateListview();
     }
 
-    public static void saveData(Context context) {
+    public static void saveData(Context context, String date) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor saveEditor = sharedPreferences.edit();
 
         //Serialize to json and save
         Gson gson = new Gson();
         String json = gson.toJson(exercises);
-        saveEditor.putString("exercises", json);
+        saveEditor.putString(date + "_exercises", json);
         saveEditor.apply();
     }
 
-    public static void loadData(Context context) {
+    public static void loadData(Context context, String date) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
 
         //Deserialize to json and load
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("exercises", null);
+        String json = sharedPreferences.getString(date + "_exercises", null);
         Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
         exercises = gson.fromJson(json, type);
 
