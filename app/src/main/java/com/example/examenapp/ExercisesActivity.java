@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,8 +30,10 @@ public class ExercisesActivity extends AppCompatActivity {
     private static ArrayList<Exercise> exercises;
     private static ArrayList<String> exercisesArray;
 
+    public static boolean addedExercise = false;
+
     ImageView imgButton;
-    ImageView saveButton;
+    public static ImageView saveButton;
 
     TextView toolbarText;
 
@@ -90,9 +93,15 @@ public class ExercisesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Exercises.saveData(getApplicationContext(), date);
-                Toast.makeText(getApplicationContext(), "Data saved", Toast.LENGTH_SHORT).show();
+                saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
+
+                if(saveButton.getDrawable() == getResources().getDrawable(R.drawable.ic_baseline_save_24)) {
+                    Toast.makeText(getApplicationContext(), "Data saved", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+        saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
 
         imgButton = findViewById(R.id.addExerciseBtn);
         imgButton.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +160,7 @@ public class ExercisesActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Delete exercises
                         Exercises.removeExercise(getApplicationContext(), exerciseId, date);
+                        saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -168,7 +178,10 @@ public class ExercisesActivity extends AppCompatActivity {
     //Closes the choose fragment and reload the list data
     public void closeChooseFragment() {
         getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
-        //arrayAdapter.notifyDataSetChanged();
+
+        if(addedExercise) {
+            saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_24));
+        }
     }
 
     public static void updateListview() {

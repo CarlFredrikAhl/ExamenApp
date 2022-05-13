@@ -48,6 +48,9 @@ public class ChooseExerciseFragment extends Fragment {
 
                 //Add exercise
                 Exercises.addExercise(exerciseName, date);
+
+                ExercisesActivity.addedExercise = true;
+
                 ExercisesActivity.updateListview();
             }
         });
