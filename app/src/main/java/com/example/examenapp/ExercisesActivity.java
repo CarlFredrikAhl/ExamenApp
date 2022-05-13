@@ -121,8 +121,6 @@ public class ExercisesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Toast.makeText(getApplicationContext(), "Long clicked", Toast.LENGTH_SHORT).show();
-
                 //If choose fragment is visable
                 if(chooseExerciseFragment.isVisible()) {
                     closeChooseFragment();
@@ -145,8 +143,10 @@ public class ExercisesActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int exerciseId = i;
 
+                Toast.makeText(getApplicationContext(), "Long clicked", Toast.LENGTH_SHORT).show();
+
                 //AlertDialog and able to remove exercise
-                AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
                 alert.setTitle("Delete Exercise");
                 alert.setMessage("Are you sure you want to delete exercise?");
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -162,6 +162,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
                     }
                 });
+                alert.create().show();
                 return true;
             }
         });
