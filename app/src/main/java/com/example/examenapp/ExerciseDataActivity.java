@@ -49,9 +49,9 @@ public class ExerciseDataActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b)
-                    setsPicker.setVisibility(View.INVISIBLE);
-                else
                     setsPicker.setVisibility(View.VISIBLE);
+                else
+                    setsPicker.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -98,9 +98,9 @@ public class ExerciseDataActivity extends AppCompatActivity {
                     reps = repsPicker.getText().toString();
                 }
 
-                int setsAmt = 0;
+                int setsAmt = 1;
 
-                if(!multipleSetsSwitch.isChecked()) {
+                if(multipleSetsSwitch.isChecked()) {
                     if(setsPicker.getText().toString() != "") {
                         setsAmt = Integer.parseInt(setsPicker.getText().toString());
                     }

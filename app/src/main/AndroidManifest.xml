@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExamenApp">
         <activity
+            android:name=".SetsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ExerciseDataActivity"
             android:exported="false" />
         <activity
