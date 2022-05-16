@@ -185,4 +185,10 @@ public final class Exercises {
             return false;
         }
     }
+
+    public static void removeAllData(Context context) {
+        sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+        saveEditor.clear().apply();
+    }
 }

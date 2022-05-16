@@ -24,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setTitle("Kalender");
+        setTitle("Calender");
+
+        //Exercises.removeAllData(getApplicationContext());
 
         bottomNavigationView = findViewById(R.id.bottonNav);
 

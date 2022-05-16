@@ -227,6 +227,8 @@ public class ExercisesActivity extends AppCompatActivity {
                     getResources().getDrawable(R.drawable.ic_baseline_add_disabled_24));
             markedAsDone = true;
         }
+
+        checkMarkStatus();
     }
 
     //Closes the choose fragment and reload the list data
@@ -267,8 +269,27 @@ public class ExercisesActivity extends AppCompatActivity {
         addButton.setOnClickListener(null);
         addButton.setImageDrawable(addBtnDisabled);
         markAsDoneBtn.setOnClickListener(null);
-        markAsDoneBtn.setAlpha(0.5f);
+        markAsDoneBtn.setEnabled(false);
         saveButton.setOnClickListener(null);
         saveButton.setImageDrawable(saveBtnDisabled);
+    }
+
+    private static void checkMarkStatus() {
+        boolean canMark = false;
+
+        if(exercises.size() > 0) {
+            for(Exercise exercise : exercises) {
+                if(exercise.sets.size() > 0) {
+                    canMark = true;
+                }
+            }
+        }
+
+        if(canMark && !markedAsDone) {
+            markAsDoneBtn.setEnabled(true);
+
+        } else {
+            markAsDoneBtn.setEnabled(false);
+        }
     }
 }
