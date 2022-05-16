@@ -53,9 +53,12 @@ public class SetsActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Exercises.saveData(getApplicationContext(), date);
-                if(saveBtn.getDrawable() == getResources().getDrawable(R.drawable.ic_baseline_save_24)) {
+                Toast.makeText(getApplicationContext(), "Pressed save", Toast.LENGTH_SHORT).show();
+
+                if(addedSet) {
+                    Exercises.saveData(getApplicationContext(), date);
                     saveBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
+                    addedSet = false;
                 }
             }
         });
@@ -93,10 +96,12 @@ public class SetsActivity extends AppCompatActivity {
             setsData.add("Sets: " + nrOfSets + ", Reps: " + reps + ", Weight: " + weight + " Kg, Rest: " + restTime + " Sec");
         }
 
+        /*
         HashSet uniqueSets = new HashSet();
         uniqueSets.addAll(setsData);
         setsData.clear();
         setsData.addAll(uniqueSets);
+         */
 
         return setsData;
     }
@@ -105,6 +110,7 @@ public class SetsActivity extends AppCompatActivity {
         Intent intent = new Intent(SetsActivity.this, ExerciseDataActivity.class);
         intent.putExtra("exercise_id", exerciseId);
         intent.putExtra("flag", "fromSetsActivity");
+        intent.putExtra("date", date);
         startActivity(intent);
     }
 }

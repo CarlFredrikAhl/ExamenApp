@@ -98,6 +98,13 @@ public final class Exercises {
         saveEditor.apply();
     }
 
+    public static void clearData(Context context, String date) {
+        sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+        saveEditor.remove(date + "_exercises");
+        saveEditor.apply();
+    }
+
     public static void loadData(Context context, String date) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
 

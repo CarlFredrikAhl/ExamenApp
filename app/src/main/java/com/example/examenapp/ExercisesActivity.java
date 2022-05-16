@@ -95,6 +95,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 Exercises.saveData(getApplicationContext(), date);
                 saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
 
+                //Never gets in here, fix later
                 if(saveButton.getDrawable() == getResources().getDrawable(R.drawable.ic_baseline_save_24)) {
                     Toast.makeText(getApplicationContext(), "Data saved", Toast.LENGTH_SHORT).show();
                 }

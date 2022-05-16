@@ -13,8 +13,8 @@
         android:background="@color/design_default_color_primary">
 
         <TextView
-            android:layout_width="wrap_content"
             android:id="@+id/toolbarText"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:text="Sets"

@@ -120,8 +120,9 @@ public class ExerciseDataActivity extends AppCompatActivity {
                 for(int i = 0; i < Exercises.getExercises().size(); i++) {
 
                     if(Exercises.getExercises().get(i).id.equals(exerciseId)) {
-                        //Add the set/sets to the exercise
-                        Exercises.getExercises().get(i).sets = sets;
+                        for(MySet set : sets) {
+                            Exercises.getExercises().get(i).addSet(set);
+                        }
 
                         //Save data
                         Exercises.saveData(getApplicationContext(), date);
@@ -134,6 +135,7 @@ public class ExerciseDataActivity extends AppCompatActivity {
                     Intent intent = new Intent(ExerciseDataActivity.this, SetsActivity.class);
                     intent.putExtra("added_set", true);
                     intent.putExtra("exercise_id", exerciseId);
+                    intent.putExtra("date", date);
                     startActivity(intent);
 
                 } else {
