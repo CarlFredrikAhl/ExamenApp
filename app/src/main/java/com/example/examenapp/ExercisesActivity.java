@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -31,8 +32,9 @@ public class ExercisesActivity extends AppCompatActivity {
     private static ArrayList<String> exercisesArray;
 
     public static boolean addedExercise = false;
+    public static boolean markedAsDone;
 
-    ImageView imgButton;
+    public static ImageView addButton;
     public static ImageView saveButton;
 
     TextView toolbarText;
@@ -44,6 +46,8 @@ public class ExercisesActivity extends AppCompatActivity {
     private static ArrayAdapter arrayAdapter;
 
     public static String date;
+
+    private static Button markAsDoneBtn;
 
     ChooseExerciseFragment chooseExerciseFragment = new ChooseExerciseFragment();
 
@@ -65,9 +69,37 @@ public class ExercisesActivity extends AppCompatActivity {
         });
 
         toolbarText = findViewById(R.id.toolbarText);
+        markAsDoneBtn = findViewById(R.id.markAsDoneBtn);
+        markAsDoneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //AlertDialog and able to mark as done exercises
+                AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
+                alert.setTitle("Mark Exercise As Done?");
+                alert.setMessage("You have completed all the exercise and they will be added to statistics");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Mark as done
+                        Exercises.markAsDone(getApplicationContext(), date, exercises);
+                        markedAsDone = true;
+                        markedAsDone(getResources().getDrawable(R.drawable.ic_baseline_saved_24),
+                                getResources().getDrawable(R.drawable.ic_baseline_add_disabled_24));
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                alert.create().show();
+            }
+        });
 
         date = getIntent().getStringExtra("date");
-        toolbarText.setText(date + " - Övningar");
+
+        toolbarText.setText(date);
 
         try {
             Exercises.loadData(getApplicationContext(), date);
@@ -104,8 +136,8 @@ public class ExercisesActivity extends AppCompatActivity {
 
         saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
 
-        imgButton = findViewById(R.id.addExerciseBtn);
-        imgButton.setOnClickListener(new View.OnClickListener() {
+        addButton = findViewById(R.id.addExerciseBtn);
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //If choose fragment is visable
@@ -153,12 +185,10 @@ public class ExercisesActivity extends AppCompatActivity {
 
                     } else {
                         //Start set activity
-                        Toast.makeText(getApplicationContext(), "Exercise has " + String.valueOf(clickedExercise.sets.size()),
-                                Toast.LENGTH_SHORT).show();
-
                         Intent intent = new Intent(ExercisesActivity.this, SetsActivity.class);
                         intent.putExtra("exercise_id", clickedExercise.id);
                         intent.putExtra("date", date);
+                        intent.putExtra("markedAsDone", markedAsDone);
                         startActivity(intent);
                     }
                 }
@@ -191,6 +221,12 @@ public class ExercisesActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        if(Exercises.markedAsDone(getApplicationContext(), date)) {
+            markedAsDone(getResources().getDrawable(R.drawable.ic_baseline_saved_24),
+                    getResources().getDrawable(R.drawable.ic_baseline_add_disabled_24));
+            markedAsDone = true;
+        }
     }
 
     //Closes the choose fragment and reload the list data
@@ -221,5 +257,18 @@ public class ExercisesActivity extends AppCompatActivity {
         }
 
         return names;
+    }
+
+    public static void markedAsDone(Drawable saveBtnDisabled, Drawable addBtnDisabled) {
+        //Layout and interaction changes
+        exercisesList.setBackgroundColor(Color.GREEN);
+        exercisesList.setOnLongClickListener(null);
+        exercisesList.setOnItemLongClickListener(null);
+        addButton.setOnClickListener(null);
+        addButton.setImageDrawable(addBtnDisabled);
+        markAsDoneBtn.setOnClickListener(null);
+        markAsDoneBtn.setAlpha(0.5f);
+        saveButton.setOnClickListener(null);
+        saveButton.setImageDrawable(saveBtnDisabled);
     }
 }

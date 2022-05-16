@@ -14,7 +14,7 @@ import java.util.List;
 
 public final class Exercises {
     private static ArrayList<Exercise> exercises = new ArrayList<>();
-
+    private static ArrayList<Exercise> markedExercises = new ArrayList<>();
     private static ArrayList<String> allExercises = new ArrayList<>();
 
     private static int id = 0;
@@ -140,6 +140,49 @@ public final class Exercises {
 
         if(exercises == null) {
             exercises = new ArrayList<>();
+        }
+    }
+
+    public static void markAsDone(Context context, String date, ArrayList<Exercise> incomingExercises) {
+        sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+
+        //Load marked exercises
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(date + "_marked_exercises", null);
+        Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
+        markedExercises = gson.fromJson(json, type);
+
+        if(markedExercises == null) {
+            markedExercises = new ArrayList<>();
+        }
+
+        //Adding the marked exercises to the array
+        for(Exercise exercise : incomingExercises) {
+            markedExercises.add(exercise);
+        }
+
+        //Serialize to json and save
+        gson = new Gson();
+        json = gson.toJson(markedExercises);
+        saveEditor.putString(date + "_marked_exercises", json);
+        saveEditor.apply();
+    }
+
+    public static boolean markedAsDone(Context context, String date) {
+        sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString(date + "_marked_exercises", null);
+
+        if(json != null) {
+            if(json.contains(date)) {
+                return true;
+
+            } else {
+                return false;
+            }
+
+        } else {
+            return false;
         }
     }
 }

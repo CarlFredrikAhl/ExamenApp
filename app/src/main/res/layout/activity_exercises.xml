@@ -19,9 +19,17 @@
             android:id="@+id/toolbarText"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:text="Övningar"
+            android:text="Datum"
             android:textColor="@color/white"
             android:textSize="24dp"></TextView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/markAsDoneBtn"
+            android:text="Completed"
+            android:layout_gravity="center">
+        </Button>
 
 
         <ImageView

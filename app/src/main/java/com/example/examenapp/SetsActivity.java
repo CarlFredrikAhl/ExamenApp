@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +31,7 @@ public class SetsActivity extends AppCompatActivity {
     ImageView addBtn;
 
     boolean addedSet;
+    private static boolean markedAsDone;
 
     private static ArrayAdapter arrayAdapter;
 
@@ -41,66 +43,73 @@ public class SetsActivity extends AppCompatActivity {
         addedSet = getIntent().getBooleanExtra("added_set", false);
         date = getIntent().getStringExtra("date");
         exerciseId = getIntent().getStringExtra("exercise_id");
+        markedAsDone = getIntent().getBooleanExtra("markedAsDone", false);
 
         saveBtn = findViewById(R.id.saveSetsBtn);
-        addBtn = findViewById(R.id.addSetBtn);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addSet();
-            }
-        });
-
-        if(addedSet) {
-            saveBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_24));
-        }
-
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Pressed save", Toast.LENGTH_SHORT).show();
-
-                if(addedSet) {
-                    Exercises.saveData(getApplicationContext(), date);
-                    saveBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
-                    addedSet = false;
-                }
-            }
-        });
-
         setsList = findViewById(R.id.setsList);
+        addBtn = findViewById(R.id.addSetBtn);
+        if(!markedAsDone) {
+            addBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addSet();
+                }
+            });
 
+            if(addedSet) {
+                saveBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_24));
+            }
+
+            saveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplicationContext(), "Pressed save", Toast.LENGTH_SHORT).show();
+
+                    if(addedSet) {
+                        Exercises.saveData(getApplicationContext(), date);
+                        saveBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
+                        addedSet = false;
+                    }
+                }
+            });
+
+        } else {
+            addBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_disabled_24));
+            setsList.setBackgroundColor(Color.GREEN);
+        }
         setsArrayList = getSetsData();
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, setsArrayList);
         setsList.setAdapter(arrayAdapter);
-        setsList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int setIndex = i;
+        if(!markedAsDone) {
+            setsList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    int setIndex = i;
 
-                //AlertDialog and able to remove exercise
-                AlertDialog.Builder alert = new AlertDialog.Builder(SetsActivity.this);
-                alert.setTitle("Delete Set");
-                alert.setMessage("Are you sure you want to delete set?");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //Delete set
-                        Exercises.removeSet(getApplicationContext(), setIndex, exerciseId, date);
+                    //AlertDialog and able to remove exercise
+                    AlertDialog.Builder alert = new AlertDialog.Builder(SetsActivity.this);
+                    alert.setTitle("Delete Set");
+                    alert.setMessage("Are you sure you want to delete set?");
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Delete set
+                            Exercises.removeSet(getApplicationContext(), setIndex, exerciseId, date);
 
-                        saveBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                            saveBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                });
-                alert.create().show();
-                return true;
-            }
-        });
+                        }
+                    });
+                    alert.create().show();
+                    return true;
+                }
+            });
+        }
     }
 
     private Exercise getExercise() {
