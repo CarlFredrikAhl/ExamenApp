@@ -69,6 +69,17 @@ public final class Exercises {
         return exercises;
     }
 
+    public static Exercise getExercise(String exerciseId) {
+        Exercise exercise = new Exercise("null", "null", new ArrayList<>());
+
+        for(int i = 0; i < Exercises.getExercises().size(); i++)  {
+            if(Exercises.getExercises().get(i).id.equals(exerciseId)) {
+                exercise = Exercises.getExercises().get(i);
+            }
+        }
+        return exercise;
+    }
+
     public static void addExercise(String name, String date) {
         Exercise exercise = new Exercise(name, date, new ArrayList<>());
         exercises.add(exercise);
@@ -78,13 +89,26 @@ public final class Exercises {
     public static void removeExercise(Context context, String exerciseId, String date) {
         //Loop through exercises and remove the right one
         for(int i = 0; i < exercises.size(); i++) {
-            if(exercises.get(i).id == exerciseId) {
+            if(exercises.get(i).id.equals(exerciseId)) {
                 exercises.remove(i);
+                break;
             }
         }
 
         saveData(context, date);
         ExercisesActivity.updateListview();
+    }
+
+    public static void removeSet(Context context, int index, String exerciseId, String date) {
+        for(int i = 0; i < exercises.size(); i++) {
+            if(exercises.get(i).id.equals(exerciseId)) {
+                exercises.get(i).sets.remove(index);
+                break;
+            }
+        }
+
+        saveData(context, date);
+        SetsActivity.updateListView();
     }
 
     public static void saveData(Context context, String date) {
