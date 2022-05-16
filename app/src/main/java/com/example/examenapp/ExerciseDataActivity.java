@@ -35,12 +35,17 @@ public class ExerciseDataActivity extends AppCompatActivity {
     String date;
     String activityFlag;
 
+    boolean addedSets = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_data);
 
         activityFlag = getIntent().getStringExtra("flag");
+        if(activityFlag == null)
+            activityFlag = "null";
+
         exerciseId = getIntent().getStringExtra("exercise_id");
         date = getIntent().getStringExtra("date");
 
@@ -123,27 +128,19 @@ public class ExerciseDataActivity extends AppCompatActivity {
                         for(MySet set : sets) {
                             Exercises.getExercises().get(i).addSet(set);
                         }
-
-                        //Save data
-                        Exercises.saveData(getApplicationContext(), date);
+                        addedSets = true;
                         break;
                     }
                 }
 
-                if(activityFlag.equals("fromSetsActivity")) {
-                    //Go back to sets list
-                    Intent intent = new Intent(ExerciseDataActivity.this, SetsActivity.class);
-                    intent.putExtra("added_set", true);
-                    intent.putExtra("exercise_id", exerciseId);
-                    intent.putExtra("date", date);
-                    startActivity(intent);
+                //Go back to sets list
+                Intent intent = new Intent(ExerciseDataActivity.this, SetsActivity.class);
+                intent.putExtra("added_set", true);
+                intent.putExtra("exercise_id", exerciseId);
+                intent.putExtra("date", date);
+                intent.putExtra("addedSets", addedSets);
 
-                } else {
-                    //Go back to exercises list
-                    Intent intent = new Intent(ExerciseDataActivity.this, ExercisesActivity.class);
-                    intent.putExtra("date", date);
-                    startActivity(intent);
-                }
+                startActivity(intent);
 
             } else {
                 Toast.makeText(getApplicationContext(), "Fill in all data", Toast.LENGTH_SHORT).show();

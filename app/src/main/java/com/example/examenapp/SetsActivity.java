@@ -74,7 +74,9 @@ public class SetsActivity extends AppCompatActivity {
         //Default values
         Exercise exercise = new Exercise("null", "null", new ArrayList<>());
 
-        Exercises.loadData(getApplicationContext(), date);
+        if(!addedSet) {
+            Exercises.loadData(getApplicationContext(), date);
+        }
 
         for(int i = 0; i < Exercises.getExercises().size(); i++)  {
            if(Exercises.getExercises().get(i).id.equals(exerciseId)) {
