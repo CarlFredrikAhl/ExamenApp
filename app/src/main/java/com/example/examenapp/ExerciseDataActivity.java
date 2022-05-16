@@ -33,14 +33,14 @@ public class ExerciseDataActivity extends AppCompatActivity {
 
     String exerciseId;
     String date;
-    String activiyFlag;
+    String activityFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_data);
 
-        activiyFlag = getIntent().getStringExtra("flag");
+        activityFlag = getIntent().getStringExtra("flag");
         exerciseId = getIntent().getStringExtra("exercise_id");
         date = getIntent().getStringExtra("date");
 
@@ -129,17 +129,19 @@ public class ExerciseDataActivity extends AppCompatActivity {
                     }
                 }
 
-                if(activiyFlag == "fromSetsActivity") {
+                if(activityFlag.equals("fromSetsActivity")) {
                     //Go back to sets list
                     Intent intent = new Intent(ExerciseDataActivity.this, SetsActivity.class);
                     intent.putExtra("added_set", true);
+                    intent.putExtra("exercise_id", exerciseId);
+                    startActivity(intent);
+
+                } else {
+                    //Go back to exercises list
+                    Intent intent = new Intent(ExerciseDataActivity.this, ExercisesActivity.class);
+                    intent.putExtra("date", date);
                     startActivity(intent);
                 }
-
-                //Go back to exercises list
-                Intent intent = new Intent(ExerciseDataActivity.this, ExercisesActivity.class);
-                intent.putExtra("date", date);
-                startActivity(intent);
 
             } else {
                 Toast.makeText(getApplicationContext(), "Fill in all data", Toast.LENGTH_SHORT).show();

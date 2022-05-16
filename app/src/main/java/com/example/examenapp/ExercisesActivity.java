@@ -157,6 +157,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(ExercisesActivity.this, SetsActivity.class);
                         intent.putExtra("exercise_id", clickedExercise.id);
+                        intent.putExtra("date", date);
                         startActivity(intent);
                     }
                 }

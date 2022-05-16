@@ -34,6 +34,8 @@ public class SetsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sets);
 
         addedSet = getIntent().getBooleanExtra("added_set", false);
+        date = getIntent().getStringExtra("date");
+        exerciseId = getIntent().getStringExtra("exercise_id");
 
         saveBtn = findViewById(R.id.saveSetsBtn);
         addBtn = findViewById(R.id.addSetBtn);
@@ -58,8 +60,6 @@ public class SetsActivity extends AppCompatActivity {
             }
         });
 
-        exerciseId = getIntent().getStringExtra("exercise_id");
-
         setsList = findViewById(R.id.setsList);
 
         setsArrayList = getSetsData();
@@ -70,7 +70,8 @@ public class SetsActivity extends AppCompatActivity {
     private Exercise getExercise() {
         //Default values
         Exercise exercise = new Exercise("null", "null", new ArrayList<>());
-        date = exercise.date;
+
+        Exercises.loadData(getApplicationContext(), date);
 
         for(int i = 0; i < Exercises.getExercises().size(); i++)  {
            if(Exercises.getExercises().get(i).id.equals(exerciseId)) {
