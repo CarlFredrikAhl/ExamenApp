@@ -244,6 +244,7 @@ public class ExercisesActivity extends AppCompatActivity {
         startActivity(backIntent);
     }
 
+    //Dont need right now, remove later?
     @Override
     public void onResume() {
         super.onResume();
