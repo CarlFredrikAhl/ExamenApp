@@ -43,6 +43,8 @@ public class ExercisesActivity extends AppCompatActivity {
 
     RelativeLayout layout;
 
+    private static final int ACTIVITY_REQUEST_CODE = 1;
+
     private static ArrayAdapter arrayAdapter;
 
     public static String date;
@@ -51,10 +53,14 @@ public class ExercisesActivity extends AppCompatActivity {
 
     ChooseExerciseFragment chooseExerciseFragment = new ChooseExerciseFragment();
 
+    private boolean firstTimeLaunching = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+
+        firstTimeLaunching = true;
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -189,7 +195,7 @@ public class ExercisesActivity extends AppCompatActivity {
                         intent.putExtra("exercise_id", clickedExercise.id);
                         intent.putExtra("date", date);
                         intent.putExtra("markedAsDone", markedAsDone);
-                        startActivity(intent);
+                        startActivityForResult(intent, ACTIVITY_REQUEST_CODE);
                     }
                 }
             }
@@ -229,6 +235,14 @@ public class ExercisesActivity extends AppCompatActivity {
         }
 
         checkMarkStatus();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(!firstTimeLaunching)
+            Toast.makeText(getApplicationContext(), "Resumed activity, needs to restart", Toast.LENGTH_SHORT).show();
     }
 
     //Closes the choose fragment and reload the list data

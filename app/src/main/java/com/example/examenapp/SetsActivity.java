@@ -65,7 +65,7 @@ public class SetsActivity extends AppCompatActivity {
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(), "Pressed save", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Pressed save", Toast.LENGTH_SHORT).show();
 
                     if(addedSet) {
                         Exercises.saveData(getApplicationContext(), date);
@@ -119,6 +119,7 @@ public class SetsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent backIntent = NavUtils.getParentActivityIntent(this);
+        backIntent.putExtra("date", date);
         startActivity(backIntent);
     }
 
