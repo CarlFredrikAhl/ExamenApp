@@ -1,5 +1,6 @@
 package com.example.examenapp;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -110,6 +111,19 @@ public class SetsActivity extends AppCompatActivity {
                 }
             });
         }
+
+        //Set back button functionality
+
+
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+            }
+        };
+
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     private Exercise getExercise() {

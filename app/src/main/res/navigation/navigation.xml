@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.examenapp.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <activity
+        android:id="@+id/exercisesActivity"
+        android:name="com.example.examenapp.ExercisesActivity"
+        android:label="activity_exercises"
+        tools:layout="@layout/activity_exercises" />
+    <activity
+        android:id="@+id/setsActivity"
+        android:name="com.example.examenapp.SetsActivity"
+        android:label="activity_sets"
+        tools:layout="@layout/activity_sets" />
+</navigation>

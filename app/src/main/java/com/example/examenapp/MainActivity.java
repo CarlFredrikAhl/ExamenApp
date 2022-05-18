@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         setTitle("Calender");
 
-        //Exercises.removeAllData(getApplicationContext());
+        Exercises.removeAllData(getApplicationContext());
 
         bottomNavigationView = findViewById(R.id.bottonNav);
 
