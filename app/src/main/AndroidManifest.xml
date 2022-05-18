@@ -11,12 +11,14 @@
         android:theme="@style/Theme.ExamenApp">
         <activity
             android:name=".SetsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ExercisesActivity"/>
         <activity
             android:name=".ExerciseDataActivity"
             android:exported="false" />
         <activity
             android:name=".ExercisesActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

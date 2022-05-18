@@ -3,6 +3,7 @@ package com.example.examenapp;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -111,19 +112,14 @@ public class SetsActivity extends AppCompatActivity {
                 }
             });
         }
+    }
 
-        //Set back button functionality
+    //Set back button functionality
 
-
-
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-
-            }
-        };
-
-        getOnBackPressedDispatcher().addCallback(this, callback);
+    @Override
+    public void onBackPressed() {
+        Intent backIntent = NavUtils.getParentActivityIntent(this);
+        startActivity(backIntent);
     }
 
     private Exercise getExercise() {
