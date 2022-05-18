@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     HomeFragment homeFragment = new HomeFragment();
     FitnessFragment fitnessFragment = new FitnessFragment();
+    SettingsFragment settingsFragment = new SettingsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         setTitle("Calender");
 
-        Exercises.removeAllData(getApplicationContext());
+        //Exercises.removeAllData(getApplicationContext());
 
         bottomNavigationView = findViewById(R.id.bottonNav);
 
@@ -43,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.workout:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
+                        setTitle("Alla Övningar");
+                        return true;
+                    case R.id.settings:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, settingsFragment).commit();
                         setTitle("Alla Övningar");
                         return true;
                 }

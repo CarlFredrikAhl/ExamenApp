@@ -3,6 +3,7 @@ package com.example.examenapp;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -235,6 +236,12 @@ public class ExercisesActivity extends AppCompatActivity {
         }
 
         checkMarkStatus();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent backIntent = NavUtils.getParentActivityIntent(this);
+        startActivity(backIntent);
     }
 
     @Override

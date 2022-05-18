@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".SettingsFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,15 +16,17 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:text="Calendar"
+            android:text="Settings"
             android:textColor="@color/white"
             android:textSize="24dp"></TextView>
     </androidx.appcompat.widget.Toolbar>
 
-    <CalendarView
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:id="@+id/calendar"/>
+        android:id="@+id/clearDataBtn"
+        android:text="Clear Data"
+        android:layout_centerInParent="true">
+    </Button>
 
 </RelativeLayout>
