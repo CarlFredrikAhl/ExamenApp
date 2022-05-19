@@ -167,6 +167,8 @@ public final class Exercises {
         json = gson.toJson(markedExercises);
         saveEditor.putString(date + "_marked_exercises", json);
         saveEditor.apply();
+
+        saveToStatistics(context, markedExercises);
     }
 
     public static boolean markedAsDone(Context context, String date) {
@@ -184,6 +186,39 @@ public final class Exercises {
         } else {
             return false;
         }
+    }
+
+    private static void saveToStatistics(Context context, ArrayList<Exercise> statisticsExercises) {
+        sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+
+        String json = sharedPreferences.getString("all_marked_exercises", null);
+
+        //Serialize to json and save
+        Gson gson = new Gson();
+        json = gson.toJson(statisticsExercises);
+        saveEditor.putString("all_marked_exercises", json);
+        saveEditor.apply();
+    }
+
+    public static ArrayList<Exercise> getMarkedExercises(Context context, String name) {
+        ArrayList<Exercise> markedExercises = new ArrayList<>();
+
+        sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
+
+        String json = sharedPreferences.getString("all_marked_exercises", null);
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
+        markedExercises = gson.fromJson(json, type);
+
+        if(markedExercises != null) {
+            for(int i = 0; i < markedExercises.size(); i++) {
+                if(!markedExercises.get(i).name.contains(name))
+                    markedExercises.remove(i);
+            }
+        }
+
+        return markedExercises;
     }
 
     public static void removeAllData(Context context) {
