@@ -2,6 +2,7 @@ package com.example.examenapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -89,6 +90,13 @@ public class ExerciseDataActivity extends AppCompatActivity {
         toolbarText = findViewById(R.id.toolbarText);
         String exerciseName = getIntent().getStringExtra("exercise_name");
         toolbarText.setText(exerciseName);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent backIntent = NavUtils.getParentActivityIntent(this);
+        backIntent.putExtra("date", date);
+        startActivity(backIntent);
     }
 
     public void done() {

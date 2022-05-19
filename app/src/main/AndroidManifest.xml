@@ -15,6 +15,7 @@
             android:parentActivityName=".ExercisesActivity"/>
         <activity
             android:name=".ExerciseDataActivity"
+            android:parentActivityName=".ExercisesActivity"
             android:exported="false" />
         <activity
             android:name=".ExercisesActivity"

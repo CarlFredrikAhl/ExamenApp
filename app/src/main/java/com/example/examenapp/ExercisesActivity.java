@@ -179,7 +179,7 @@ public class ExercisesActivity extends AppCompatActivity {
                         //Start exercise data activity and send the data
 
                         //Save data
-                        Exercises.saveData(getApplicationContext(), date);
+                        //Data(getApplicationContext(), date);
 
                         String exerciseName = adapterView.getItemAtPosition(i).toString();
 
@@ -215,6 +215,9 @@ public class ExercisesActivity extends AppCompatActivity {
                         //Delete exercises
                         Exercises.removeExercise(getApplicationContext(), exercises.get(exerciseId).id, date);
                         saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
+
+                        //Need to restart this activity
+                       restartActivity();
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -259,6 +262,14 @@ public class ExercisesActivity extends AppCompatActivity {
         if(addedExercise) {
             saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_24));
         }
+
+        checkMarkStatus();
+    }
+
+    public void restartActivity() {
+        Intent restartIntent = new Intent(ExercisesActivity.this, ExercisesActivity.class);
+        restartIntent.putExtra("date", date);
+        startActivity(restartIntent);
     }
 
     public static void updateListview() {
@@ -297,13 +308,19 @@ public class ExercisesActivity extends AppCompatActivity {
 
     private static void checkMarkStatus() {
         boolean canMark = false;
+        int counter = 0;
 
         if(exercises.size() > 0) {
             for(Exercise exercise : exercises) {
                 if(exercise.sets.size() > 0) {
-                    canMark = true;
+                    counter++;
                 }
             }
+
+            if(counter == exercises.size())
+                canMark = true;
+            else
+                canMark = false;
         }
 
         if(canMark && !markedAsDone) {
