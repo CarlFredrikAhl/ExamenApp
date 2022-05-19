@@ -2,7 +2,9 @@ package com.example.examenapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,12 +22,16 @@ public class MainActivity extends AppCompatActivity {
     FitnessFragment fitnessFragment = new FitnessFragment();
     SettingsFragment settingsFragment = new SettingsFragment();
 
+    int backBtnCounter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         setTitle("Calender");
+
+        backBtnCounter = 0;
 
         //Exercises.removeAllData(getApplicationContext());
 
@@ -55,5 +61,33 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(homeFragment.isVisible()) {
+
+            backBtnCounter++;
+
+            if(backBtnCounter == 2) {
+                //Exit app
+                super.onBackPressed();
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Press again to exit app",Toast.LENGTH_SHORT).show();
+            }
+
+        } else if(fitnessFragment.isVisible()) {
+            //Go back to home fragment
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+            bottomNavigationView.setSelectedItemId(R.id.home);
+            backBtnCounter = 0;
+
+            //In settings fragment
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
+            bottomNavigationView.setSelectedItemId(R.id.workout);
+            backBtnCounter = 0;
+        }
     }
 }

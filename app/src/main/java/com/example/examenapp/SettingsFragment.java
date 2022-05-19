@@ -1,9 +1,11 @@
 package com.example.examenapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -29,7 +31,7 @@ public class SettingsFragment extends Fragment {
                 //AlertDialog and able to mark as done exercises
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                 alert.setTitle("Clear data?");
-                alert.setMessage("Are you sure you want to do this? This will remove all your saved data");
+                alert.setMessage("Are you sure you want to remove all your saved data? This also removes the statistics");
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

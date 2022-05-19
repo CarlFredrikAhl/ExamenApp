@@ -10,17 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExamenApp">
         <activity
+            android:name=".StatisticsActivity"
+            android:exported="false" />
+        <activity
             android:name=".SetsActivity"
             android:exported="false"
-            android:parentActivityName=".ExercisesActivity"/>
+            android:parentActivityName=".ExercisesActivity" />
         <activity
             android:name=".ExerciseDataActivity"
-            android:parentActivityName=".ExercisesActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ExercisesActivity" />
         <activity
             android:name=".ExercisesActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
