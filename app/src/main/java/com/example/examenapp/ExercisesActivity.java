@@ -44,8 +44,6 @@ public class ExercisesActivity extends AppCompatActivity {
 
     RelativeLayout layout;
 
-    private static final int ACTIVITY_REQUEST_CODE = 1;
-
     private static ArrayAdapter arrayAdapter;
 
     public static String date;
@@ -61,6 +59,7 @@ public class ExercisesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
+        markedAsDone = false;
         firstTimeLaunching = true;
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -196,7 +195,7 @@ public class ExercisesActivity extends AppCompatActivity {
                         intent.putExtra("exercise_id", clickedExercise.id);
                         intent.putExtra("date", date);
                         intent.putExtra("markedAsDone", markedAsDone);
-                        startActivityForResult(intent, ACTIVITY_REQUEST_CODE);
+                        startActivity(intent);
                     }
                 }
             }
