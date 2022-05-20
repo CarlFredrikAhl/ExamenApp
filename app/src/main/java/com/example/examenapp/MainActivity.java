@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     HomeFragment homeFragment = new HomeFragment();
     FitnessFragment fitnessFragment = new FitnessFragment();
-    SettingsFragment settingsFragment = new SettingsFragment();
-
     int backBtnCounter;
 
     @Override
@@ -50,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.workout:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
-                        setTitle("Alla Övningar");
-                        return true;
-                    case R.id.settings:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, settingsFragment).commit();
                         setTitle("Alla Övningar");
                         return true;
                 }
@@ -85,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
             //In settings fragment
         } else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
-            bottomNavigationView.setSelectedItemId(R.id.workout);
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+            bottomNavigationView.setSelectedItemId(R.id.home);
             backBtnCounter = 0;
         }
     }

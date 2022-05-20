@@ -6,9 +6,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
@@ -22,6 +24,15 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         //Get the view and inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        Button settingsBtn = view.findViewById(R.id.settingsBtn);
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingsFragment settingsFragment = new SettingsFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, settingsFragment).commit();
+            }
+        });
 
         CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendar);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

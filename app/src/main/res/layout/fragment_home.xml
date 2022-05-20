@@ -21,6 +21,16 @@
             android:textSize="24dp"></TextView>
     </androidx.appcompat.widget.Toolbar>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:id="@+id/settingsBtn"
+        android:layout_below="@id/calendar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp">
+    </Button>
+
     <CalendarView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
