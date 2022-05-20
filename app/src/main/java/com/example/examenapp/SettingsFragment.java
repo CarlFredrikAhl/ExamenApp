@@ -14,6 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarEntry;
+
+import java.sql.Array;
+import java.util.ArrayList;
+
 public class SettingsFragment extends Fragment {
 
     Button clearDataBtn;

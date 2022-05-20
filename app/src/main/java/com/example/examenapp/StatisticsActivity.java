@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarEntry;
+
 import java.util.ArrayList;
 
 public class StatisticsActivity extends AppCompatActivity {
@@ -17,10 +20,21 @@ public class StatisticsActivity extends AppCompatActivity {
 
     ArrayList<Exercise> statisticsExercises = new ArrayList<>();
 
+    BarChart barChart;
+    ArrayList<BarEntry> barEntryArrayList;
+    ArrayList<String> labelNames;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+
+        barChart = findViewById(R.id.barChart);
+
+        barEntryArrayList = new ArrayList<>();
+        labelNames = new ArrayList<>();
+
+        barEntryArrayList = fillTestData();
 
         exerciseName = getIntent().getStringExtra("exercise_name");
 
@@ -37,6 +51,12 @@ public class StatisticsActivity extends AppCompatActivity {
         maxWeightTextView.setText("Max Weight: " + String.valueOf(bestMaxWeight()) + " Kg");
         totalWeightTextView.setText("Total Weight: " + String.valueOf(bestTotalWeight()) + "Kg");
         toolbarText.setText("Statistics - " + exerciseName);
+    }
+
+    private ArrayList<BarEntry> fillTestData() {
+        ArrayList<BarEntry> testDataArray = new ArrayList<>();
+
+        return testDataArray;
     }
 
     private float bestMaxWeight() {
