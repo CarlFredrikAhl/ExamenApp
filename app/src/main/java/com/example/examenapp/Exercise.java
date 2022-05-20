@@ -38,12 +38,14 @@ public class Exercise {
 
     //Retrieves the personal record (most weight lifted)
     public float getPr() {
-        float pr = 0;
+        float pr = sets.get(0).weight;
 
-        for (int i = 0; i < sets.size(); i++) {
-            for(int k = 1; k < sets.size() - 1; i++) {
-                if(sets.get(i).weight > sets.get(k).weight) {
-                    pr = sets.get(i).weight;
+        if(sets.size() > 1) {
+            for (int i = 0; i < sets.size(); i++) {
+                for(int k = 1; k < sets.size() - 1; i++) {
+                    if(sets.get(i).weight > sets.get(k).weight) {
+                        pr = sets.get(i).weight;
+                    }
                 }
             }
         }
@@ -53,12 +55,12 @@ public class Exercise {
 
     //Retrieves the total weight lifted
     public float getTotalWeight() {
-        float maxWeight = 0;
+        float totalWeight = 0;
 
         for(MySet set : sets) {
-            maxWeight+= set.weight;
+            totalWeight+= set.weight;
         }
 
-        return maxWeight;
+        return totalWeight;
     }
 }
