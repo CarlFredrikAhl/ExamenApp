@@ -34,8 +34,8 @@ public class StatisticsActivity extends AppCompatActivity {
         maxWeightTextView = findViewById(R.id.maxWeightTextView);
         totalWeightTextView = findViewById(R.id.totalWeightTextView);
 
-        maxWeightTextView.setText("Max Weight: " + String.valueOf(bestMaxWeight()));
-        totalWeightTextView.setText("Total Weight: " + String.valueOf(bestTotalWeight()));
+        maxWeightTextView.setText("Max Weight: " + String.valueOf(bestMaxWeight()) + " Kg");
+        totalWeightTextView.setText("Total Weight: " + String.valueOf(bestTotalWeight()) + "Kg");
         toolbarText.setText("Statistics - " + exerciseName);
     }
 
@@ -51,7 +51,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 }
             }
 
-        } else {
+        } else if(statisticsExercises.size() == 1) {
             bestMaxWeight = statisticsExercises.get(0).getPr();
         }
 
@@ -71,7 +71,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 }
             }
 
-        } else {
+        } else if(statisticsExercises.size() == 1){
             bestTotalWeight = statisticsExercises.get(0).getTotalWeight();
         }
 
