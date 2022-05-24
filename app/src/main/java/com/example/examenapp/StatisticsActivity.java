@@ -160,6 +160,16 @@ public class StatisticsActivity extends AppCompatActivity {
         return testDataArray;
     }
 
+    //Entry entry = new Entry(ArrayList<Exercise>, float);?
+    private float bestMaxWeightWeek() {
+        return 0f;
+    }
+
+    //Entry entry = new Entry(ArrayList<Exercise>, float);?
+    private float bestTotalWeightWeek() {
+        return 0f;
+    }
+
     private float bestMaxWeight() {
         float bestMaxWeight = 0;
 
