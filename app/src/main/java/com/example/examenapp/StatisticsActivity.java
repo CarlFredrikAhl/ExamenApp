@@ -72,21 +72,27 @@ public class StatisticsActivity extends AppCompatActivity {
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
-        barChart.setDragEnabled(true);
-        barChart.setVisibleXRangeMaximum(5f);
-
         float groupSpace = 0.14f;
         float barSpace = 0.03f;
 
         barData.setBarWidth(0.4f);
+        barData.setValueTextSize(10f);
+        barData.setValueTextColor(Color.GRAY);
 
         barChart.getXAxis().setAxisMinimum(0f);
-        barChart.getXAxis().setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*4);
+        barChart.getXAxis().setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*5);
         barChart.getAxisLeft().setAxisMinimum(0);
+        barChart.getAxisLeft().setTextSize(18f);
+        barChart.getAxisLeft().setTextColor(Color.BLACK);
         barChart.getAxisRight().setDrawLabels(false);
         barChart.getAxisRight().setDrawGridLines(false);
-        barChart.setPinchZoom(true);
+        barChart.getAxisRight().setEnabled(false);
+        barChart.getDescription().setEnabled(false);
+        barChart.setScaleEnabled(false);
         barChart.groupBars(0f, groupSpace, barSpace);
+        barChart.setDragEnabled(true);
+        barChart.getData().setHighlightEnabled(false);
+        barChart.setVisibleXRangeMaximum(4f);
         barChart.invalidate();
 
         exerciseName = getIntent().getStringExtra("exercise_name");
