@@ -3,6 +3,7 @@ package com.example.examenapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -41,19 +43,43 @@ public class StatisticsActivity extends AppCompatActivity {
 
         barEntryArrayList1 = new ArrayList<>();
         barEntryArrayList2 = new ArrayList<>();
+        labelNames = new ArrayList<>();
+
+        setUpChart();
+
+        exerciseName = getIntent().getStringExtra("exercise_name");
+
+        statisticsExercises = Exercises.getMarkedExercises(getApplicationContext(), exerciseName);
+
+        if(statisticsExercises == null) {
+            statisticsExercises = new ArrayList<>();
+        }
+
+        toolbarText = findViewById(R.id.toolbarText);
+        maxWeightTextView = findViewById(R.id.maxWeightTextView);
+        totalWeightTextView = findViewById(R.id.totalWeightTextView);
+
+        maxWeightTextView.setText("Max Weight: " + String.valueOf(bestMaxWeight()) + " Kg");
+        totalWeightTextView.setText("Total Weight: " + String.valueOf(bestTotalWeight()) + "Kg");
+        toolbarText.setText("Statistics - " + exerciseName);
+    }
+
+    private void setUpChart() {
+        Calendar calendar = Calendar.getInstance();
+        int curWeek = calendar.get(Calendar.WEEK_OF_YEAR) - 1;
+        int firstWeek = 1;
+        int lastWeek = 52;
 
         labelNames = new ArrayList<>();
-        labelNames.add("Vecka 1");
-        labelNames.add("Vecka 2");
-        labelNames.add("Vecka 3");
-        labelNames.add("Vecka 4");
-        labelNames.add("Vecka 5");
 
         barEntryArrayList1 = fillTestData1();
         barEntryArrayList2 = fillTestData2();
 
-        //Setting the bar data
+        for(int i = firstWeek; i < lastWeek + 1; i++) {
+            labelNames.add("Week " + i);
+        }
 
+        //Setting the bar data
         BarDataSet  barDataSet1 = new BarDataSet(barEntryArrayList1, "Max Weight Lifted");
         barDataSet1.setColor(Color.YELLOW);
 
@@ -80,36 +106,24 @@ public class StatisticsActivity extends AppCompatActivity {
         barData.setValueTextColor(Color.GRAY);
 
         barChart.getXAxis().setAxisMinimum(0f);
-        barChart.getXAxis().setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*5);
+        barChart.getXAxis().setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*labelNames.size());
         barChart.getAxisLeft().setAxisMinimum(0);
         barChart.getAxisLeft().setTextSize(18f);
         barChart.getAxisLeft().setTextColor(Color.BLACK);
+        barChart.getAxisLeft().setGridColor(Color.RED);
+        barChart.getAxisLeft().setGridLineWidth(1f);
+        barChart.getAxisLeft().enableGridDashedLine(10f, 10f, 0f);
         barChart.getAxisRight().setDrawLabels(false);
         barChart.getAxisRight().setDrawGridLines(false);
-        barChart.getAxisRight().setEnabled(false);
+        barChart.getAxisRight().setGridColor(Color.RED);
         barChart.getDescription().setEnabled(false);
         barChart.setScaleEnabled(false);
         barChart.groupBars(0f, groupSpace, barSpace);
         barChart.setDragEnabled(true);
         barChart.getData().setHighlightEnabled(false);
         barChart.setVisibleXRangeMaximum(4f);
+        barChart.moveViewToX(curWeek - 1);
         barChart.invalidate();
-
-        exerciseName = getIntent().getStringExtra("exercise_name");
-
-        statisticsExercises = Exercises.getMarkedExercises(getApplicationContext(), exerciseName);
-
-        if(statisticsExercises == null) {
-            statisticsExercises = new ArrayList<>();
-        }
-
-        toolbarText = findViewById(R.id.toolbarText);
-        maxWeightTextView = findViewById(R.id.maxWeightTextView);
-        totalWeightTextView = findViewById(R.id.totalWeightTextView);
-
-        maxWeightTextView.setText("Max Weight: " + String.valueOf(bestMaxWeight()) + " Kg");
-        totalWeightTextView.setText("Total Weight: " + String.valueOf(bestTotalWeight()) + "Kg");
-        toolbarText.setText("Statistics - " + exerciseName);
     }
 
     private ArrayList<BarEntry> fillTestData1() {
