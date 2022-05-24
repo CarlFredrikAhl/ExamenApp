@@ -2,6 +2,7 @@ package com.example.examenapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -27,7 +28,8 @@ public class StatisticsActivity extends AppCompatActivity {
     ArrayList<Exercise> statisticsExercises = new ArrayList<>();
 
     BarChart barChart;
-    ArrayList<BarEntry> barEntryArrayList;
+    ArrayList<BarEntry> barEntryArrayList1;
+    ArrayList<BarEntry> barEntryArrayList2;
     ArrayList<String> labelNames;
 
     @Override
@@ -37,7 +39,9 @@ public class StatisticsActivity extends AppCompatActivity {
 
         barChart = findViewById(R.id.barChart);
 
-        barEntryArrayList = new ArrayList<>();
+        barEntryArrayList1 = new ArrayList<>();
+        barEntryArrayList2 = new ArrayList<>();
+
         labelNames = new ArrayList<>();
         labelNames.add("Vecka 1");
         labelNames.add("Vecka 2");
@@ -45,24 +49,38 @@ public class StatisticsActivity extends AppCompatActivity {
         labelNames.add("Vecka 4");
         labelNames.add("Vecka 5");
 
-        barEntryArrayList = fillTestData();
-        BarDataSet  barDataSet = new BarDataSet(barEntryArrayList, "Test Data");
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        Description desc = new Description();
-        desc.setText("I will replace this with real data later");
-        barChart.setDescription(desc);
-        BarData barData = new BarData(barDataSet);
+        barEntryArrayList1 = fillTestData1();
+        barEntryArrayList2 = fillTestData2();
+
+        //Setting the bar data
+
+        BarDataSet  barDataSet1 = new BarDataSet(barEntryArrayList1, "Test Data 1");
+        barDataSet1.setColor(Color.YELLOW);
+
+        BarDataSet  barDataSet2 = new BarDataSet(barEntryArrayList2, "Test Data 2");
+        barDataSet1.setColor(Color.BLUE);
+
+        BarData barData = new BarData(barDataSet1, barDataSet2);
         barChart.setData(barData);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labelNames));
-        xAxis.setPosition(XAxis.XAxisPosition.TOP);
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawAxisLine(false);
+        xAxis.setCenterAxisLabels(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
-        xAxis.setLabelCount(labelNames.size());
-        xAxis.setLabelRotationAngle(270);
-        barChart.animateY(2000);
+        xAxis.setGranularityEnabled(true);
+
+        barChart.setDragEnabled(true);
+        barChart.setVisibleXRangeMaximum(3f);
+
+        float barSpace = 0.1f;
+        float groupSpace = 0.5f;
+
+        barData.setBarWidth(0.15f);
+        barChart.getXAxis().setAxisMinimum(0f);
+        barChart.getXAxis().setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*5);
+        barChart.getAxisLeft().setAxisMinimum(0);
+        barChart.groupBars(0f, groupSpace, barSpace);
         barChart.invalidate();
 
         exerciseName = getIntent().getStringExtra("exercise_name");
@@ -82,13 +100,30 @@ public class StatisticsActivity extends AppCompatActivity {
         toolbarText.setText("Statistics - " + exerciseName);
     }
 
-    private ArrayList<BarEntry> fillTestData() {
+    private ArrayList<BarEntry> fillTestData1() {
         ArrayList<Float> testNumbers = new ArrayList<>();
         testNumbers.add(10f);
         testNumbers.add(20f);
         testNumbers.add(30f);
         testNumbers.add(40f);
         testNumbers.add(50f);
+
+        ArrayList<BarEntry> testDataArray = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++)  {
+            testDataArray.add(new BarEntry(i, testNumbers.get(i)));
+        }
+
+        return testDataArray;
+    }
+
+    private ArrayList<BarEntry> fillTestData2() {
+        ArrayList<Float> testNumbers = new ArrayList<>();
+        testNumbers.add(6f);
+        testNumbers.add(40f);
+        testNumbers.add(10f);
+        testNumbers.add(4f);
+        testNumbers.add(100f);
 
         ArrayList<BarEntry> testDataArray = new ArrayList<>();
 

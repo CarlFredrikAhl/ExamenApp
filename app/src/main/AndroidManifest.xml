@@ -11,22 +11,27 @@
         android:theme="@style/Theme.ExamenApp">
         <activity
             android:name=".StatisticsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SetsActivity"
             android:exported="false"
-            android:parentActivityName=".ExercisesActivity" />
+            android:parentActivityName=".ExercisesActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ExerciseDataActivity"
             android:exported="false"
-            android:parentActivityName=".ExercisesActivity" />
+            android:parentActivityName=".ExercisesActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ExercisesActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
