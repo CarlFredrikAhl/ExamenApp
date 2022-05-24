@@ -54,10 +54,10 @@ public class StatisticsActivity extends AppCompatActivity {
 
         //Setting the bar data
 
-        BarDataSet  barDataSet1 = new BarDataSet(barEntryArrayList1, "Test Data 1");
+        BarDataSet  barDataSet1 = new BarDataSet(barEntryArrayList1, "Max Weight Lifted");
         barDataSet1.setColor(Color.YELLOW);
 
-        BarDataSet  barDataSet2 = new BarDataSet(barEntryArrayList2, "Test Data 2");
+        BarDataSet  barDataSet2 = new BarDataSet(barEntryArrayList2, "Total Weight Lifted");
         barDataSet1.setColor(Color.BLUE);
 
         BarData barData = new BarData(barDataSet1, barDataSet2);
@@ -67,19 +67,25 @@ public class StatisticsActivity extends AppCompatActivity {
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labelNames));
         xAxis.setCenterAxisLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        //Makes the labels be in the right place
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
         barChart.setDragEnabled(true);
-        barChart.setVisibleXRangeMaximum(3f);
+        barChart.setVisibleXRangeMaximum(5f);
 
-        float barSpace = 0.1f;
-        float groupSpace = 0.5f;
+        float groupSpace = 0.14f;
+        float barSpace = 0.03f;
 
-        barData.setBarWidth(0.15f);
+        barData.setBarWidth(0.4f);
+
         barChart.getXAxis().setAxisMinimum(0f);
-        barChart.getXAxis().setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*5);
+        barChart.getXAxis().setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*4);
         barChart.getAxisLeft().setAxisMinimum(0);
+        barChart.getAxisRight().setDrawLabels(false);
+        barChart.getAxisRight().setDrawGridLines(false);
+        barChart.setPinchZoom(true);
         barChart.groupBars(0f, groupSpace, barSpace);
         barChart.invalidate();
 
