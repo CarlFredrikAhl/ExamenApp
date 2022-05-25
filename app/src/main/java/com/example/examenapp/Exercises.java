@@ -194,9 +194,22 @@ public final class Exercises {
 
         String json = sharedPreferences.getString("all_marked_exercises", null);
 
-        //Serialize to json and save
+        //Deserialize and get, then serialize and save
         Gson gson = new Gson();
-        json = gson.toJson(statisticsExercises);
+        Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
+
+        ArrayList<Exercise> alreadyInList = gson.fromJson(json, type);
+
+        //No exercises has been marked as done
+        if(alreadyInList == null) {
+            alreadyInList = new ArrayList<>();
+        }
+
+        for(Exercise exercise : statisticsExercises) {
+            alreadyInList.add(exercise);
+        }
+
+        json = gson.toJson(alreadyInList);
         saveEditor.putString("all_marked_exercises", json);
         saveEditor.apply();
     }

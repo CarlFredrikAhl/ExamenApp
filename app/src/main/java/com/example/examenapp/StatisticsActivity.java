@@ -231,9 +231,9 @@ public class StatisticsActivity extends AppCompatActivity {
 
         if(statisticsExercises.size() > 1) {
             for(int i = 0; i < statisticsExercises.size(); i++) {
-                for(int j = -1; i < statisticsExercises.size() - 1; i++) {
-                    if(statisticsExercises.get(i).getPr() > statisticsExercises.get(j).getPr()) {
-                        bestMaxWeight = statisticsExercises.get(i).getPr();
+                for(int k = 1; k <= statisticsExercises.size() - i; k++) {
+                    if(statisticsExercises.get(k - 1).getPr() > statisticsExercises.get(k).getPr()) {
+                        bestMaxWeight = statisticsExercises.get(k - 1).getPr();
                     }
                 }
             }
@@ -250,10 +250,10 @@ public class StatisticsActivity extends AppCompatActivity {
 
         if(statisticsExercises.size() > 1) {
             for(int i = 0; i < statisticsExercises.size(); i++) {
-                for(int j = 1; i < statisticsExercises.size() - 1; i++) {
-                    if(statisticsExercises.get(i).getTotalWeight() >
-                            statisticsExercises.get(j).getTotalWeight()) {
-                        bestTotalWeight = statisticsExercises.get(i).getPr();
+                for(int k = 1; k <= statisticsExercises.size() - i; k++) {
+                    if(statisticsExercises.get(k - 1).getTotalWeight() >
+                            statisticsExercises.get(k).getTotalWeight()) {
+                        bestTotalWeight = statisticsExercises.get(k - 1).getPr();
                     }
                 }
             }

@@ -42,9 +42,9 @@ public class Exercise {
 
         if(sets.size() > 1) {
             for (int i = 0; i < sets.size(); i++) {
-                for(int k = 1; k < sets.size() - 1; i++) {
-                    if(sets.get(i).weight > sets.get(k).weight) {
-                        pr = sets.get(i).weight;
+                for(int k = 1; k <= (sets.size() - i); k++) {
+                    if(sets.get(k - 1).weight > sets.get(k).weight) {
+                        pr = sets.get(k - 1).weight;
                     }
                 }
             }
