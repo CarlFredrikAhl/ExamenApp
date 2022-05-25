@@ -69,7 +69,7 @@ public class StatisticsActivity extends AppCompatActivity {
         totalWeightTextView.setText("Total Weight: " + String.valueOf(bestTotalWeight()) + "Kg");
         toolbarText.setText("Statistics - " + exerciseName);
 
-        //bestMaxWeightWeek();
+        bestMaxWeightWeek();
     }
 
     private void setUpChart() {
@@ -182,15 +182,26 @@ public class StatisticsActivity extends AppCompatActivity {
             Date exerciseDate = new Date();
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
             try {
-                exerciseDate = dateFormat.parse(statisticsExercises.get(i - 1).date);
-            } catch (ParseException e) {
-                e.printStackTrace();
+                statisticsExercises.get(i - 1);
+
+                try {
+                    exerciseDate = dateFormat.parse(statisticsExercises.get(i - 1).date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                if(!weekAllMaxWeight.containsKey(i)) {
+                    weekAllMaxWeight.put(i, new ArrayList<>());
+                }
+                continue;
             }
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(exerciseDate);
-            int exerciseWeek = calendar.get(Calendar.WEEK_OF_YEAR - 1);
+            int exerciseWeek = calendar.get(Calendar.WEEK_OF_YEAR) - 1;
 
             ArrayList<Exercise> exercisesForWeek = weekAllMaxWeight.get(i);
 
@@ -198,14 +209,15 @@ public class StatisticsActivity extends AppCompatActivity {
                 exercisesForWeek = new ArrayList<>();
             }
 
-            if(exerciseWeek == i) {
-                exercisesForWeek.add(statisticsExercises.get(i));
-                weekAllMaxWeight.put(exerciseWeek, exercisesForWeek);
-
-            } else {
-                weekAllMaxWeight.put(exerciseWeek, new ArrayList<>());
-            }
+            exercisesForWeek.add(statisticsExercises.get(i - 1));
+            weekAllMaxWeight.put(exerciseWeek, exercisesForWeek);
         }
+
+        if(!weekAllMaxWeight.containsKey(1)) {
+            weekAllMaxWeight.put(1, new ArrayList<>());
+        }
+
+        float weekBestMaxWeight = 0;
 
         return 0f;
     }
