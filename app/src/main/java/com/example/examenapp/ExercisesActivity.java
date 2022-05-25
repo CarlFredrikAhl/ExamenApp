@@ -339,8 +339,8 @@ public class ExercisesActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Toast.makeText(context, "Clicked date is after current date: " + String.valueOf(clickedDate.after(curDate)),
-                Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, "Clicked date is after current date: " + String.valueOf(clickedDate.after(curDate)),
+//                Toast.LENGTH_LONG).show();
 
         if(clickedDate.after(curDate)) {
             //Cannot mark

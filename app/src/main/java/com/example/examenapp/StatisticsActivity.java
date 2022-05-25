@@ -13,11 +13,17 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -62,6 +68,8 @@ public class StatisticsActivity extends AppCompatActivity {
         maxWeightTextView.setText("Max Weight: " + String.valueOf(bestMaxWeight()) + " Kg");
         totalWeightTextView.setText("Total Weight: " + String.valueOf(bestTotalWeight()) + "Kg");
         toolbarText.setText("Statistics - " + exerciseName);
+
+        //bestMaxWeightWeek();
     }
 
     private void setUpChart() {
@@ -116,13 +124,18 @@ public class StatisticsActivity extends AppCompatActivity {
         barChart.getAxisRight().setDrawLabels(false);
         barChart.getAxisRight().setDrawGridLines(false);
         barChart.getAxisRight().setGridColor(Color.RED);
-        barChart.getDescription().setEnabled(false);
+
+        Description desc = new Description();
+        desc.setText("Current week: " + curWeek);
+
+        barChart.setDescription(desc);
+        //barChart.getDescription().setEnabled(false);
         barChart.setScaleEnabled(false);
         barChart.groupBars(0f, groupSpace, barSpace);
         barChart.setDragEnabled(true);
         barChart.getData().setHighlightEnabled(false);
         barChart.setVisibleXRangeMaximum(4f);
-        barChart.moveViewToX(curWeek - 1);
+        barChart.moveViewToX(curWeek - 3);
         barChart.invalidate();
     }
 
@@ -160,12 +173,43 @@ public class StatisticsActivity extends AppCompatActivity {
         return testDataArray;
     }
 
-    //Entry entry = new Entry(ArrayList<Exercise>, float);?
     private float bestMaxWeightWeek() {
+        Map<Integer, ArrayList<Exercise>> weekAllMaxWeight = new HashMap<>();
+
+        //Find which exercises comes from each week
+        for(int i = 1; i < 53; i++) {
+
+            Date exerciseDate = new Date();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            try {
+                exerciseDate = dateFormat.parse(statisticsExercises.get(i - 1).date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(exerciseDate);
+            int exerciseWeek = calendar.get(Calendar.WEEK_OF_YEAR - 1);
+
+            ArrayList<Exercise> exercisesForWeek = weekAllMaxWeight.get(i);
+
+            if(exercisesForWeek == null) {
+                exercisesForWeek = new ArrayList<>();
+            }
+
+            if(exerciseWeek == i) {
+                exercisesForWeek.add(statisticsExercises.get(i));
+                weekAllMaxWeight.put(exerciseWeek, exercisesForWeek);
+
+            } else {
+                weekAllMaxWeight.put(exerciseWeek, new ArrayList<>());
+            }
+        }
+
         return 0f;
     }
 
-    //Entry entry = new Entry(ArrayList<Exercise>, float);?
     private float bestTotalWeightWeek() {
         return 0f;
     }
