@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,7 +23,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ExercisesActivity extends AppCompatActivity {
@@ -237,7 +242,7 @@ public class ExercisesActivity extends AppCompatActivity {
             markedAsDone = true;
         }
 
-        checkMarkStatus();
+        checkMarkStatus(getApplicationContext());
     }
 
     @Override
@@ -263,7 +268,7 @@ public class ExercisesActivity extends AppCompatActivity {
             saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_24));
         }
 
-        checkMarkStatus();
+        checkMarkStatus(getApplicationContext());
     }
 
     public void restartActivity() {
@@ -306,7 +311,7 @@ public class ExercisesActivity extends AppCompatActivity {
         saveButton.setImageDrawable(saveBtnDisabled);
     }
 
-    private static void checkMarkStatus() {
+    private static void checkMarkStatus(Context context) {
         boolean canMark = false;
         int counter = 0;
 
@@ -321,6 +326,25 @@ public class ExercisesActivity extends AppCompatActivity {
                 canMark = true;
             else
                 canMark = false;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        Date curDate = calendar.getTime();
+        Date clickedDate = new Date();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            clickedDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(context, "Clicked date is after current date: " + String.valueOf(clickedDate.after(curDate)),
+                Toast.LENGTH_LONG).show();
+
+        if(clickedDate.after(curDate)) {
+            //Cannot mark
+            canMark = false;
         }
 
         if(canMark && !markedAsDone) {

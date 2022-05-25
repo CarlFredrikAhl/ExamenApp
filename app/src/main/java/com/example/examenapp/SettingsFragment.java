@@ -44,6 +44,9 @@ public class SettingsFragment extends Fragment {
                         //Clear the data
                         Exercises.removeAllData(getActivity());
                         Toast.makeText(getActivity(), "Data cleared", Toast.LENGTH_SHORT).show();
+
+                        HomeFragment homeFragment = new HomeFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
