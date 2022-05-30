@@ -57,8 +57,12 @@ public class StatisticsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Launch intent to googles AR Core model viewer
                 Intent sceneViewerIntent = new Intent(Intent.ACTION_VIEW);
-                sceneViewerIntent.setData(Uri.parse("https://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf"));
-                sceneViewerIntent.setPackage("com.google.android.googlequicksearchbox");
+                Uri intentUri =
+                        Uri.parse("https://arvr.google.com/scene-viewer/1.0").buildUpon()
+                                .appendQueryParameter("file", "https://drive.google.com/file/d/1UMZ-bP_A4t_mcDVFthXJ-gBZ_dQuImjO/view?usp=sharing")
+                                .build();
+                sceneViewerIntent.setData(intentUri);
+                sceneViewerIntent.setPackage("com.google.ar.core");
                 startActivity(sceneViewerIntent);
             }
         });
