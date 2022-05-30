@@ -41,11 +41,9 @@ public class Exercise {
         float pr = sets.get(0).weight;
 
         if(sets.size() > 1) {
-            for (int i = 0; i < sets.size(); i++) {
-                for(int k = 1; k <= (sets.size() - i); k++) {
-                    if(sets.get(k - 1).weight > sets.get(k).weight) {
-                        pr = sets.get(k - 1).weight;
-                    }
+            for(int i = 0; i < sets.size(); i++) {
+                if(sets.get(i).weight > pr) {
+                    pr = sets.get(i).weight;
                 }
             }
         }

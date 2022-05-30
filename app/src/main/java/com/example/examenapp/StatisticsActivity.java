@@ -227,14 +227,12 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private float bestMaxWeight() {
-        float bestMaxWeight = 0;
+        float bestMaxWeight = statisticsExercises.get(0).getPr();
 
         if(statisticsExercises.size() > 1) {
             for(int i = 0; i < statisticsExercises.size(); i++) {
-                for(int k = 1; k <= statisticsExercises.size() - i; k++) {
-                    if(statisticsExercises.get(k - 1).getPr() > statisticsExercises.get(k).getPr()) {
-                        bestMaxWeight = statisticsExercises.get(k - 1).getPr();
-                    }
+                if(statisticsExercises.get(i).getPr() > bestMaxWeight) {
+                    bestMaxWeight = statisticsExercises.get(i).getPr();
                 }
             }
 
@@ -246,15 +244,12 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private float bestTotalWeight() {
-        float bestTotalWeight = 0;
+        float bestTotalWeight = statisticsExercises.get(0).getTotalWeight();
 
         if(statisticsExercises.size() > 1) {
             for(int i = 0; i < statisticsExercises.size(); i++) {
-                for(int k = 1; k <= statisticsExercises.size() - i; k++) {
-                    if(statisticsExercises.get(k - 1).getTotalWeight() >
-                            statisticsExercises.get(k).getTotalWeight()) {
-                        bestTotalWeight = statisticsExercises.get(k - 1).getPr();
-                    }
+                if(statisticsExercises.get(i).getTotalWeight() > bestTotalWeight) {
+                    bestTotalWeight = statisticsExercises.get(i).getTotalWeight();
                 }
             }
 
