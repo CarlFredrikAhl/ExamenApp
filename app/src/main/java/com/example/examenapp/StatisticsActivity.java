@@ -51,11 +51,13 @@ public class StatisticsActivity extends AppCompatActivity {
         barEntryArrayList2 = new ArrayList<>();
         labelNames = new ArrayList<>();
 
-        setUpChart();
-
         exerciseName = getIntent().getStringExtra("exercise_name");
 
         statisticsExercises = Exercises.getMarkedExercises(getApplicationContext(), exerciseName);
+
+        if(statisticsExercises != null) {
+            setUpChart();
+        }
 
         if(statisticsExercises == null) {
             statisticsExercises = new ArrayList<>();
@@ -80,8 +82,8 @@ public class StatisticsActivity extends AppCompatActivity {
 
         labelNames = new ArrayList<>();
 
-        barEntryArrayList1 = fillTestData1();
-        barEntryArrayList2 = fillTestData2();
+        barEntryArrayList1 = bestMaxWeightWeek();
+        barEntryArrayList2 = bestTotalWeightWeek();
 
         for(int i = firstWeek; i < lastWeek + 1; i++) {
             labelNames.add("Week " + i);
@@ -173,90 +175,131 @@ public class StatisticsActivity extends AppCompatActivity {
         return testDataArray;
     }
 
-    private float bestMaxWeightWeek() {
-        Map<Integer, ArrayList<Exercise>> weekAllMaxWeight = new HashMap<>();
+    private ArrayList<BarEntry> bestMaxWeightWeek() {
+        ArrayList<BarEntry> weeklyMaxWeight = new ArrayList<>();
 
         //Find which exercises comes from each week
         for(int i = 1; i < 53; i++) {
 
-            Date exerciseDate = new Date();
+            ArrayList<Exercise> curWeekExercises = new ArrayList<>();
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-
-            try {
-                statisticsExercises.get(i - 1);
-
-                try {
-                    exerciseDate = dateFormat.parse(statisticsExercises.get(i - 1).date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+            for(Exercise exercise : statisticsExercises) {
+                if(exercise.getWeekNumber() == i) {
+                    curWeekExercises.add(exercise);
                 }
-
-            } catch (Exception e) {
-                if(!weekAllMaxWeight.containsKey(i)) {
-                    weekAllMaxWeight.put(i, new ArrayList<>());
-                }
-                continue;
             }
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(exerciseDate);
-            int exerciseWeek = calendar.get(Calendar.WEEK_OF_YEAR) - 1;
+            if(curWeekExercises.size() > 0) {
+                float maxWeight = curWeekExercises.get(0).getPr();
 
-            ArrayList<Exercise> exercisesForWeek = weekAllMaxWeight.get(i);
+                for(int k = 0; k < curWeekExercises.size(); k++) {
+                    if(curWeekExercises.get(k).getPr() > maxWeight) {
+                        maxWeight = curWeekExercises.get(k).getPr();
+                    }
+                }
 
-            if(exercisesForWeek == null) {
-                exercisesForWeek = new ArrayList<>();
+                weeklyMaxWeight.add(new BarEntry(i, maxWeight));
+
+            } else {
+                weeklyMaxWeight.add(new BarEntry(i, 0f));
             }
-
-            exercisesForWeek.add(statisticsExercises.get(i - 1));
-            weekAllMaxWeight.put(exerciseWeek, exercisesForWeek);
         }
 
-        if(!weekAllMaxWeight.containsKey(1)) {
-            weekAllMaxWeight.put(1, new ArrayList<>());
+        if(!weeklyMaxWeight.contains(1)) {
+            weeklyMaxWeight.add(new BarEntry(1, 0f));
         }
 
-        float weekBestMaxWeight = 0;
-
-        return 0f;
+        return weeklyMaxWeight;
     }
 
-    private float bestTotalWeightWeek() {
-        return 0f;
+    private ArrayList<BarEntry> bestTotalWeightWeek() {
+        ArrayList<BarEntry> weeklyBestTotalWeight = new ArrayList<>();
+
+        //Find which exercises comes from each week
+        for(int i = 1; i < 53; i++) {
+
+            ArrayList<Exercise> curWeekExercises = new ArrayList<>();
+
+            for(Exercise exercise : statisticsExercises) {
+                if(exercise.getWeekNumber() == i) {
+                    curWeekExercises.add(exercise);
+                }
+            }
+
+            if(curWeekExercises.size() > 0) {
+                float totalWeight = curWeekExercises.get(0).getTotalWeight();
+
+                for(int k = 0; k < curWeekExercises.size(); k++) {
+                    if(curWeekExercises.get(k).getTotalWeight() > totalWeight) {
+                        totalWeight = curWeekExercises.get(k).getTotalWeight();
+                    }
+                }
+
+                weeklyBestTotalWeight.add(new BarEntry(i, totalWeight));
+
+            } else {
+                weeklyBestTotalWeight.add(new BarEntry(i, 0f));
+            }
+        }
+
+        if(!weeklyBestTotalWeight.contains(1)) {
+            weeklyBestTotalWeight.add(new BarEntry(1, 0f));
+        }
+
+        return weeklyBestTotalWeight;
     }
 
     private float bestMaxWeight() {
-        float bestMaxWeight = statisticsExercises.get(0).getPr();
+        if(statisticsExercises != null) {
+            if(statisticsExercises.size() > 0) {
+                float bestMaxWeight = statisticsExercises.get(0).getPr();
 
-        if(statisticsExercises.size() > 1) {
-            for(int i = 0; i < statisticsExercises.size(); i++) {
-                if(statisticsExercises.get(i).getPr() > bestMaxWeight) {
-                    bestMaxWeight = statisticsExercises.get(i).getPr();
+                if(statisticsExercises.size() > 1) {
+                    for(int i = 0; i < statisticsExercises.size(); i++) {
+                        if(statisticsExercises.get(i).getPr() > bestMaxWeight) {
+                            bestMaxWeight = statisticsExercises.get(i).getPr();
+                        }
+                    }
+
+                } else if(statisticsExercises.size() == 1) {
+                    bestMaxWeight = statisticsExercises.get(0).getPr();
                 }
+
+                return bestMaxWeight;
+
+            } else {
+                return 0f;
             }
 
-        } else if(statisticsExercises.size() == 1) {
-            bestMaxWeight = statisticsExercises.get(0).getPr();
+        } else {
+            return 0f;
         }
-
-        return bestMaxWeight;
     }
 
     private float bestTotalWeight() {
-        float bestTotalWeight = statisticsExercises.get(0).getTotalWeight();
+        if(statisticsExercises != null) {
+            if(statisticsExercises.size() > 0) {
+                float bestTotalWeight = statisticsExercises.get(0).getTotalWeight();
 
-        if(statisticsExercises.size() > 1) {
-            for(int i = 0; i < statisticsExercises.size(); i++) {
-                if(statisticsExercises.get(i).getTotalWeight() > bestTotalWeight) {
-                    bestTotalWeight = statisticsExercises.get(i).getTotalWeight();
+                if(statisticsExercises.size() > 1) {
+                    for(int i = 0; i < statisticsExercises.size(); i++) {
+                        if(statisticsExercises.get(i).getTotalWeight() > bestTotalWeight) {
+                            bestTotalWeight = statisticsExercises.get(i).getTotalWeight();
+                        }
+                    }
+
+                } else if(statisticsExercises.size() == 1){
+                    bestTotalWeight = statisticsExercises.get(0).getTotalWeight();
                 }
+
+                return bestTotalWeight;
+
+            } else {
+                return 0f;
             }
 
-        } else if(statisticsExercises.size() == 1){
-            bestTotalWeight = statisticsExercises.get(0).getTotalWeight();
+        } else {
+            return 0f;
         }
-
-        return bestTotalWeight;
     }
 }

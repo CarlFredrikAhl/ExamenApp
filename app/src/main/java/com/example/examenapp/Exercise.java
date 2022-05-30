@@ -1,7 +1,11 @@
 package com.example.examenapp;
 
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +39,23 @@ public class Exercise {
         this.sets = sets;
     }
 
+    public int getWeekNumber() {
+        Date exerciseDate = new Date();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+        try {
+            exerciseDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(exerciseDate);
+        int exerciseWeek = calendar.get(Calendar.WEEK_OF_YEAR) - 1;
+
+        return exerciseWeek;
+    }
 
     //Retrieves the personal record (most weight lifted)
     public float getPr() {

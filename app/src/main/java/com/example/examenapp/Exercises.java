@@ -2,6 +2,7 @@ package com.example.examenapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
@@ -10,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public final class Exercises {
@@ -224,10 +226,17 @@ public final class Exercises {
         Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
         markedExercises = gson.fromJson(json, type);
 
+        //Need to do this because it decreases otherwise
+        int size = markedExercises.size();
+
         if(markedExercises != null) {
-            for(int i = 0; i < markedExercises.size(); i++) {
-                if(!markedExercises.get(i).name.contains(name))
-                    markedExercises.remove(i);
+            for(int i = 0; i < size; i++) {
+                if(markedExercises.size() > 0) {
+                    if(!markedExercises.get(i).name.contains(name)) {
+                        markedExercises.remove(i);
+                        i--;
+                    }
+                }
             }
         }
 
