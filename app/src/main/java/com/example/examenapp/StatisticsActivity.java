@@ -2,9 +2,13 @@ package com.example.examenapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -31,8 +35,8 @@ public class StatisticsActivity extends AppCompatActivity {
     String exerciseName;
 
     TextView toolbarText;
-    TextView maxWeightTextView;
-    TextView totalWeightTextView;
+
+    Button howToBtn;
 
     ArrayList<Exercise> statisticsExercises = new ArrayList<>();
 
@@ -47,6 +51,17 @@ public class StatisticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistics);
 
         barChart = findViewById(R.id.barChart);
+        howToBtn = findViewById(R.id.howToBtn);
+        howToBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Launch intent to googles AR Core model viewer
+                Intent sceneViewerIntent = new Intent(Intent.ACTION_VIEW);
+                sceneViewerIntent.setData(Uri.parse("https://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf"));
+                sceneViewerIntent.setPackage("com.google.android.googlequicksearchbox");
+                startActivity(sceneViewerIntent);
+            }
+        });
 
         barEntryArrayList1 = new ArrayList<>();
         barEntryArrayList2 = new ArrayList<>();
