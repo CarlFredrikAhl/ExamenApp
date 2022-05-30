@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.ParseException;
@@ -55,7 +56,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
         statisticsExercises = Exercises.getMarkedExercises(getApplicationContext(), exerciseName);
 
-        if(statisticsExercises != null) {
+        if(statisticsExercises != null && bestMaxWeight() > 0 && bestTotalWeight() > 0) {
             setUpChart();
         }
 
@@ -64,11 +65,6 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         toolbarText = findViewById(R.id.toolbarText);
-        maxWeightTextView = findViewById(R.id.maxWeightTextView);
-        totalWeightTextView = findViewById(R.id.totalWeightTextView);
-
-        maxWeightTextView.setText("Max Weight: " + String.valueOf(bestMaxWeight()) + " Kg");
-        totalWeightTextView.setText("Total Weight: " + String.valueOf(bestTotalWeight()) + "Kg");
         toolbarText.setText("Statistics - " + exerciseName);
 
         bestMaxWeightWeek();
@@ -114,6 +110,17 @@ public class StatisticsActivity extends AppCompatActivity {
         barData.setBarWidth(0.4f);
         barData.setValueTextSize(10f);
         barData.setValueTextColor(Color.GRAY);
+        barData.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                if(value > 0) {
+                    return super.getFormattedValue(value);
+
+                } else {
+                    return "";
+                }
+            }
+        });
 
         barChart.getXAxis().setAxisMinimum(0f);
         barChart.getXAxis().setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*labelNames.size());
