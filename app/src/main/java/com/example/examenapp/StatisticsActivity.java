@@ -66,7 +66,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 startActivity(sceneViewerIntent);
             }
         });
-
+        //
         barEntryArrayList1 = new ArrayList<>();
         barEntryArrayList2 = new ArrayList<>();
         labelNames = new ArrayList<>();
