@@ -59,7 +59,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 Intent sceneViewerIntent = new Intent(Intent.ACTION_VIEW);
                 Uri intentUri =
                         Uri.parse("https://arvr.google.com/scene-viewer/1.0").buildUpon()
-                                .appendQueryParameter("file", "https://drive.google.com/file/d/1UMZ-bP_A4t_mcDVFthXJ-gBZ_dQuImjO/view?usp=sharing")
+                                .appendQueryParameter("file", "https://github.com/CarlFredrikAhl/ExamenApp/blob/master/push_ups_2.glb?raw=true")
                                 .build();
                 sceneViewerIntent.setData(intentUri);
                 sceneViewerIntent.setPackage("com.google.ar.core");
