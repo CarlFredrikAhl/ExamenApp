@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class SetsActivity extends AppCompatActivity {
 
     private static String exerciseId;
+    private static String exerciseName;
     String date;
 
     private static ArrayList<String> setsArrayList;
@@ -142,13 +143,20 @@ public class SetsActivity extends AppCompatActivity {
         ArrayList<MySet> sets = getExercise().sets;
         ArrayList<String> setsData = new ArrayList<>();
 
+        String exerciseName = getExercise().name;
+
         for(MySet set : sets) {
             String nrOfSets = String.valueOf(sets.size());
             String reps = set.reps;
             String weight = String.valueOf(set.weight);
             String restTime = String.valueOf(set.restTime);
 
-            setsData.add("Reps: " + reps + ", Weight: " + weight + " Kg, Rest: " + restTime + " Sec");
+            if(exerciseName.equals("Plank") == false) {
+                setsData.add("Reps: " + reps + ", Weight: " + weight + " Kg, Rest: " + restTime + " Sec");
+
+            } else {
+                setsData.add("Time: " + reps + ", Weight: " + weight + " Kg, Rest: " + restTime + " Sec");
+            }
         }
 
         /*
@@ -165,13 +173,20 @@ public class SetsActivity extends AppCompatActivity {
         ArrayList<MySet> sets = Exercises.getExercise(exerciseId).sets;
         ArrayList<String> setsData = new ArrayList<>();
 
+        exerciseName = Exercises.getExercise(exerciseId).name;
+
         for(MySet set : sets) {
             String nrOfSets = String.valueOf(sets.size());
             String reps = set.reps;
             String weight = String.valueOf(set.weight);
             String restTime = String.valueOf(set.restTime);
 
-            setsData.add("Reps: " + reps + ", Weight: " + weight + " Kg, Rest: " + restTime + " Sec");
+            if(exerciseName.equals("Plank") == false) {
+                setsData.add("Reps: " + reps + ", Weight: " + weight + " Kg, Rest: " + restTime + " Sec");
+
+            } else {
+                setsData.add("Time: " + reps + ", Weight: " + weight + " Kg, Rest: " + restTime + " Sec");
+            }
         }
 
         /*
@@ -187,6 +202,7 @@ public class SetsActivity extends AppCompatActivity {
     private void addSet() {
         Intent intent = new Intent(SetsActivity.this, ExerciseDataActivity.class);
         intent.putExtra("exercise_id", exerciseId);
+        intent.putExtra("exercise_name", exerciseName);
         intent.putExtra("flag", "fromSetsActivity");
         intent.putExtra("date", date);
         startActivity(intent);

@@ -31,10 +31,12 @@ public class ExerciseDataActivity extends AppCompatActivity {
     Button doneBtn;
 
     TextView toolbarText;
+    TextView repsPickerTitle;
 
     String exerciseId;
     String date;
     String activityFlag;
+    String exerciseName;
 
     boolean addedSets = false;
 
@@ -73,6 +75,14 @@ public class ExerciseDataActivity extends AppCompatActivity {
             }
         });
         repsPicker = findViewById(R.id.repsPicker);
+        repsPickerTitle = findViewById(R.id.repsPickerTitle);
+
+        exerciseName = getIntent().getStringExtra("exercise_name");
+
+        if(exerciseName.equals("Plank")) {
+            repsPickerTitle.setText("Time (Sec)");
+        }
+
         weightPicker = findViewById(R.id.weightPicker);
         restTimePicker = findViewById(R.id.restTimePicker);
         doneBtn = findViewById(R.id.doneBtn);
@@ -88,7 +98,6 @@ public class ExerciseDataActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         toolbarText = findViewById(R.id.toolbarText);
-        String exerciseName = getIntent().getStringExtra("exercise_name");
         toolbarText.setText(exerciseName);
     }
 
@@ -101,54 +110,58 @@ public class ExerciseDataActivity extends AppCompatActivity {
 
     public void done() {
         if(weightPicker.getText().length() > 0 && restTimePicker.getText().length() > 0) {
-            if(failureSwitch.isChecked() || repsPicker.getText().length() > 0 && multipleSetsSwitch.isChecked() || setsPicker.getText().length() > 0) {
+            if(failureSwitch.isChecked() || repsPicker.getText().length() > 0) {
+                if(multipleSetsSwitch.isChecked() == false || setsPicker.getText().length() > 0) {
+                    String reps;
 
-                String reps;
+                    if(failureSwitch.isChecked()) {
+                        reps = "Till Failure/Not Counting";
 
-                if(failureSwitch.isChecked()) {
-                    reps = "Till Failure/Not Counting";
+                    } else {
+                        reps = repsPicker.getText().toString();
+                    }
+
+                    int setsAmt = 1;
+
+                    if(multipleSetsSwitch.isChecked()) {
+                        if(setsPicker.getText().toString() != "") {
+                            setsAmt = Integer.parseInt(setsPicker.getText().toString());
+                        }
+                    }
+                    float weightAmt = Float.parseFloat(weightPicker.getText().toString());
+                    int restTimeAmt = Integer.parseInt(restTimePicker.getText().toString());
+
+                    ArrayList<MySet> sets = new ArrayList<>();
+
+                    //Create set and add it to the exercise
+                    for(int i = 0; i < setsAmt; i++) {
+                        sets.add(new MySet(reps, weightAmt, restTimeAmt));
+                    }
+
+                    //Add the set to the right exercise
+                    for(int i = 0; i < Exercises.getExercises().size(); i++) {
+
+                        if(Exercises.getExercises().get(i).id.equals(exerciseId)) {
+                            for(MySet set : sets) {
+                                Exercises.getExercises().get(i).addSet(set);
+                            }
+                            addedSets = true;
+                            break;
+                        }
+                    }
+
+                    //Go back to sets list
+                    Intent intent = new Intent(ExerciseDataActivity.this, SetsActivity.class);
+                    intent.putExtra("added_set", true);
+                    intent.putExtra("exercise_id", exerciseId);
+                    intent.putExtra("date", date);
+                    intent.putExtra("addedSets", addedSets);
+
+                    startActivity(intent);
 
                 } else {
-                    reps = repsPicker.getText().toString();
+                    Toast.makeText(getApplicationContext(), "Fill in all data", Toast.LENGTH_SHORT).show();
                 }
-
-                int setsAmt = 1;
-
-                if(multipleSetsSwitch.isChecked()) {
-                    if(setsPicker.getText().toString() != "") {
-                        setsAmt = Integer.parseInt(setsPicker.getText().toString());
-                    }
-                }
-                float weightAmt = Float.parseFloat(weightPicker.getText().toString());
-                int restTimeAmt = Integer.parseInt(restTimePicker.getText().toString());
-
-                ArrayList<MySet> sets = new ArrayList<>();
-
-                //Create set and add it to the exercise
-                for(int i = 0; i < setsAmt; i++) {
-                    sets.add(new MySet(reps, weightAmt, restTimeAmt));
-                }
-
-                //Add the set to the right exercise
-                for(int i = 0; i < Exercises.getExercises().size(); i++) {
-
-                    if(Exercises.getExercises().get(i).id.equals(exerciseId)) {
-                        for(MySet set : sets) {
-                            Exercises.getExercises().get(i).addSet(set);
-                        }
-                        addedSets = true;
-                        break;
-                    }
-                }
-
-                //Go back to sets list
-                Intent intent = new Intent(ExerciseDataActivity.this, SetsActivity.class);
-                intent.putExtra("added_set", true);
-                intent.putExtra("exercise_id", exerciseId);
-                intent.putExtra("date", date);
-                intent.putExtra("addedSets", addedSets);
-
-                startActivity(intent);
 
             } else {
                 Toast.makeText(getApplicationContext(), "Fill in all data", Toast.LENGTH_SHORT).show();

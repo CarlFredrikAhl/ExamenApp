@@ -175,10 +175,17 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         //Setting the bar data
-        BarDataSet  barDataSet1 = new BarDataSet(barEntryArrayList1, "Max Weight Lifted");
+
+        BarDataSet barDataSet1 = new BarDataSet(barEntryArrayList1, "Max Weight Lifted");
         barDataSet1.setColor(Color.YELLOW);
 
-        BarDataSet  barDataSet2 = new BarDataSet(barEntryArrayList2, "Total Weight Lifted");
+        BarDataSet  barDataSet2;
+        if(exerciseName.equals("Plank") == false) {
+            barDataSet2 = new BarDataSet(barEntryArrayList2, "Total Weight Lifted");
+
+        } else {
+            barDataSet2 = new BarDataSet(barEntryArrayList2, "Total Volume (Weight x Time)");
+        }
         barDataSet1.setColor(Color.BLUE);
 
         BarData barData = new BarData(barDataSet1, barDataSet2);

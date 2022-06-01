@@ -1,6 +1,7 @@
 package com.example.examenapp;
 
 public class MySet {
+    //This changes to time (in seconds) for plank exercise
     String reps;
 
     float weight;

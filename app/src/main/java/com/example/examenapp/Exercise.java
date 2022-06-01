@@ -77,7 +77,13 @@ public class Exercise {
         float totalWeight = 0;
 
         for(MySet set : sets) {
-            totalWeight+= set.weight;
+            if(set.reps.equals("Till Failure/Not Counting")) {
+                totalWeight += set.weight;
+
+            } else {
+                int reps = Integer.parseInt(set.reps);
+                totalWeight += set.weight * reps;
+            }
         }
 
         return totalWeight;

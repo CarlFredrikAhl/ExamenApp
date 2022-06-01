@@ -244,9 +244,14 @@ public final class Exercises {
         if(markedExercises != null) {
             for(int i = 0; i < size; i++) {
                 if(markedExercises.size() > 0) {
-                    if(!markedExercises.get(i).name.contains(name)) {
-                        markedExercises.remove(i);
-                        i--;
+                    try {
+                        if(!markedExercises.get(i).name.contains(name)) {
+                            markedExercises.remove(i);
+                            i--;
+                        }
+
+                    } catch (Exception e) {
+
                     }
                 }
             }
