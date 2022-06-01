@@ -45,10 +45,21 @@ public class StatisticsActivity extends AppCompatActivity {
     ArrayList<BarEntry> barEntryArrayList2;
     ArrayList<String> labelNames;
 
+    final String START_LINK = "https://github.com/CarlFredrikAhl/ExamenApp/blob/master/";
+    final String END_LINK = "_compressed.glb?raw=true";
+    String modelLink = "";
+    String fullLink = "";
+
+    Boolean hasModel = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+
+        exerciseName = getIntent().getStringExtra("exercise_name");
+
+        chooseModel();
 
         barChart = findViewById(R.id.barChart);
         howToBtn = findViewById(R.id.howToBtn);
@@ -59,7 +70,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 Intent sceneViewerIntent = new Intent(Intent.ACTION_VIEW);
                 Uri intentUri =
                         Uri.parse("https://arvr.google.com/scene-viewer/1.0").buildUpon()
-                                .appendQueryParameter("file", "https://github.com/CarlFredrikAhl/ExamenApp/blob/master/circle_crunch_compressed.glb?raw=true")
+                                .appendQueryParameter("file", fullLink)
                                 .build();
                 sceneViewerIntent.setData(intentUri);
                 sceneViewerIntent.setPackage("com.google.ar.core");
@@ -67,11 +78,14 @@ public class StatisticsActivity extends AppCompatActivity {
             }
         });
 
+        if(!hasModel) {
+            howToBtn.setEnabled(false);
+            howToBtn.setVisibility(View.INVISIBLE);
+        }
+
         barEntryArrayList1 = new ArrayList<>();
         barEntryArrayList2 = new ArrayList<>();
         labelNames = new ArrayList<>();
-
-        exerciseName = getIntent().getStringExtra("exercise_name");
 
         statisticsExercises = Exercises.getMarkedExercises(getApplicationContext(), exerciseName);
 
@@ -87,6 +101,62 @@ public class StatisticsActivity extends AppCompatActivity {
         toolbarText.setText("Statistics - " + exerciseName);
 
         bestMaxWeightWeek();
+    }
+
+    private String chooseModel() {
+        switch (exerciseName) {
+            case "Air Squats":
+                modelLink = "air_squats";
+                break;
+            case "Squats":
+                modelLink = "back_squats";
+                break;
+            case "Dumbbell Curls":
+                modelLink = "bicep_curls";
+                break;
+            case "Bicycle Crunches":
+                modelLink = "bicycle_crunch";
+                break;
+            case "Box Jump":
+                modelLink = "box_jump";
+                break;
+            case "Burpees":
+                modelLink = "burpees";
+                break;
+            case "Circle Crunches":
+                modelLink = "circle_crunch";
+                break;
+            case "Front Raises":
+                modelLink = "front_raises";
+                break;
+            case "Jumping Jacks":
+                modelLink = "jumping_jacks";
+                break;
+            case "Kettlebell Swings":
+                modelLink = "kettlebell_swing";
+                break;
+            case "Pistol Squats":
+                modelLink = "pistol_squat";
+                break;
+            case "Plank":
+                modelLink = "plank";
+                break;
+            case "Push Ups":
+                modelLink = "push_ups";
+                break;
+            case "Sit Ups":
+                modelLink = "situps";
+                break;
+            default:
+                modelLink = "null";
+        }
+
+        if(modelLink.equals("null")) {
+            hasModel = false;
+        }
+
+        fullLink = START_LINK + modelLink + END_LINK;
+        return fullLink;
     }
 
     private void setUpChart() {

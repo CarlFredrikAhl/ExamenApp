@@ -27,7 +27,7 @@ public final class Exercises {
     public static ArrayList<String> getAllExercises() {
         allExercises.add("Dumbbell Incline Benchpress");
         allExercises.add("Dumbbell Benchpress");
-        allExercises.add("Dumbell Flies");
+        allExercises.add("Dumbbell Flies");
         allExercises.add("Cable Flies");
         allExercises.add("Barbell Curls");
         allExercises.add("Barbell Benchpress");
@@ -36,15 +36,27 @@ public final class Exercises {
         allExercises.add("Reverse Grip Curls");
         allExercises.add("Neck Curls");
         allExercises.add("Military Press");
-        allExercises.add("Squat");
+        allExercises.add("Squats");
+        allExercises.add("Air Squats");
+        allExercises.add("Pistol Squats");
         allExercises.add("Leg Extensions");
         allExercises.add("Calf Raises");
+        allExercises.add("Bicycle Crunches");
+        allExercises.add("Circle Crunches");
         allExercises.add("Dips");
         allExercises.add("Tricep Extensions");
         allExercises.add("Tricep Overhead Press");
         allExercises.add("Pull Ups");
+        allExercises.add("Box Jump");
         allExercises.add("Chins");
         allExercises.add("Push Ups");
+        allExercises.add("Burpees");
+        allExercises.add("Sit Ups");
+        allExercises.add("Plank");
+        allExercises.add("Jumping Jacks");
+        allExercises.add("Kettlebell Swings");
+        allExercises.add("Front Raises");
+        allExercises.add("Lateral Raises");
         allExercises.add("Lat Pulldowns");
         allExercises.add("Barbell Incline Benchpress");
         allExercises.add("Landmine Rows");
@@ -62,7 +74,7 @@ public final class Exercises {
         allExercises.add("Barbell Incline Benchpress");
         allExercises.add("Dumbbell Benchpress");
         allExercises.add("Dumbbell Incline Benchpress");
-        allExercises.add("Dumbell Flies");
+        allExercises.add("Dumbbell Flies");
 
         return allExercises;
     }

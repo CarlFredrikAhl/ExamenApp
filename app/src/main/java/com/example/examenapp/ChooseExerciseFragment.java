@@ -34,7 +34,6 @@ public class ChooseExerciseFragment extends Fragment {
         exercisesList = view.findViewById(R.id.chooseExerciseListView);
         exercisesList.setBackgroundColor(Color.GRAY);
 
-        //Fix so that you can choose only exercises you haven't already chosen
         ArrayList<String> exercisesArray = Exercises.getAllExercises();
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, exercisesArray);
