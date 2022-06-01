@@ -21,11 +21,42 @@
             android:textSize="24dp"></TextView>
     </androidx.appcompat.widget.Toolbar>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:paddingLeft="10dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/weightTitle"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:text="Weight (Kg)">
+    </TextView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weightTitle"
+        android:id="@+id/weightPicker"
+        android:inputType="number"
+        android:visibility="visible">
+    </EditText>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/clearDataBtn"
         android:text="Clear Data"
+        android:layout_centerInParent="true">
+    </Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/doneBtn"
+        android:text="Done"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/clearDataBtn"
         android:layout_centerInParent="true">
     </Button>
 
