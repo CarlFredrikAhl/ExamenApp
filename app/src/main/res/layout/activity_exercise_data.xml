@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/weightPickerTitle"
         android:id="@+id/weightPicker"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:visibility="visible">
     </EditText>
 

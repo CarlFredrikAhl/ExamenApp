@@ -45,6 +45,12 @@ public class SettingsFragment extends Fragment {
         setWeight();
 
         doneBtn = view.findViewById(R.id.doneBtn);
+        doneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                done();
+            }
+        });
 
         clearDataBtn = view.findViewById(R.id.clearDataBtn);
         clearDataBtn.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +86,6 @@ public class SettingsFragment extends Fragment {
 
     public void setWeight() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
 
         float savedWeight = sharedPreferences.getFloat("weight", 0f);
         startWeight = savedWeight;
@@ -94,28 +99,16 @@ public class SettingsFragment extends Fragment {
     }
 
     public void done() {
-        float weight = 0f;
+        if(weightPicker.getText().toString().isEmpty()) {
+            float weight = Float.parseFloat(weightPicker.getText().toString());
 
-        try {
-            weight = Float.parseFloat(weightPicker.getText().toString());
-        } catch (Exception e) {
-            Toast.makeText(getActivity(), "Insert your real weight", Toast.LENGTH_LONG).show();
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings_data", Context.MODE_PRIVATE);
+            SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+            saveEditor.putFloat("weight", weight);
+            Toast.makeText(getActivity(), "Weight saved", Toast.LENGTH_SHORT).show();
         }
 
-        if(weight > 20f) {
-
-        }
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
-
-        float savedWeight = sharedPreferences.getFloat("weight", 0f);
-
-        if(savedWeight != 0f) {
-            weightPicker.setText(String.valueOf(savedWeight) + " Kg");
-
-        } else {
-            weightPicker.setText("");
-        }
+        HomeFragment homeFragment = new HomeFragment();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
     }
 }
