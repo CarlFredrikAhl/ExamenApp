@@ -39,8 +39,10 @@ public final class Exercises {
         allExercises.add("Dumbbell Spider Curls");
         allExercises.add("Reverse Grip Curls");
         allExercises.add("Landmine Rows");
+        allExercises.add("Inverted Rows");
         allExercises.add("Dumbell Rows");
         allExercises.add("Barbell Rows");
+        allExercises.add("Seated Cable Rows");
         allExercises.add("Chest-Supported Cable Rows");
         allExercises.add("Chest-Supported Dumbell Rows");
         allExercises.add("Lat Pulldowns");
