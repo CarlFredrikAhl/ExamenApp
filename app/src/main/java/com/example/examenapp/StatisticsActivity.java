@@ -1,6 +1,7 @@
 package com.example.examenapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -38,9 +41,11 @@ public class StatisticsActivity extends AppCompatActivity {
 
     Button howToBtn;
 
-    ArrayList<Exercise> statisticsExercises = new ArrayList<>();
+    CheckBox useBodyweightCheck;
 
     BarChart barChart;
+
+    ArrayList<Exercise> statisticsExercises = new ArrayList<>();
     ArrayList<BarEntry> barEntryArrayList1;
     ArrayList<BarEntry> barEntryArrayList2;
     ArrayList<String> labelNames;
@@ -51,6 +56,7 @@ public class StatisticsActivity extends AppCompatActivity {
     String fullLink = "";
 
     Boolean hasModel = true;
+    Boolean useBodyweight = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +64,26 @@ public class StatisticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistics);
 
         exerciseName = getIntent().getStringExtra("exercise_name");
+        useBodyweight = getIntent().getBooleanExtra("use_bodyweight", false);
 
         chooseModel();
+
+        useBodyweightCheck = findViewById(R.id.useBodyWeightCheck);
+        useBodyweightCheck.setChecked(useBodyweight);
+        useBodyweightCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                //Reload the activity
+                Intent intent = new Intent(StatisticsActivity.this, StatisticsActivity.class);
+                intent.putExtra("exercise_name", exerciseName);
+                if(b) {
+                    intent.putExtra("use_bodyweight", true);
+                } else {
+                    intent.putExtra("use_bodyweight", false);
+                }
+                startActivity(intent);
+            }
+        });
 
         barChart = findViewById(R.id.barChart);
         howToBtn = findViewById(R.id.howToBtn);
@@ -89,6 +113,8 @@ public class StatisticsActivity extends AppCompatActivity {
 
         statisticsExercises = Exercises.getMarkedExercises(getApplicationContext(), exerciseName);
 
+        useBodyweightData();
+
         if(statisticsExercises != null && bestMaxWeight() > 0 && bestTotalWeight() > 0) {
             setUpChart();
         }
@@ -101,6 +127,14 @@ public class StatisticsActivity extends AppCompatActivity {
         toolbarText.setText("Statistics - " + exerciseName);
 
         bestMaxWeightWeek();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(StatisticsActivity.this, MainActivity.class);
+        intent.putExtra("from_statistics_activity", true);
+
+        startActivity(intent);
     }
 
     private String chooseModel() {
@@ -293,15 +327,28 @@ public class StatisticsActivity extends AppCompatActivity {
             }
 
             if(curWeekExercises.size() > 0) {
-                float maxWeight = curWeekExercises.get(0).getPr();
+                if(!useBodyweight) {
+                    float maxWeight = curWeekExercises.get(0).getPr(getApplicationContext(), false);
 
-                for(int k = 0; k < curWeekExercises.size(); k++) {
-                    if(curWeekExercises.get(k).getPr() > maxWeight) {
-                        maxWeight = curWeekExercises.get(k).getPr();
+                    for(int k = 0; k < curWeekExercises.size(); k++) {
+                        if(curWeekExercises.get(k).getPr(getApplicationContext(), false) > maxWeight) {
+                            maxWeight = curWeekExercises.get(k).getPr(getApplicationContext(), false);
+                        }
                     }
-                }
 
-                weeklyMaxWeight.add(new BarEntry(i, maxWeight));
+                    weeklyMaxWeight.add(new BarEntry(i, maxWeight));
+
+                } else {
+                    float maxWeight = curWeekExercises.get(0).getPr(getApplicationContext(), true);
+
+                    for(int k = 0; k < curWeekExercises.size(); k++) {
+                        if(curWeekExercises.get(k).getPr(getApplicationContext(), true) > maxWeight) {
+                            maxWeight = curWeekExercises.get(k).getPr(getApplicationContext(), true);
+                        }
+                    }
+
+                    weeklyMaxWeight.add(new BarEntry(i, maxWeight));
+                }
 
             } else {
                 weeklyMaxWeight.add(new BarEntry(i, 0f));
@@ -330,16 +377,32 @@ public class StatisticsActivity extends AppCompatActivity {
             }
 
             if(curWeekExercises.size() > 0) {
-                float totalWeight = curWeekExercises.get(0).getTotalWeight();
+                if(!useBodyweight) {
+                    float totalWeight = curWeekExercises.get(0).getTotalWeight(getApplicationContext(), false);
 
-                for(int k = 0; k < curWeekExercises.size(); k++) {
-                    if(curWeekExercises.get(k).getTotalWeight() > totalWeight) {
-                        totalWeight = curWeekExercises.get(k).getTotalWeight();
+                    for(int k = 0; k < curWeekExercises.size(); k++) {
+                        if(curWeekExercises.get(k).getTotalWeight(getApplicationContext(),
+                                false) > totalWeight) {
+                            totalWeight = curWeekExercises.get(k).getTotalWeight(getApplicationContext(),
+                                    false);
+                        }
                     }
+
+                    weeklyBestTotalWeight.add(new BarEntry(i, totalWeight));
+
+                } else {
+                    float totalWeight = curWeekExercises.get(0).getTotalWeight(getApplicationContext(), true);
+
+                    for(int k = 0; k < curWeekExercises.size(); k++) {
+                        if(curWeekExercises.get(k).getTotalWeight(getApplicationContext(),
+                                true) > totalWeight) {
+                            totalWeight = curWeekExercises.get(k).getTotalWeight(getApplicationContext(),
+                                    true);
+                        }
+                    }
+
+                    weeklyBestTotalWeight.add(new BarEntry(i, totalWeight));
                 }
-
-                weeklyBestTotalWeight.add(new BarEntry(i, totalWeight));
-
             } else {
                 weeklyBestTotalWeight.add(new BarEntry(i, 0f));
             }
@@ -355,20 +418,44 @@ public class StatisticsActivity extends AppCompatActivity {
     private float bestMaxWeight() {
         if(statisticsExercises != null) {
             if(statisticsExercises.size() > 0) {
-                float bestMaxWeight = statisticsExercises.get(0).getPr();
+                if(!useBodyweight) {
+                    float bestMaxWeight = statisticsExercises.get(0).getPr(getApplicationContext(),
+                            false);
 
-                if(statisticsExercises.size() > 1) {
-                    for(int i = 0; i < statisticsExercises.size(); i++) {
-                        if(statisticsExercises.get(i).getPr() > bestMaxWeight) {
-                            bestMaxWeight = statisticsExercises.get(i).getPr();
+                    if(statisticsExercises.size() > 1) {
+                        for(int i = 0; i < statisticsExercises.size(); i++) {
+                            if(statisticsExercises.get(i).getPr(getApplicationContext(),
+                                    false) > bestMaxWeight) {
+                                bestMaxWeight = statisticsExercises.get(i).getPr(getApplicationContext(),
+                                        false);
+                            }
                         }
+
+                    } else if(statisticsExercises.size() == 1) {
+                        bestMaxWeight = statisticsExercises.get(0).getPr(getApplicationContext(), false);
                     }
 
-                } else if(statisticsExercises.size() == 1) {
-                    bestMaxWeight = statisticsExercises.get(0).getPr();
-                }
+                    return bestMaxWeight;
 
-                return bestMaxWeight;
+                } else {
+                    float bestMaxWeight = statisticsExercises.get(0).getPr(getApplicationContext(),
+                            true);
+
+                    if(statisticsExercises.size() > 1) {
+                        for(int i = 0; i < statisticsExercises.size(); i++) {
+                            if(statisticsExercises.get(i).getPr(getApplicationContext(),
+                                    true) > bestMaxWeight) {
+                                bestMaxWeight = statisticsExercises.get(i).getPr(getApplicationContext(),
+                                        true);
+                            }
+                        }
+
+                    } else if(statisticsExercises.size() == 1) {
+                        bestMaxWeight = statisticsExercises.get(0).getPr(getApplicationContext(), true);
+                    }
+
+                    return bestMaxWeight;
+                }
 
             } else {
                 return 0f;
@@ -382,27 +469,63 @@ public class StatisticsActivity extends AppCompatActivity {
     private float bestTotalWeight() {
         if(statisticsExercises != null) {
             if(statisticsExercises.size() > 0) {
-                float bestTotalWeight = statisticsExercises.get(0).getTotalWeight();
+                if(!useBodyweight) {
+                    float bestTotalWeight = statisticsExercises.get(0).getTotalWeight(getApplicationContext(),
+                            false);
 
-                if(statisticsExercises.size() > 1) {
-                    for(int i = 0; i < statisticsExercises.size(); i++) {
-                        if(statisticsExercises.get(i).getTotalWeight() > bestTotalWeight) {
-                            bestTotalWeight = statisticsExercises.get(i).getTotalWeight();
+                    if(statisticsExercises.size() > 1) {
+                        for(int i = 0; i < statisticsExercises.size(); i++) {
+                            if(statisticsExercises.get(i).getTotalWeight(getApplicationContext(),
+                                    false) > bestTotalWeight) {
+                                bestTotalWeight = statisticsExercises.get(i).getTotalWeight(getApplicationContext(),
+                                        false);
+                            }
                         }
+
+                    } else if(statisticsExercises.size() == 1){
+                        bestTotalWeight = statisticsExercises.get(0).getTotalWeight(getApplicationContext(),
+                                false);
                     }
 
-                } else if(statisticsExercises.size() == 1){
-                    bestTotalWeight = statisticsExercises.get(0).getTotalWeight();
+                    return bestTotalWeight;
+
+                } else {
+                    float bestTotalWeight = statisticsExercises.get(0).getTotalWeight(getApplicationContext(),
+                            true);
+
+                    if(statisticsExercises.size() > 1) {
+                        for(int i = 0; i < statisticsExercises.size(); i++) {
+                            if(statisticsExercises.get(i).getTotalWeight(getApplicationContext(),
+                                    true) > bestTotalWeight) {
+                                bestTotalWeight = statisticsExercises.get(i).getTotalWeight(getApplicationContext(),
+                                        true);
+                            }
+                        }
+
+                    } else if(statisticsExercises.size() == 1){
+                        bestTotalWeight = statisticsExercises.get(0).getTotalWeight(getApplicationContext(),
+                                true);
+                    }
+
+                    return bestTotalWeight;
                 }
-
-                return bestTotalWeight;
-
             } else {
                 return 0f;
             }
 
         } else {
             return 0f;
+        }
+    }
+
+    private void useBodyweightData() {
+        for(String name : Exercises.getBodyweightExercises()) {
+            if(exerciseName.equals(name)) {
+                //The users weight matters in this exercise and there is statistics data
+                if(statisticsExercises.size() > 0) {
+                    useBodyweightCheck.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 }

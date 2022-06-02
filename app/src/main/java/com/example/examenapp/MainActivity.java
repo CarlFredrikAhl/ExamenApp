@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -31,12 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
         backBtnCounter = 0;
 
+        boolean fromStatisticsActivity = getIntent().getBooleanExtra("from_statistics_activity", false);
+
         //Exercises.removeAllData(getApplicationContext());
 
         bottomNavigationView = findViewById(R.id.bottonNav);
 
         //Sets the container to home fragment which should be default
         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+
+        if(fromStatisticsActivity) {
+            goToFitnessFragment();
+        }
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -83,5 +91,12 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigationView.setSelectedItemId(R.id.home);
             backBtnCounter = 0;
         }
+    }
+
+    public void goToFitnessFragment() {
+        FitnessFragment fitnessFragment = new FitnessFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
+
+        bottomNavigationView.setSelectedItemId(R.id.workout);
     }
 }

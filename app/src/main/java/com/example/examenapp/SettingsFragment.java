@@ -114,4 +114,11 @@ public class SettingsFragment extends Fragment {
         HomeFragment homeFragment = new HomeFragment();
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
     }
+
+    public static float getUserWeight(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings_data", Context.MODE_PRIVATE);
+        float savedWeight = sharedPreferences.getFloat("weight", 0f);
+
+        return savedWeight;
+    }
 }

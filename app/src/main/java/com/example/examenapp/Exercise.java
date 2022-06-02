@@ -1,5 +1,7 @@
 package com.example.examenapp;
 
+import android.content.Context;
+
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,13 +60,21 @@ public class Exercise {
     }
 
     //Retrieves the personal record (most weight lifted)
-    public float getPr() {
+    public float getPr(Context context, boolean useBodyweight) {
         float pr = sets.get(0).weight;
+        if(useBodyweight) {
+            pr = sets.get(0).weight + SettingsFragment.getUserWeight(context);
+        }
 
         if(sets.size() > 1) {
             for(int i = 0; i < sets.size(); i++) {
                 if(sets.get(i).weight > pr) {
-                    pr = sets.get(i).weight;
+                    if(!useBodyweight) {
+                        pr = sets.get(i).weight;
+
+                    } else {
+                        pr = sets.get(i).weight + SettingsFragment.getUserWeight(context);
+                    }
                 }
             }
         }
@@ -73,16 +83,27 @@ public class Exercise {
     }
 
     //Retrieves the total weight lifted//
-    public float getTotalWeight() {
+    public float getTotalWeight(Context context, boolean useBodyweight) {
         float totalWeight = 0;
 
         for(MySet set : sets) {
-            if(set.reps.equals("Till Failure/Not Counting")) {
-                totalWeight += set.weight;
+            if(!useBodyweight) {
+                if(set.reps.equals("Till Failure/Not Counting")) {
+                    totalWeight += set.weight;
+
+                } else {
+                    int reps = Integer.parseInt(set.reps);
+                    totalWeight += set.weight * reps;
+                }
 
             } else {
-                int reps = Integer.parseInt(set.reps);
-                totalWeight += set.weight * reps;
+                if(set.reps.equals("Till Failure/Not Counting")) {
+                    totalWeight += set.weight + SettingsFragment.getUserWeight(context);
+
+                } else {
+                    int reps = Integer.parseInt(set.reps);
+                    totalWeight += (set.weight + SettingsFragment.getUserWeight(context)) * reps;
+                }
             }
         }
 

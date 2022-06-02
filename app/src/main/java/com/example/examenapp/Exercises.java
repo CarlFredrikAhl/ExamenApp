@@ -14,12 +14,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+//This is like a helper class
 public final class Exercises {
     private static ArrayList<Exercise> exercises = new ArrayList<>();
     private static ArrayList<Exercise> markedExercises = new ArrayList<>();
     private static ArrayList<String> allExercises = new ArrayList<>();
-
-    private static int id = 0;
 
     //How we save the data (locally)
     private static SharedPreferences sharedPreferences;
@@ -69,16 +68,6 @@ public final class Exercises {
         return allExercises;
     }
 
-    public static ArrayList<String> getFirstFiveExercises() {
-        allExercises.add("Barbell Benchpress");
-        allExercises.add("Barbell Incline Benchpress");
-        allExercises.add("Dumbbell Benchpress");
-        allExercises.add("Dumbbell Incline Benchpress");
-        allExercises.add("Dumbbell Flies");
-
-        return allExercises;
-    }
-
     public static ArrayList<Exercise> getExercises() {
         return exercises;
     }
@@ -94,10 +83,28 @@ public final class Exercises {
         return exercise;
     }
 
+    //Returns the names of all the exercises where users weight matters most
+    public static ArrayList<String> getBodyweightExercises() {
+        ArrayList<String> bodyweightExercises = new ArrayList<>();
+        bodyweightExercises.add("Squats");
+        bodyweightExercises.add("Air Squats");
+        bodyweightExercises.add("Pistol Squats");
+        bodyweightExercises.add("Calf Raises");
+        bodyweightExercises.add("Dips");
+        bodyweightExercises.add("Pull Ups");
+        bodyweightExercises.add("Box Jump");
+        bodyweightExercises.add("Chin Ups");
+        bodyweightExercises.add("Push Ups");
+        bodyweightExercises.add("Burpees");
+        bodyweightExercises.add("Sit Ups");
+        bodyweightExercises.add("Plank");
+
+        return bodyweightExercises;
+    }
+
     public static void addExercise(String name, String date) {
         Exercise exercise = new Exercise(name, date, new ArrayList<>());
         exercises.add(exercise);
-        id++;
     }
 
     public static void removeExercise(Context context, String exerciseId, String date) {
@@ -133,13 +140,6 @@ public final class Exercises {
         Gson gson = new Gson();
         String json = gson.toJson(exercises);
         saveEditor.putString(date + "_exercises", json);
-        saveEditor.apply();
-    }
-
-    public static void clearData(Context context, String date) {
-        sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
-        saveEditor.remove(date + "_exercises");
         saveEditor.apply();
     }
 

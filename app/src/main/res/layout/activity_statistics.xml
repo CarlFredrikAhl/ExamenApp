@@ -38,4 +38,14 @@
         android:layout_marginBottom="50dp"
         android:text="How to perform">
     </Button>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/useBodyWeightCheck"
+        android:layout_below="@id/barChart"
+        android:text="Include bodyweight in total weight lifted"
+        android:checked="false"
+        android:visibility="invisible">
+    </CheckBox>
 </RelativeLayout>
