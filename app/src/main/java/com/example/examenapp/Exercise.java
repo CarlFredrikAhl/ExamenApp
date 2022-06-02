@@ -88,7 +88,7 @@ public class Exercise {
 
         for(MySet set : sets) {
             if(!useBodyweight) {
-                if(set.reps.equals("Till Failure/Not Counting")) {
+                if(set.reps.equals("Till Failure/Forced Reps/Not Counting")) {
                     totalWeight += set.weight;
 
                 } else {
@@ -97,7 +97,7 @@ public class Exercise {
                 }
 
             } else {
-                if(set.reps.equals("Till Failure/Not Counting")) {
+                if(set.reps.equals("Till Failure/Forced Reps/Not Counting")) {
                     totalWeight += set.weight + SettingsFragment.getUserWeight(context);
 
                 } else {

@@ -115,7 +115,7 @@ public class ExerciseDataActivity extends AppCompatActivity {
                     String reps;
 
                     if(failureSwitch.isChecked()) {
-                        reps = "Till Failure/Not Counting";
+                        reps = "Till Failure/Forced Reps/Not Counting";
 
                     } else {
                         reps = repsPicker.getText().toString();

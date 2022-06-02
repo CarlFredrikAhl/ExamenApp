@@ -24,46 +24,89 @@ public final class Exercises {
     private static SharedPreferences sharedPreferences;
 
     public static ArrayList<String> getAllExercises() {
-        allExercises.add("Dumbbell Incline Benchpress");
+        //Bicep, Back & Abs
+        allExercises.add("Barbell Curls");
+        allExercises.add("Barbell Preacher Curls");
+        allExercises.add("Dumbbell Preacher Curls");
+        allExercises.add("Dumbbell Curls");
+        allExercises.add("Cable Curls");
+        allExercises.add("Concentration Curls");
+        allExercises.add("Standing Concentration Curls");
+        allExercises.add("21 Curls");
+        allExercises.add("Hammer Curls");
+        allExercises.add("Crossover Hammer Curls");
+        allExercises.add("Barbell Spider Curls");
+        allExercises.add("Dumbbell Spider Curls");
+        allExercises.add("Reverse Grip Curls");
+        allExercises.add("Landmine Rows");
+        allExercises.add("Dumbell Rows");
+        allExercises.add("Barbell Rows");
+        allExercises.add("Chest-Supported Cable Rows");
+        allExercises.add("Chest-Supported Dumbell Rows");
+        allExercises.add("Lat Pulldowns");
+        allExercises.add("Bicycle Crunches");
+        allExercises.add("Circle Crunches");
+        allExercises.add("Leg Raises");
+        allExercises.add("Leg Raises Bent Legs");
+        allExercises.add("Pull Ups");
+        allExercises.add("Close Pull Ups");
+        allExercises.add("Chins");
+        allExercises.add("Close Chins");
+        allExercises.add("Sit Ups");
+        allExercises.add("Plank");
+
+        //Chest & Triceps
+        allExercises.add("Barbell Benchpress");
+        allExercises.add("Barbell Close Grip Benchpress");
+        allExercises.add("Barbell Incline Benchpress");
+        allExercises.add("Barbell Decline Benchpress");
         allExercises.add("Dumbbell Benchpress");
+        allExercises.add("Dumbbell Incline Benchpress");
+        allExercises.add("Dumbbell Decline Benchpress");
+        allExercises.add("Cable Benchpress");
+        allExercises.add("Cable Incline Benchpress");
+        allExercises.add("Cable Decline Benchpress");
         allExercises.add("Dumbbell Flies");
         allExercises.add("Cable Flies");
-        allExercises.add("Barbell Curls");
-        allExercises.add("Barbell Benchpress");
-        allExercises.add("Preacher Curls");
-        allExercises.add("Spider Curls");
-        allExercises.add("Reverse Grip Curls");
-        allExercises.add("Neck Curls");
+        allExercises.add("Dips");
+        allExercises.add("Tricep Extensions");
+        allExercises.add("Tricep Overhead Press");
+        allExercises.add("Push Ups");
+        allExercises.add("Decline Push Ups");
+        allExercises.add("Incline Push Ups");
+        allExercises.add("Diamond Push Ups");
+        allExercises.add("Decline Diamond Push Ups");
+        allExercises.add("Incline Diamond Push Ups");
+
+        //Legs, Shoulders & Traps
         allExercises.add("Military Press");
         allExercises.add("Squats");
         allExercises.add("Air Squats");
         allExercises.add("Pistol Squats");
         allExercises.add("Leg Extensions");
         allExercises.add("Calf Raises");
-        allExercises.add("Bicycle Crunches");
-        allExercises.add("Circle Crunches");
-        allExercises.add("Dips");
-        allExercises.add("Tricep Extensions");
-        allExercises.add("Tricep Overhead Press");
-        allExercises.add("Pull Ups");
         allExercises.add("Box Jump");
-        allExercises.add("Chins");
-        allExercises.add("Push Ups");
-        allExercises.add("Burpees");
-        allExercises.add("Sit Ups");
-        allExercises.add("Plank");
-        allExercises.add("Jumping Jacks");
         allExercises.add("Kettlebell Swings");
         allExercises.add("Front Raises");
+        allExercises.add("Overhead Trap Raises");
         allExercises.add("Lateral Raises");
-        allExercises.add("Lat Pulldowns");
-        allExercises.add("Barbell Incline Benchpress");
-        allExercises.add("Landmine Rows");
-        allExercises.add("One arm rows");
-        allExercises.add("Farmers Walk");
-        allExercises.add("Shrugs");
+        allExercises.add("Cable Lateral Raises");
+        allExercises.add("Cable Lateral Raises");
+        allExercises.add("Farmers Walk Straps");
+        allExercises.add("Barbell Shrugs");
+        allExercises.add("Dumbell Shrugs");
         allExercises.add("Rack Pulls");
-        allExercises.add("Dumbbell Curls");
+
+        //Neck (not including traps) & Forearms
+        allExercises.add("Front Neck Curl");
+        allExercises.add("Back Neck Curl");
+        allExercises.add("Right Neck Curl");
+        allExercises.add("Left Neck Curl");
+        allExercises.add("Farmers Walk");
+
+        //Cardio/full body
+        allExercises.add("Burpees");
+        allExercises.add("Jumping Jacks");
 
         return allExercises;
     }

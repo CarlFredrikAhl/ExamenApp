@@ -143,7 +143,7 @@ public class SetsActivity extends AppCompatActivity {
         ArrayList<MySet> sets = getExercise().sets;
         ArrayList<String> setsData = new ArrayList<>();
 
-        String exerciseName = getExercise().name;
+        exerciseName = Exercises.getExercise(exerciseId).name;
 
         for(MySet set : sets) {
             String nrOfSets = String.valueOf(sets.size());
