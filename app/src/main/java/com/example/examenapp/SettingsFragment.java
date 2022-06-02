@@ -27,7 +27,6 @@ import java.sql.Array;
 import java.util.ArrayList;
 
 public class SettingsFragment extends Fragment {
-
     Button clearDataBtn;
     Button doneBtn;
 
@@ -91,7 +90,7 @@ public class SettingsFragment extends Fragment {
         startWeight = savedWeight;
 
         if(savedWeight != 0f) {
-            weightPicker.setText(String.valueOf(savedWeight) + " Kg");
+            weightPicker.setText(String.valueOf(savedWeight));
 
         } else {
             weightPicker.setText("");
@@ -99,13 +98,17 @@ public class SettingsFragment extends Fragment {
     }
 
     public void done() {
-        if(weightPicker.getText().toString().isEmpty()) {
+        if(!weightPicker.getText().toString().isEmpty()) {
             float weight = Float.parseFloat(weightPicker.getText().toString());
 
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings_data", Context.MODE_PRIVATE);
-            SharedPreferences.Editor saveEditor = sharedPreferences.edit();
-            saveEditor.putFloat("weight", weight);
-            Toast.makeText(getActivity(), "Weight saved", Toast.LENGTH_SHORT).show();
+            //The weight has changes from previous input
+            if(weight != startWeight) {
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings_data", Context.MODE_PRIVATE);
+                SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+                saveEditor.putFloat("weight", weight);
+                saveEditor.apply();
+                Toast.makeText(getActivity(), "Weight saved", Toast.LENGTH_SHORT).show();
+            }
         }
 
         HomeFragment homeFragment = new HomeFragment();
