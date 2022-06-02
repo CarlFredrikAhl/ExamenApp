@@ -72,7 +72,7 @@ public class Exercise {
         return pr;
     }
 
-    //Retrieves the total weight lifted
+    //Retrieves the total weight lifted//
     public float getTotalWeight() {
         float totalWeight = 0;
 
