@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         backBtnCounter = 0;
 
-        boolean fromStatisticsActivity = getIntent().getBooleanExtra("from_statistics_activity", false);
+        boolean goToFitness = getIntent().getBooleanExtra("go_to_fitness", false);
+        boolean goToSettings = getIntent().getBooleanExtra("go_to_settings", false);
 
         //Exercises.removeAllData(getApplicationContext());
 
@@ -42,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
         //Sets the container to home fragment which should be default
         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
 
-        if(fromStatisticsActivity) {
+        if(goToFitness) {
             goToFitnessFragment();
+
+        } else if(goToSettings) {
+            goToSettingsFragment();
         }
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -98,5 +102,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
 
         bottomNavigationView.setSelectedItemId(R.id.workout);
+    }
+
+    public void goToSettingsFragment() {
+        SettingsFragment settingsFragment = new SettingsFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, settingsFragment).commit();
+
+        bottomNavigationView.setSelectedItemId(R.id.home);
     }
 }

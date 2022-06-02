@@ -1,8 +1,10 @@
 package com.example.examenapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -57,6 +59,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
     Boolean hasModel = true;
     Boolean useBodyweight = false;
+    Boolean clickedNotNow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,15 +76,43 @@ public class StatisticsActivity extends AppCompatActivity {
         useBodyweightCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                //Reload the activity
-                Intent intent = new Intent(StatisticsActivity.this, StatisticsActivity.class);
-                intent.putExtra("exercise_name", exerciseName);
-                if(b) {
-                    intent.putExtra("use_bodyweight", true);
+                //If user has entered a weight
+                if(SettingsFragment.getUserWeight(getApplicationContext()) > 0) {
+                    //Reload the activity
+                    Intent intent = new Intent(StatisticsActivity.this, StatisticsActivity.class);
+                    intent.putExtra("exercise_name", exerciseName);
+                    if(b) {
+                        intent.putExtra("use_bodyweight", true);
+                    } else {
+                        intent.putExtra("use_bodyweight", false);
+                    }
+                    startActivity(intent);
+
                 } else {
-                    intent.putExtra("use_bodyweight", false);
+                    if(!clickedNotNow) {
+                        //AlertDialog and able to mark as done exercises
+                        AlertDialog.Builder alert = new AlertDialog.Builder(StatisticsActivity.this);
+                        alert.setTitle("You have not entered your weight");
+                        alert.setMessage("In order to see this data you need to enter a weight in the settings");
+                        alert.setPositiveButton("Go to settings", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(StatisticsActivity.this, MainActivity.class);
+                                intent.putExtra("go_to_settings", true);
+                                startActivity(intent);
+                            }
+                        });
+                        alert.setNegativeButton("Not now", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                clickedNotNow = true;
+                                useBodyweightCheck.setChecked(false);
+                                clickedNotNow = false;
+                            }
+                        });
+                        alert.create().show();
+                    }
                 }
-                startActivity(intent);
             }
         });
 
@@ -132,7 +163,7 @@ public class StatisticsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(StatisticsActivity.this, MainActivity.class);
-        intent.putExtra("from_statistics_activity", true);
+        intent.putExtra("go_to_fitness", true);
 
         startActivity(intent);
     }
@@ -519,11 +550,13 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void useBodyweightData() {
-        for(String name : Exercises.getBodyweightExercises()) {
-            if(exerciseName.equals(name)) {
-                //The users weight matters in this exercise and there is statistics data
-                if(statisticsExercises.size() > 0) {
-                    useBodyweightCheck.setVisibility(View.VISIBLE);
+        if(statisticsExercises != null) {
+            for(String name : Exercises.getBodyweightExercises()) {
+                if(exerciseName.equals(name)) {
+                    //The users weight matters in this exercise and there is statistics data
+                    if(statisticsExercises.size() > 0) {
+                        useBodyweightCheck.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         }

@@ -238,10 +238,10 @@ public final class Exercises {
         Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
         markedExercises = gson.fromJson(json, type);
 
-        //Need to do this because it decreases otherwise
-        int size = markedExercises.size();
-
         if(markedExercises != null) {
+            //Need to do this because it decreases otherwise
+            int size = markedExercises.size();
+
             for(int i = 0; i < size; i++) {
                 if(markedExercises.size() > 0) {
                     try {
@@ -263,6 +263,10 @@ public final class Exercises {
     public static void removeAllData(Context context) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+        saveEditor.clear().apply();
+
+        sharedPreferences = context.getSharedPreferences("settings_data", Context.MODE_PRIVATE);
+        saveEditor = sharedPreferences.edit();
         saveEditor.clear().apply();
     }
 }

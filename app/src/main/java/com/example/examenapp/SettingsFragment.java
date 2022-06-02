@@ -58,7 +58,7 @@ public class SettingsFragment extends Fragment {
                 //AlertDialog and able to mark as done exercises
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                 alert.setTitle("Clear data?");
-                alert.setMessage("Are you sure you want to remove all your saved data? This also removes the statistics");
+                alert.setMessage("Are you sure? This will remove ALL the data");
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
