@@ -39,6 +39,7 @@ public class ChooseExerciseFragment extends Fragment {
         date = ExercisesActivity.date;
 
         expandableListView = view.findViewById(R.id.chooseExerciseExpandableListView);
+        expandableListView.setBackgroundColor(Color.GRAY);
 
         showList();
 
