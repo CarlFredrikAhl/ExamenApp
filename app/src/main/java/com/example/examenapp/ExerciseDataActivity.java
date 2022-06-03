@@ -3,7 +3,6 @@ package com.example.examenapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
 public class ExerciseDataActivity extends AppCompatActivity {
@@ -34,9 +32,8 @@ public class ExerciseDataActivity extends AppCompatActivity {
     TextView repsPickerTitle;
 
     String exerciseId;
-    String date;
-    String activityFlag;
     String exerciseName;
+    String date;
 
     boolean addedSets = false;
 
@@ -45,19 +42,16 @@ public class ExerciseDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_data);
 
-        activityFlag = getIntent().getStringExtra("flag");
-        if(activityFlag == null)
-            activityFlag = "null";
-
         exerciseId = getIntent().getStringExtra("exercise_id");
         date = getIntent().getStringExtra("date");
 
         setsPicker = findViewById(R.id.setsPicker);
+
         multipleSetsSwitch  = findViewById(R.id.multipleSetsSwitch);
         multipleSetsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b)
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if(checked)
                     setsPicker.setVisibility(View.VISIBLE);
                 else
                     setsPicker.setVisibility(View.INVISIBLE);
@@ -67,15 +61,13 @@ public class ExerciseDataActivity extends AppCompatActivity {
         failureSwitch = findViewById(R.id.failureSwitch);
         failureSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b)
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if(checked)
                     repsPicker.setVisibility(View.INVISIBLE);
                 else
                     repsPicker.setVisibility(View.VISIBLE);
             }
         });
-        repsPicker = findViewById(R.id.repsPicker);
-        repsPickerTitle = findViewById(R.id.repsPickerTitle);
 
         exerciseName = getIntent().getStringExtra("exercise_name");
 
@@ -83,15 +75,13 @@ public class ExerciseDataActivity extends AppCompatActivity {
             repsPickerTitle.setText("Time (Sec)");
         }
 
+        repsPicker = findViewById(R.id.repsPicker);
+        repsPickerTitle = findViewById(R.id.repsPickerTitle);
         weightPicker = findViewById(R.id.weightPicker);
         restTimePicker = findViewById(R.id.restTimePicker);
+
         doneBtn = findViewById(R.id.doneBtn);
-        doneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                done();
-            }
-        });
+        doneBtn.setOnClickListener(v -> done());
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

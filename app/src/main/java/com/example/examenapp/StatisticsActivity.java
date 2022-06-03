@@ -359,22 +359,22 @@ public class StatisticsActivity extends AppCompatActivity {
 
             if(curWeekExercises.size() > 0) {
                 if(!useBodyweight) {
-                    float maxWeight = curWeekExercises.get(0).getPr(getApplicationContext(), false);
+                    float maxWeight = curWeekExercises.get(0).getMaxWeight(getApplicationContext(), false);
 
                     for(int k = 0; k < curWeekExercises.size(); k++) {
-                        if(curWeekExercises.get(k).getPr(getApplicationContext(), false) > maxWeight) {
-                            maxWeight = curWeekExercises.get(k).getPr(getApplicationContext(), false);
+                        if(curWeekExercises.get(k).getMaxWeight(getApplicationContext(), false) > maxWeight) {
+                            maxWeight = curWeekExercises.get(k).getMaxWeight(getApplicationContext(), false);
                         }
                     }
 
                     weeklyMaxWeight.add(new BarEntry(i, maxWeight));
 
                 } else {
-                    float maxWeight = curWeekExercises.get(0).getPr(getApplicationContext(), true);
+                    float maxWeight = curWeekExercises.get(0).getMaxWeight(getApplicationContext(), true);
 
                     for(int k = 0; k < curWeekExercises.size(); k++) {
-                        if(curWeekExercises.get(k).getPr(getApplicationContext(), true) > maxWeight) {
-                            maxWeight = curWeekExercises.get(k).getPr(getApplicationContext(), true);
+                        if(curWeekExercises.get(k).getMaxWeight(getApplicationContext(), true) > maxWeight) {
+                            maxWeight = curWeekExercises.get(k).getMaxWeight(getApplicationContext(), true);
                         }
                     }
 
@@ -450,39 +450,39 @@ public class StatisticsActivity extends AppCompatActivity {
         if(statisticsExercises != null) {
             if(statisticsExercises.size() > 0) {
                 if(!useBodyweight) {
-                    float bestMaxWeight = statisticsExercises.get(0).getPr(getApplicationContext(),
+                    float bestMaxWeight = statisticsExercises.get(0).getMaxWeight(getApplicationContext(),
                             false);
 
                     if(statisticsExercises.size() > 1) {
                         for(int i = 0; i < statisticsExercises.size(); i++) {
-                            if(statisticsExercises.get(i).getPr(getApplicationContext(),
+                            if(statisticsExercises.get(i).getMaxWeight(getApplicationContext(),
                                     false) > bestMaxWeight) {
-                                bestMaxWeight = statisticsExercises.get(i).getPr(getApplicationContext(),
+                                bestMaxWeight = statisticsExercises.get(i).getMaxWeight(getApplicationContext(),
                                         false);
                             }
                         }
 
                     } else if(statisticsExercises.size() == 1) {
-                        bestMaxWeight = statisticsExercises.get(0).getPr(getApplicationContext(), false);
+                        bestMaxWeight = statisticsExercises.get(0).getMaxWeight(getApplicationContext(), false);
                     }
 
                     return bestMaxWeight;
 
                 } else {
-                    float bestMaxWeight = statisticsExercises.get(0).getPr(getApplicationContext(),
+                    float bestMaxWeight = statisticsExercises.get(0).getMaxWeight(getApplicationContext(),
                             true);
 
                     if(statisticsExercises.size() > 1) {
                         for(int i = 0; i < statisticsExercises.size(); i++) {
-                            if(statisticsExercises.get(i).getPr(getApplicationContext(),
+                            if(statisticsExercises.get(i).getMaxWeight(getApplicationContext(),
                                     true) > bestMaxWeight) {
-                                bestMaxWeight = statisticsExercises.get(i).getPr(getApplicationContext(),
+                                bestMaxWeight = statisticsExercises.get(i).getMaxWeight(getApplicationContext(),
                                         true);
                             }
                         }
 
                     } else if(statisticsExercises.size() == 1) {
-                        bestMaxWeight = statisticsExercises.get(0).getPr(getApplicationContext(), true);
+                        bestMaxWeight = statisticsExercises.get(0).getMaxWeight(getApplicationContext(), true);
                     }
 
                     return bestMaxWeight;

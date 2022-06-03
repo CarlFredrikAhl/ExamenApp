@@ -55,28 +55,7 @@ public class SettingsFragment extends Fragment {
         clearDataBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //AlertDialog and able to mark as done exercises
-                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("Clear data?");
-                alert.setMessage("Are you sure? This will remove ALL the data");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //Clear the data
-                        Exercises.removeAllData(getActivity());
-                        Toast.makeText(getActivity(), "Data cleared", Toast.LENGTH_SHORT).show();
-
-                        HomeFragment homeFragment = new HomeFragment();
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                alert.create().show();
+                clearData();
             }
         });
 
@@ -97,22 +76,49 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    public void done() {
+    private void done() {
         if(!weightPicker.getText().toString().isEmpty()) {
             float weight = Float.parseFloat(weightPicker.getText().toString());
 
-            //The weight has changes from previous input
-            if(weight != startWeight) {
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings_data", Context.MODE_PRIVATE);
-                SharedPreferences.Editor saveEditor = sharedPreferences.edit();
-                saveEditor.putFloat("weight", weight);
-                saveEditor.apply();
-                Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+            if(weight >= 5.9f && weight <= 635) {
+                //The weight has changes from previous input
+                if(weight != startWeight) {
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings_data",
+                            Context.MODE_PRIVATE);
+                    SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+                    saveEditor.putFloat("weight", weight);
+                    saveEditor.apply();
+                }
+
+                HomeFragment homeFragment = new HomeFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+
+            } else {
+                Toast.makeText(getActivity(), "Enter your real weight", Toast.LENGTH_SHORT).show();
             }
         }
+    }
 
-        HomeFragment homeFragment = new HomeFragment();
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+    private void clearData() {
+        //AlertDialog and able to mark as done exercises
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Clear data?");
+        alert.setMessage("Are you sure? This will remove ALL the data");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Clear the data
+                Exercises.removeAllData(getActivity());
+
+                HomeFragment homeFragment = new HomeFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) { }
+        });
+        alert.create().show();
     }
 
     public static float getUserWeight(Context context) {
