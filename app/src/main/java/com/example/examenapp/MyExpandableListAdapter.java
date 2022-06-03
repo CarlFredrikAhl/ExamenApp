@@ -1,6 +1,7 @@
 package com.example.examenapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,23 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     Context context;
 
+    String date = "";
+
+    //This is for FitnessFragment
     public MyExpandableListAdapter(Context context, ArrayList<String> muscleGroupList,
                                    HashMap<String, ArrayList<String>> exerciseList) {
         this.context = context;
         this.muscleGroupList = muscleGroupList;
         this.exerciseList = exerciseList;
+    }
+
+    //This is for ChooseExerciseFragment
+    public MyExpandableListAdapter(Context context, ArrayList<String> muscleGroupList,
+                                   HashMap<String, ArrayList<String>> exerciseList, String date) {
+        this.context = context;
+        this.muscleGroupList = muscleGroupList;
+        this.exerciseList = exerciseList;
+        this.date = date;
     }
 
     @Override
@@ -84,15 +97,28 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             view = inflater.inflate(R.layout.exercise_list, null);
         }
 
-        String exerciseTitle = getChild(i, i1);
+        String exerciseName = getChild(i, i1);
 
         TextView exerciseText = view.findViewById(R.id.exerciseListText);
-        exerciseText.setText(exerciseTitle);
+        exerciseText.setText(exerciseName);
 
         exerciseText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, exerciseTitle, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, exerciseName, Toast.LENGTH_SHORT).show();
+
+                //We are using ChooseExerciseFragment
+                if(!date.equals("")) {
+                    //Add exercise
+                    Exercises.addExercise(exerciseName, date);
+
+                    ExercisesActivity.addedExercise = true;
+                    ExercisesActivity.updateListview();
+                } else {
+                    Intent exerciseIntent = new Intent(context, StatisticsActivity.class);
+                    exerciseIntent.putExtra("exercise_name", exerciseName);
+                    context.startActivity(exerciseIntent);
+                }
             }
         });
 
