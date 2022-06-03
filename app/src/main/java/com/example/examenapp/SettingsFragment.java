@@ -107,7 +107,7 @@ public class SettingsFragment extends Fragment {
                 SharedPreferences.Editor saveEditor = sharedPreferences.edit();
                 saveEditor.putFloat("weight", weight);
                 saveEditor.apply();
-                Toast.makeText(getActivity(), "Weight saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
             }
         }
 

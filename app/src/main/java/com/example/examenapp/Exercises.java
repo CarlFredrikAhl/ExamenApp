@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,107 +19,125 @@ import java.util.List;
 public final class Exercises {
     private static ArrayList<Exercise> exercises = new ArrayList<>();
     private static ArrayList<Exercise> markedExercises = new ArrayList<>();
-    private static ArrayList<String> allExercises = new ArrayList<>();
 
     //How we save the data (locally)
     private static SharedPreferences sharedPreferences;
 
-    public static ArrayList<String> getAllExercises() {
-        //Bicep, Back & Abs
-        allExercises.add("Dumbbell Curls");
-        allExercises.add("Barbell Curls");
-        allExercises.add("Hammer Curls");
-        allExercises.add("Crossover Hammer Curls");
-        allExercises.add("Preacher Curls");
-        allExercises.add("Cable Curls");
-        allExercises.add("Concentration Curls");
-        allExercises.add("Standing Concentration Curls");
-        allExercises.add("21 Curls");
-        allExercises.add("Spider Curls");
-        allExercises.add("Landmine Rows");
-        allExercises.add("Inverted Rows");
-        allExercises.add("Dumbbell Rows");
-        allExercises.add("Barbell Rows");
-        allExercises.add("Seated Cable Rows");
-        allExercises.add("Chest-Supported Cable Rows");
-        allExercises.add("Chest-Supported Dumbbell Rows");
-        allExercises.add("Deadlifts");
-        allExercises.add("Lat Pulldowns");
-        allExercises.add("Bicycle Crunches");
-        allExercises.add("Circle Crunches");
-        allExercises.add("Leg Raises");
-        allExercises.add("Leg Raises Bent Legs");
-        allExercises.add("Pull Ups");
-        allExercises.add("Close Pull Ups");
-        allExercises.add("Chins");
-        allExercises.add("Close Chins");
-        allExercises.add("Sit Ups");
-        allExercises.add("Plank");
+    public static ArrayList<String> getBicepBackAbs() {
+        ArrayList<String> exerciseList = new ArrayList<>();
+        exerciseList.add("Dumbbell Curls");
+        exerciseList.add("Barbell Curls");
+        exerciseList.add("Hammer Curls");
+        exerciseList.add("Crossover Hammer Curls");
+        exerciseList.add("Preacher Curls");
+        exerciseList.add("Cable Curls");
+        exerciseList.add("Concentration Curls");
+        exerciseList.add("Standing Concentration Curls");
+        exerciseList.add("21 Curls");
+        exerciseList.add("Spider Curls");
+        exerciseList.add("Close Chins");
+        exerciseList.add("Chins");
+        exerciseList.add("Pull Ups");
+        exerciseList.add("Close Pull Ups");
+        exerciseList.add("Landmine Rows");
+        exerciseList.add("Inverted Rows");
+        exerciseList.add("Dumbbell Rows");
+        exerciseList.add("Barbell Rows");
+        exerciseList.add("Seated Cable Rows");
+        exerciseList.add("Chest-Supported Cable Rows");
+        exerciseList.add("Chest-Supported Dumbbell Rows");
+        exerciseList.add("Deadlift");
+        exerciseList.add("Lat Pulldowns");
+        exerciseList.add("Leg Raises");
+        exerciseList.add("Leg Raises Bent Legs");
+        exerciseList.add("Sit Ups");
+        exerciseList.add("Crunches");
+        exerciseList.add("Bicycle Crunches");
+        exerciseList.add("Circle Crunches");
+        exerciseList.add("Plank");
 
-        //Chest & Triceps
-        allExercises.add("Barbell Benchpress");
-        allExercises.add("Barbell Close Grip Benchpress");
-        allExercises.add("Barbell Incline Benchpress");
-        allExercises.add("Barbell Decline Benchpress");
-        allExercises.add("Dumbbell Benchpress");
-        allExercises.add("Dumbbell Incline Benchpress");
-        allExercises.add("Dumbbell Decline Benchpress");
-        allExercises.add("Cable Benchpress");
-        allExercises.add("Cable Incline Benchpress");
-        allExercises.add("Cable Decline Benchpress");
-        allExercises.add("Dumbbell Flies");
-        allExercises.add("Cable Flies");
-        allExercises.add("Dips");
-        allExercises.add("Tricep Extensions");
-        allExercises.add("Tricep Overhead Press");
-        allExercises.add("Push Ups");
-        allExercises.add("Decline Push Ups");
-        allExercises.add("Incline Push Ups");
-        allExercises.add("Diamond Push Ups");
-        allExercises.add("Decline Diamond Push Ups");
-        allExercises.add("Incline Diamond Push Ups");
+        return exerciseList;
+    }
 
-        //Legs, Shoulders & Traps
-        allExercises.add("Military Press");
-        allExercises.add("Arnold Press");
-        allExercises.add("Squats");
-        allExercises.add("Air Squats");
-        allExercises.add("Pistol Squats");
-        allExercises.add("Leg Extensions");
-        allExercises.add("Calf Raises");
-        allExercises.add("Box Jump");
-        allExercises.add("Kettlebell Swings");
-        allExercises.add("Face Pulls Lying Down");
-        allExercises.add("High Cable Rear Delt Fly");
-        allExercises.add("Front Raises");
-        allExercises.add("Overhead Trap Raises");
-        allExercises.add("Lateral Raises");
-        allExercises.add("Bent-Over Lateral Raises");
-        allExercises.add("Cable Lateral Raises");
-        allExercises.add("Bent-Over Cable Lateral Raises");
-        allExercises.add("Farmers Walk Straps");
-        allExercises.add("Barbell Shrugs");
-        allExercises.add("Dumbbell Shrugs");
-        allExercises.add("Rack Pulls");
+    public static ArrayList<String> getChestTriceps() {
+        ArrayList<String> exerciseList = new ArrayList<>();
+        exerciseList.add("Barbell Benchpress");
+        exerciseList.add("Barbell Close Grip Benchpress");
+        exerciseList.add("Barbell Incline Benchpress");
+        exerciseList.add("Barbell Decline Benchpress");
+        exerciseList.add("Dumbbell Benchpress");
+        exerciseList.add("Dumbbell Incline Benchpress");
+        exerciseList.add("Dumbbell Decline Benchpress");
+        exerciseList.add("Cable Benchpress");
+        exerciseList.add("Cable Incline Benchpress");
+        exerciseList.add("Cable Decline Benchpress");
+        exerciseList.add("Dumbbell Flies");
+        exerciseList.add("Cable Flies");
+        exerciseList.add("Push Ups");
+        exerciseList.add("Decline Push Ups");
+        exerciseList.add("Incline Push Ups");
+        exerciseList.add("Diamond Push Ups");
+        exerciseList.add("Decline Diamond Push Ups");
+        exerciseList.add("Incline Diamond Push Ups");
+        exerciseList.add("Chest Focused Dips");
+        exerciseList.add("Dips");
+        exerciseList.add("Tricep Extensions");
+        exerciseList.add("TRX Tricep Extensions");
+        exerciseList.add("Tricep Overhead Press");
 
-        //Neck & Forearms
-        allExercises.add("Front Neck Curl");
-        allExercises.add("Back Neck Curl");
-        allExercises.add("Right Neck Curl");
-        allExercises.add("Left Neck Curl");
-        allExercises.add("Reverse Grip Curls");
-        allExercises.add("Behind-The-Back Barbell Wrist Curls");
-        allExercises.add("Barbell Wrist Curls");
-        allExercises.add("Barbell Reverse Wrist Curls");
-        allExercises.add("Wrist Roller");
-        allExercises.add("Adjustable Hand Grip");
-        allExercises.add("Farmers Walk");
+        return exerciseList;
+    }
 
-        //Cardio/Full Body
-        allExercises.add("Burpees");
-        allExercises.add("Jumping Jacks");
+    public static ArrayList<String> getLegsShouldersTraps() {
+        ArrayList<String> exerciseList = new ArrayList<>();
+        exerciseList.add("Military Press");
+        exerciseList.add("Arnold Press");
+        exerciseList.add("Lateral Raises");
+        exerciseList.add("Cable Lateral Raises");
+        exerciseList.add("Bent-Over Lateral Raises");
+        exerciseList.add("Bent-Over Cable Lateral Raises");
+        exerciseList.add("Face Pulls Lying Down");
+        exerciseList.add("High Cable Rear Delt Fly");
+        exerciseList.add("Front Raises");
+        exerciseList.add("Overhead Trap Raises");
+        exerciseList.add("Farmers Walk Straps");
+        exerciseList.add("Barbell Shrugs");
+        exerciseList.add("Dumbbell Shrugs");
+        exerciseList.add("Rack Pulls");
+        exerciseList.add("Kettlebell Swings");
+        exerciseList.add("Squats");
+        exerciseList.add("Air Squats");
+        exerciseList.add("Pistol Squats");
+        exerciseList.add("Leg Extensions");
+        exerciseList.add("Calf Raises");
+        exerciseList.add("Box Jump");
 
-        return allExercises;
+        return exerciseList;
+    }
+
+    public static ArrayList<String> getNeckForearms() {
+        ArrayList<String> exerciseList = new ArrayList<>();
+        exerciseList.add("Front Neck Curl");
+        exerciseList.add("Back Neck Curl");
+        exerciseList.add("Right Neck Curl");
+        exerciseList.add("Left Neck Curl");
+        exerciseList.add("Reverse Grip Curls");
+        exerciseList.add("Behind-The-Back Barbell Wrist Curls");
+        exerciseList.add("Barbell Wrist Curls");
+        exerciseList.add("Barbell Reverse Wrist Curls");
+        exerciseList.add("Wrist Roller");
+        exerciseList.add("Adjustable Hand Grip");
+        exerciseList.add("Farmers Walk");
+
+        return exerciseList;
+    }
+
+    public static ArrayList<String> getCardioFullbody() {
+        ArrayList<String> exerciseList = new ArrayList();
+        exerciseList.add("Burpees");
+        exerciseList.add("Jumping Jacks");
+
+        return exerciseList;
     }
 
     public static ArrayList<Exercise> getExercises() {
