@@ -26,15 +26,6 @@ public class HomeFragment extends Fragment {
         //Get the view and inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Button testActivityBtn = view.findViewById(R.id.testActivityBtn);
-        testActivityBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), TestActivity.class);
-                startActivity(intent);
-            }
-        });
-
         Button settingsBtn = view.findViewById(R.id.settingsBtn);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override

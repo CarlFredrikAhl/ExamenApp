@@ -32,7 +32,7 @@ public class FitnessFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fitness, container, false);
 
-        expandableListView = view.findViewById(R.id.expandableListView);
+        expandableListView = view.findViewById(R.id.allExercisesExpandableListView);
 
         showList();
 

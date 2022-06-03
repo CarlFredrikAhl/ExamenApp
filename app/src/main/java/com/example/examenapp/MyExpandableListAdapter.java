@@ -105,8 +105,6 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         exerciseText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, exerciseName, Toast.LENGTH_SHORT).show();
-
                 //We are using ChooseExerciseFragment
                 if(!date.equals("")) {
                     //Add exercise
