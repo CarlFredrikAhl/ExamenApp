@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+//CLEANED
 public class ExerciseDataActivity extends AppCompatActivity {
 
     Toolbar toolbar;
@@ -114,10 +115,11 @@ public class ExerciseDataActivity extends AppCompatActivity {
                     int setsAmt = 1;
 
                     if(multipleSetsSwitch.isChecked()) {
-                        if(setsPicker.getText().toString() != "") {
+                        if(!setsPicker.getText().toString().equals("")) {
                             setsAmt = Integer.parseInt(setsPicker.getText().toString());
                         }
                     }
+
                     float weightAmt = Float.parseFloat(weightPicker.getText().toString());
                     int restTimeAmt = Integer.parseInt(restTimePicker.getText().toString());
 
@@ -130,11 +132,11 @@ public class ExerciseDataActivity extends AppCompatActivity {
 
                     //Add the set to the right exercise
                     for(int i = 0; i < Exercises.getExercises().size(); i++) {
-
                         if(Exercises.getExercises().get(i).id.equals(exerciseId)) {
                             for(MySet set : sets) {
                                 Exercises.getExercises().get(i).addSet(set);
                             }
+
                             addedSets = true;
                             break;
                         }

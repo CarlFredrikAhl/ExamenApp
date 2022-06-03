@@ -35,8 +35,8 @@ public final class Exercises {
         exerciseList.add("Standing Concentration Curls");
         exerciseList.add("21 Curls");
         exerciseList.add("Spider Curls");
-        exerciseList.add("Close Chins");
-        exerciseList.add("Chins");
+        exerciseList.add("Close Chin Ups");
+        exerciseList.add("Chins Ups");
         exerciseList.add("Pull Ups");
         exerciseList.add("Close Pull Ups");
         exerciseList.add("Landmine Rows");
@@ -140,9 +140,7 @@ public final class Exercises {
         return exerciseList;
     }
 
-    public static ArrayList<Exercise> getExercises() {
-        return exercises;
-    }
+    public static ArrayList<Exercise> getExercises() { return exercises; }
 
     public static Exercise getExercise(String exerciseId) {
         Exercise exercise = new Exercise("null", "null", new ArrayList<>());
@@ -163,10 +161,17 @@ public final class Exercises {
         bodyweightExercises.add("Pistol Squats");
         bodyweightExercises.add("Calf Raises");
         bodyweightExercises.add("Dips");
+        bodyweightExercises.add("Chest Focused Dips");
         bodyweightExercises.add("Pull Ups");
-        bodyweightExercises.add("Box Jump");
         bodyweightExercises.add("Chin Ups");
+        bodyweightExercises.add("Close Chin Ups");
+        bodyweightExercises.add("Box Jump");
         bodyweightExercises.add("Push Ups");
+        bodyweightExercises.add("Decline Push Ups");
+        bodyweightExercises.add("Incline Push Ups");
+        bodyweightExercises.add("Diamond Push Ups");
+        bodyweightExercises.add("Decline Diamond Push Ups");
+        bodyweightExercises.add("Incline Diamond Push Ups");
         bodyweightExercises.add("Burpees");
         bodyweightExercises.add("Sit Ups");
         bodyweightExercises.add("Plank");
