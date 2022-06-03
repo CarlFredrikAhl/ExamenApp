@@ -21,9 +21,9 @@
             android:textSize="24dp"></TextView>
     </androidx.appcompat.widget.Toolbar>
 
-    <ListView
+    <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:id="@+id/allExercisesList"/>
+        android:id="@+id/expandableListView"/>
 </RelativeLayout>
