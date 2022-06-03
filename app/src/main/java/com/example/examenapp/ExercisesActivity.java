@@ -4,15 +4,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,23 +19,23 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class ExercisesActivity extends AppCompatActivity {
 
-    public static ListView exercisesList;
 
     private static ArrayList<Exercise> exercises;
     private static ArrayList<String> exercisesArray;
 
     public static boolean addedExercise = false;
     public static boolean markedAsDone;
+
+    public static ListView exercisesList;
+    private static ArrayAdapter arrayAdapter;
 
     public static ImageView addButton;
     public static ImageView saveButton;
@@ -49,15 +46,11 @@ public class ExercisesActivity extends AppCompatActivity {
 
     RelativeLayout layout;
 
-    private static ArrayAdapter arrayAdapter;
-
     public static String date;
 
     private static Button markAsDoneBtn;
 
     ChooseExerciseFragment chooseExerciseFragment = new ChooseExerciseFragment();
-
-    private boolean firstTimeLaunching = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,48 +58,19 @@ public class ExercisesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercises);
 
         markedAsDone = false;
-        firstTimeLaunching = true;
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(chooseExerciseFragment.isVisible()) {
-                    closeChooseFragment();
-                }
+        toolbar.setOnClickListener(v -> {
+            if(chooseExerciseFragment.isVisible()) {
+                closeChooseFragment();
             }
         });
 
         toolbarText = findViewById(R.id.toolbarText);
         markAsDoneBtn = findViewById(R.id.markAsDoneBtn);
-        markAsDoneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //AlertDialog and able to mark as done exercises
-                AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
-                alert.setTitle("Mark Exercise As Done?");
-                alert.setMessage("You have completed all the exercise and they will be added to statistics");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //Mark as done
-                        Exercises.markAsDone(getApplicationContext(), date, exercises);
-                        markedAsDone = true;
-                        markedAsDone(getResources().getDrawable(R.drawable.ic_baseline_saved_24),
-                                getResources().getDrawable(R.drawable.ic_baseline_add_disabled_24));
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                alert.create().show();
-            }
-        });
+        markAsDoneBtn.setOnClickListener(v -> markAsDone());
 
         date = getIntent().getStringExtra("date");
 
@@ -121,43 +85,32 @@ public class ExercisesActivity extends AppCompatActivity {
         exercises = Exercises.getExercises();
 
         layout = findViewById(R.id.exercisesLayout);
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //If choose fragment is visable
-                if(chooseExerciseFragment.isVisible()) {
-                    closeChooseFragment();
-                }
+        layout.setOnClickListener(v -> {
+            if(chooseExerciseFragment.isVisible()) {
+                closeChooseFragment();
             }
         });
 
         saveButton = findViewById(R.id.saveExercisesBtn);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Exercises.saveData(getApplicationContext(), date);
-                saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
-            }
+        saveButton.setOnClickListener(v -> {
+            Exercises.saveData(getApplicationContext(), date);
+            saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
         });
 
         saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
 
         addButton = findViewById(R.id.addExerciseBtn);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //If choose fragment is visable
-                if(chooseExerciseFragment.isVisible()) {
-                    closeChooseFragment();
+        addButton.setOnClickListener(v -> {
+            //If choose fragment is visable
+            if(chooseExerciseFragment.isVisible()) {
+                closeChooseFragment();
 
-                } else {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.chooseContainer, chooseExerciseFragment).commit();
-                }
+            } else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.chooseContainer, chooseExerciseFragment).commit();
             }
         });
 
         exercisesList = findViewById(R.id.exercisesList);
-        //exercisesList.setBackgroundColor(Color.GRAY);
 
         //Change this later
         exercisesArray = getExercisesName();
@@ -246,15 +199,6 @@ public class ExercisesActivity extends AppCompatActivity {
         startActivity(backIntent);
     }
 
-    //Dont need right now, remove later?
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if(!firstTimeLaunching)
-            Toast.makeText(getApplicationContext(), "Resumed activity, needs to restart", Toast.LENGTH_SHORT).show();
-    }
-
     //Closes the choose fragment and reload the list data
     public void closeChooseFragment() {
         getSupportFragmentManager().beginTransaction().remove(chooseExerciseFragment).commit();
@@ -291,6 +235,30 @@ public class ExercisesActivity extends AppCompatActivity {
         }
 
         return names;
+    }
+
+    void markAsDone() {
+        //AlertDialog and able to mark as done exercises
+        AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
+        alert.setTitle("Mark Exercise As Done?");
+        alert.setMessage("You have completed all the exercise and they will be added to statistics");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Mark as done
+                Exercises.markAsDone(getApplicationContext(), date, exercises);
+                markedAsDone = true;
+                markedAsDone(getResources().getDrawable(R.drawable.ic_baseline_saved_24),
+                        getResources().getDrawable(R.drawable.ic_baseline_add_disabled_24));
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        alert.create().show();
     }
 
     public static void markedAsDone(Drawable saveBtnDisabled, Drawable addBtnDisabled) {

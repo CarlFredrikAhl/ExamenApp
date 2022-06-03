@@ -49,25 +49,19 @@ public class ExerciseDataActivity extends AppCompatActivity {
         setsPicker = findViewById(R.id.setsPicker);
 
         multipleSetsSwitch  = findViewById(R.id.multipleSetsSwitch);
-        multipleSetsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if(checked)
-                    setsPicker.setVisibility(View.VISIBLE);
-                else
-                    setsPicker.setVisibility(View.INVISIBLE);
-            }
+        multipleSetsSwitch.setOnCheckedChangeListener((button, checked) -> {
+            if(checked)
+                setsPicker.setVisibility(View.VISIBLE);
+            else
+                setsPicker.setVisibility(View.INVISIBLE);
         });
 
         failureSwitch = findViewById(R.id.failureSwitch);
-        failureSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if(checked)
-                    repsPicker.setVisibility(View.INVISIBLE);
-                else
-                    repsPicker.setVisibility(View.VISIBLE);
-            }
+        failureSwitch.setOnCheckedChangeListener((button, checked) -> {
+            if(checked)
+                repsPicker.setVisibility(View.INVISIBLE);
+            else
+                repsPicker.setVisibility(View.VISIBLE);
         });
 
         exerciseName = getIntent().getStringExtra("exercise_name");

@@ -2,19 +2,12 @@ package com.example.examenapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.preference.PreferenceManager;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
+//CLEANED
 //This is like a helper class
 public final class Exercises {
     private static ArrayList<Exercise> exercises = new ArrayList<>();
@@ -262,6 +255,7 @@ public final class Exercises {
         saveToStatistics(context, markedExercises);
     }
 
+    //Check if this day in the calendar is checked as done or not
     public static boolean markedAsDone(Context context, String date) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
         String json = sharedPreferences.getString(date + "_marked_exercises", null);
@@ -269,11 +263,9 @@ public final class Exercises {
         if(json != null) {
             if(json.contains(date)) {
                 return true;
-
             } else {
                 return false;
             }
-
         } else {
             return false;
         }
@@ -288,7 +280,6 @@ public final class Exercises {
         //Deserialize and get, then serialize and save
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
-
         ArrayList<Exercise> alreadyInList = gson.fromJson(json, type);
 
         //No exercises has been marked as done
@@ -306,7 +297,7 @@ public final class Exercises {
     }
 
     public static ArrayList<Exercise> getMarkedExercises(Context context, String name) {
-        ArrayList<Exercise> markedExercises = new ArrayList<>();
+        ArrayList<Exercise> markedExercises;
 
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
 
@@ -326,10 +317,7 @@ public final class Exercises {
                             markedExercises.remove(i);
                             i--;
                         }
-
-                    } catch (Exception e) {
-
-                    }
+                    } catch (Exception e) { }
                 }
             }
         }

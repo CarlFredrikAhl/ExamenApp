@@ -45,7 +45,7 @@ public class ChooseExerciseFragment extends Fragment {
         return view;
     }
 
-    public void showList() {
+    void showList() {
         muscleGroupsList = new ArrayList();
         exercisesList = new HashMap<>();
 
