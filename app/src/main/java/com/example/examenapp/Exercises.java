@@ -42,6 +42,7 @@ public final class Exercises {
         allExercises.add("Seated Cable Rows");
         allExercises.add("Chest-Supported Cable Rows");
         allExercises.add("Chest-Supported Dumbbell Rows");
+        allExercises.add("Deadlifts");
         allExercises.add("Lat Pulldowns");
         allExercises.add("Bicycle Crunches");
         allExercises.add("Circle Crunches");

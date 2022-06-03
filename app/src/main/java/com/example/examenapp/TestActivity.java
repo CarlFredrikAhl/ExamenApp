@@ -63,6 +63,7 @@ public class TestActivity extends AppCompatActivity {
         exercises1.add("Seated Cable Rows");
         exercises1.add("Chest-Supported Cable Rows");
         exercises1.add("Chest-Supported Dumbbell Rows");
+        exercises1.add("Deadlifts");
         exercises1.add("Lat Pulldowns");
         exercises1.add("Bicycle Crunches");
         exercises1.add("Circle Crunches");
