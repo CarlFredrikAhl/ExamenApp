@@ -24,7 +24,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        expandableListView = findViewById(R.id.expandableListView);
+        expandableListView = findViewById(R.id.testExpandableListView);
 
         showList();
 
