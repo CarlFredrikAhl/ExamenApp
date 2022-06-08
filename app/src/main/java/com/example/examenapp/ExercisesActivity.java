@@ -22,7 +22,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ExercisesActivity extends AppCompatActivity {
+    //The exercises
     private static ArrayList<Exercise> exercises;
+
+    //This is used to store the name of the exercises
     private static ArrayList<String> exercisesArray;
 
     public static boolean addedExercise = false;
@@ -95,7 +98,6 @@ public class ExercisesActivity extends AppCompatActivity {
 
         addButton = findViewById(R.id.addExerciseBtn);
         addButton.setOnClickListener(view -> {
-            //If choose fragment is visable
             if(chooseExerciseFragment.isVisible()) {
                 closeChooseFragment();
 
@@ -114,13 +116,12 @@ public class ExercisesActivity extends AppCompatActivity {
             //Get the clicked exercise
             Exercise clickedExercise = exercises.get(i);
 
-            //If choose fragment is visable
             if(chooseExerciseFragment.isVisible()) {
                 closeChooseFragment();
 
             } else {
                 if(clickedExercise.sets == null || clickedExercise.sets.size() == 0) {
-                    //Start exercise data activity and send the data
+                    //We haven't added sets to the exercise and we need to do it now
 
                     String exerciseName = adapterView.getItemAtPosition(i).toString();
 
@@ -149,7 +150,6 @@ public class ExercisesActivity extends AppCompatActivity {
             alert.setTitle("Delete Exercise");
             alert.setMessage("Are you sure you want to delete exercise?");
             alert.setPositiveButton("Yes", (dialogInterface, i1) -> {
-                //Delete exercises
                 Exercises.removeExercise(getApplicationContext(), exercises.get(exerciseId).id, date);
                 saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
 
@@ -218,8 +218,8 @@ public class ExercisesActivity extends AppCompatActivity {
     void markAsDone() {
         //AlertDialog and able to mark as done exercises
         AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
-        alert.setTitle("Mark Exercise As Done?");
-        alert.setMessage("You have completed all the exercise and they will be added to statistics");
+        alert.setTitle("Mark Exercises As Done?");
+        alert.setMessage("You have completed all the exercises and they will be added to statistics");
         alert.setPositiveButton("Yes", (dialogInterface, i) -> {
             //Mark as done
             Exercises.markAsDone(getApplicationContext(), date, exercises);
@@ -244,6 +244,7 @@ public class ExercisesActivity extends AppCompatActivity {
         saveButton.setImageDrawable(saveBtnDisabled);
     }
 
+    //We can only mark as done if all exercises have sets and the date is not in the future
     private static void checkMarkStatus() {
         boolean canMark = false;
         int counter = 0;
@@ -273,7 +274,6 @@ public class ExercisesActivity extends AppCompatActivity {
         }
 
         if(clickedDate.after(curDate)) {
-            //Cannot mark
             canMark = false;
         }
 

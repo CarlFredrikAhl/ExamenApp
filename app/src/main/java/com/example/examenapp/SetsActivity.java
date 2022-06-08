@@ -12,7 +12,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class SetsActivity extends AppCompatActivity {
-
     private static String exerciseId;
     private static String exerciseName;
     String date;
@@ -61,17 +60,13 @@ public class SetsActivity extends AppCompatActivity {
                 }
             });
 
-            setsList.setOnItemLongClickListener((adapterView, view, i, l) -> {
-                int setIndex = i;
-
-                //AlertDialog and able to remove exercise
+            setsList.setOnItemLongClickListener((adapterView, view, setIndex, l) -> {
+                //AlertDialog and able to remove set
                 AlertDialog.Builder alert = new AlertDialog.Builder(SetsActivity.this);
                 alert.setTitle("Delete Set");
                 alert.setMessage("Are you sure you want to delete set?");
                 alert.setPositiveButton("Yes", (dialogInterface, i1) -> {
-                    //Delete set
                     Exercises.removeSet(getApplicationContext(), setIndex, exerciseId, date);
-
                     saveBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
                 });
                 alert.setNegativeButton("No", (dialogInterface, i12) -> { });
@@ -85,7 +80,6 @@ public class SetsActivity extends AppCompatActivity {
         }
     }
 
-    //Set back button functionality
     @Override
     public void onBackPressed() {
         Intent intent = NavUtils.getParentActivityIntent(this);
@@ -93,6 +87,7 @@ public class SetsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Get the exercise which the sets belongs to
     private Exercise getExercise() {
         //Default values
         Exercise exercise = new Exercise("null", "null", new ArrayList<>());
@@ -155,6 +150,7 @@ public class SetsActivity extends AppCompatActivity {
         return setsData;
     }
 
+    //Go to Exercise Data Activity so we can add more sets from there
     private void addSet() {
         Intent intent = new Intent(SetsActivity.this, ExerciseDataActivity.class);
         intent.putExtra("exercise_id", exerciseId);

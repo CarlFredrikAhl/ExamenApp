@@ -1,12 +1,11 @@
 package com.example.examenapp;
 
 public class MySet {
-    //This changes to time (in seconds) for plank exercise
+    //This changes to time for plank exercise
     String reps;
 
     float weight;
 
-    //In seconds
     int restTime;
 
     public MySet(String reps, float weight, int restTime) {

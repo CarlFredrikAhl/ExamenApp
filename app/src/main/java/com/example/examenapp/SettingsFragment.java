@@ -21,6 +21,7 @@ public class SettingsFragment extends Fragment {
     //How we save the data (locally)
     static SharedPreferences sharedPreferences;
 
+    //The weight that has already been inputted (if any)
     float startWeight;
 
     @Override
@@ -41,6 +42,7 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
+    //Set the weight to the weight that has been inputted, otherwise set it to empty
     public void setWeight() {
         sharedPreferences = getActivity().getSharedPreferences("settings_data", Context.MODE_PRIVATE);
 
@@ -49,7 +51,6 @@ public class SettingsFragment extends Fragment {
 
         if(savedWeight != 0f) {
             weightPicker.setText(String.valueOf(savedWeight));
-
         } else {
             weightPicker.setText("");
         }
@@ -64,7 +65,7 @@ public class SettingsFragment extends Fragment {
                 //The weight has changes from previous input
                 if(weight != startWeight) {
                     //Save the weight
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings_data",
+                    sharedPreferences = getActivity().getSharedPreferences("settings_data",
                             Context.MODE_PRIVATE);
                     SharedPreferences.Editor saveEditor = sharedPreferences.edit();
                     saveEditor.putFloat("weight", weight);
@@ -96,6 +97,7 @@ public class SettingsFragment extends Fragment {
         alert.create().show();
     }
 
+    //For other classes to access the weight
     public static float getUserWeight(Context context) {
         sharedPreferences = context.getSharedPreferences("settings_data", Context.MODE_PRIVATE);
         float savedWeight = sharedPreferences.getFloat("weight", 0f);

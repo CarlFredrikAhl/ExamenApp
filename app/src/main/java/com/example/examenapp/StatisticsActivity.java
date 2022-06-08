@@ -25,7 +25,7 @@ public class StatisticsActivity extends AppCompatActivity {
     final String START_LINK = "https://github.com/CarlFredrikAhl/ExamenApp/blob/master/";
     final String END_LINK = "_compressed.glb?raw=true";
     String modelLink = "";
-    String fullLink = "";
+    String fullLink = ""; //START_LINK + modelLink + END_LINK
     String exerciseName;
 
     ArrayList<Exercise> statisticsExercises = new ArrayList<>();
@@ -35,7 +35,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
     boolean hasModel = true;
     boolean useBodyweight = false;
-    boolean clickedNotNow = false;
+    boolean clickedNotNow = false; //This is used to prevent Alertdialog to loop
 
     TextView toolbarText;
 
@@ -60,7 +60,7 @@ public class StatisticsActivity extends AppCompatActivity {
         useBodyweightCheck.setOnCheckedChangeListener((compoundButton, checked) -> {
             //If user has entered a weight
             if(SettingsFragment.getUserWeight(getApplicationContext()) > 0) {
-                //Reload the activity
+                //Reload the activity for the statistics-graph to be reloaded
                 Intent intent = new Intent(StatisticsActivity.this, StatisticsActivity.class);
                 intent.putExtra("exercise_name", exerciseName);
                 if(checked) {
@@ -139,6 +139,7 @@ public class StatisticsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //The models are named like this on my Git Repository
     private String chooseModel() {
         switch (exerciseName) {
             case "Air Squats":
@@ -287,7 +288,6 @@ public class StatisticsActivity extends AppCompatActivity {
 
         //Find which exercises comes from each week
         for(int i = 1; i < 53; i++) {
-
             ArrayList<Exercise> curWeekExercises = new ArrayList<>();
 
             for(Exercise exercise : statisticsExercises) {
@@ -336,7 +336,6 @@ public class StatisticsActivity extends AppCompatActivity {
 
         //Find which exercises comes from each week
         for(int i = 1; i < 53; i++) {
-
             ArrayList<Exercise> curWeekExercises = new ArrayList<>();
 
             for(Exercise exercise : statisticsExercises) {

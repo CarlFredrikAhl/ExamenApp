@@ -14,6 +14,7 @@ public final class Exercises {
 
     //How we save the data (locally)
     private static SharedPreferences sharedPreferences;
+    private static SharedPreferences.Editor saveEditor;
     private static Gson gson;
     private static Type type;
     private static String json;
@@ -206,7 +207,7 @@ public final class Exercises {
 
     public static void saveData(Context context, String date) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+        saveEditor = sharedPreferences.edit();
 
         //Serialize to json and save
         gson = new Gson();
@@ -232,7 +233,7 @@ public final class Exercises {
     //Mark the exercises as done
     public static void markAsDone(Context context, String date, ArrayList<Exercise> incomingExercises) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+        saveEditor = sharedPreferences.edit();
 
         //Load marked exercises
         gson = new Gson();
@@ -275,7 +276,7 @@ public final class Exercises {
 
     private static void saveToStatistics(Context context, ArrayList<Exercise> statisticsExercises) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+        saveEditor = sharedPreferences.edit();
 
         json = sharedPreferences.getString("all_marked_exercises", null);
 
@@ -334,7 +335,7 @@ public final class Exercises {
     //Removes all the data (Settings- and Exercise-data)
     public static void removeAllData(Context context) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor saveEditor = sharedPreferences.edit();
+        saveEditor = sharedPreferences.edit();
         saveEditor.clear().apply();
 
         sharedPreferences = context.getSharedPreferences("settings_data", Context.MODE_PRIVATE);

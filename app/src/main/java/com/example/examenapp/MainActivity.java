@@ -6,7 +6,6 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
     BottomNavigationView bottomNavigationView;
 
     HomeFragment homeFragment = new HomeFragment();
@@ -23,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
         backBtnCounter = 0;
 
+        //These booleans are used in the expandable list-adapter when and exercise is clicked
+        //This lets this activity know if it should be redirected to one of these fragments
         boolean goToFitness = getIntent().getBooleanExtra("go_to_fitness", false);
         boolean goToSettings = getIntent().getBooleanExtra("go_to_settings", false);
 
@@ -55,17 +56,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(homeFragment.isVisible()) {
-
             backBtnCounter++;
 
             if(backBtnCounter == 2) {
                 //Exit app
                 super.onBackPressed();
-
             } else {
                 Toast.makeText(getApplicationContext(), "Press again to exit app",Toast.LENGTH_SHORT).show();
             }
-
         } else if(fitnessFragment.isVisible()) {
             //Go back to home fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
