@@ -1,26 +1,17 @@
 package com.example.examenapp;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//CLEANED
 public class FitnessFragment extends Fragment {
-
     ExpandableListView expandableListView;
-
     MyExpandableListAdapter myExpandableListAdapter;
 
     ArrayList<String> muscleGroupsList;
@@ -36,6 +27,7 @@ public class FitnessFragment extends Fragment {
 
         showList();
 
+        //Setting up the adapter and setting some layout-properties for the list
         myExpandableListAdapter = new MyExpandableListAdapter(getActivity(), muscleGroupsList, exercisesList);
         expandableListView.setAdapter(myExpandableListAdapter);
         expandableListView.setChildDivider(getResources().getDrawable(R.color.gray));

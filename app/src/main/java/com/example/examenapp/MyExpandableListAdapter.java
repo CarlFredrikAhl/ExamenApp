@@ -7,14 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//CLEANED
+//This is a custom class to use expandable list and implement my own functionality
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
+    //The groups
     ArrayList<String> muscleGroupList;
+
+    //The items in the groups
     HashMap<String, ArrayList<String>> exerciseList;
 
     Context context;
@@ -74,14 +76,15 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
+    public View getGroupView(int groupPos, boolean b, View view, ViewGroup viewGroup) {
         if(view == null) {
+            //Inflate the view
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.muscle_group_list, null);
         }
 
-        String muscleGroupTitle = getGroup(i).toString();
+        String muscleGroupTitle = getGroup(groupPos).toString();
 
         TextView muscleGroupText = view.findViewById(R.id.muscleGroupText);
         muscleGroupText.setText(muscleGroupTitle);
@@ -90,33 +93,30 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
+    public View getChildView(int groupPos, int childPos, boolean b, View view, ViewGroup viewGroup) {
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.exercise_list, null);
         }
 
-        String exerciseName = getChild(i, i1);
+        String exerciseName = getChild(groupPos, childPos);
 
         TextView exerciseText = view.findViewById(R.id.exerciseListText);
         exerciseText.setText(exerciseName);
 
-        exerciseText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //We are using ChooseExerciseFragment
-                if(!date.equals("")) {
-                    //Add exercise
-                    Exercises.addExercise(exerciseName, date);
+        exerciseText.setOnClickListener(view2 -> {
+            //We are using ChooseExerciseFragment and we have a date
+            if(!date.equals("")) {
+                //Add exercise
+                Exercises.addExercise(exerciseName, date);
 
-                    ExercisesActivity.addedExercise = true;
-                    ExercisesActivity.updateListview();
-                } else {
-                    Intent exerciseIntent = new Intent(context, StatisticsActivity.class);
-                    exerciseIntent.putExtra("exercise_name", exerciseName);
-                    context.startActivity(exerciseIntent);
-                }
+                ExercisesActivity.addedExercise = true;
+                ExercisesActivity.updateListview();
+            } else {
+                Intent intent = new Intent(context, StatisticsActivity.class);
+                intent.putExtra("exercise_name", exerciseName);
+                context.startActivity(intent);
             }
         });
 

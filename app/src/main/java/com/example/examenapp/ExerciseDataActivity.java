@@ -76,7 +76,7 @@ public class ExerciseDataActivity extends AppCompatActivity {
         restTimePicker = findViewById(R.id.restTimePicker);
 
         doneBtn = findViewById(R.id.doneBtn);
-        doneBtn.setOnClickListener(v -> done());
+        doneBtn.setOnClickListener(view -> done());
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,9 +88,9 @@ public class ExerciseDataActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent backIntent = NavUtils.getParentActivityIntent(this);
-        backIntent.putExtra("date", date);
-        startActivity(backIntent);
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        intent.putExtra("date", date);
+        startActivity(intent);
     }
 
     public void done() {
@@ -142,7 +142,6 @@ public class ExerciseDataActivity extends AppCompatActivity {
                     intent.putExtra("exercise_id", exerciseId);
                     intent.putExtra("date", date);
                     intent.putExtra("addedSets", addedSets);
-
                     startActivity(intent);
 
                 } else {

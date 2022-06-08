@@ -4,14 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,9 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+//CLEANED
 public class ExercisesActivity extends AppCompatActivity {
-
-
     private static ArrayList<Exercise> exercises;
     private static ArrayList<String> exercisesArray;
 
@@ -62,7 +57,7 @@ public class ExercisesActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setOnClickListener(v -> {
+        toolbar.setOnClickListener(view -> {
             if(chooseExerciseFragment.isVisible()) {
                 closeChooseFragment();
             }
@@ -70,7 +65,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
         toolbarText = findViewById(R.id.toolbarText);
         markAsDoneBtn = findViewById(R.id.markAsDoneBtn);
-        markAsDoneBtn.setOnClickListener(v -> markAsDone());
+        markAsDoneBtn.setOnClickListener(view -> markAsDone());
 
         date = getIntent().getStringExtra("date");
 
@@ -85,14 +80,14 @@ public class ExercisesActivity extends AppCompatActivity {
         exercises = Exercises.getExercises();
 
         layout = findViewById(R.id.exercisesLayout);
-        layout.setOnClickListener(v -> {
+        layout.setOnClickListener(view -> {
             if(chooseExerciseFragment.isVisible()) {
                 closeChooseFragment();
             }
         });
 
         saveButton = findViewById(R.id.saveExercisesBtn);
-        saveButton.setOnClickListener(v -> {
+        saveButton.setOnClickListener(view -> {
             Exercises.saveData(getApplicationContext(), date);
             saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
         });
@@ -100,7 +95,7 @@ public class ExercisesActivity extends AppCompatActivity {
         saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
 
         addButton = findViewById(R.id.addExerciseBtn);
-        addButton.setOnClickListener(v -> {
+        addButton.setOnClickListener(view -> {
             //If choose fragment is visable
             if(chooseExerciseFragment.isVisible()) {
                 closeChooseFragment();
@@ -112,76 +107,60 @@ public class ExercisesActivity extends AppCompatActivity {
 
         exercisesList = findViewById(R.id.exercisesList);
 
-        //Change this later
         exercisesArray = getExercisesName();
 
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exercisesArray);
         exercisesList.setAdapter(arrayAdapter);
-        exercisesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Get the clicked exercise
-                Exercise clickedExercise = exercises.get(i);
+        exercisesList.setOnItemClickListener((adapterView, view, i, l) -> {
+            //Get the clicked exercise
+            Exercise clickedExercise = exercises.get(i);
 
-                //If choose fragment is visable
-                if(chooseExerciseFragment.isVisible()) {
-                    closeChooseFragment();
+            //If choose fragment is visable
+            if(chooseExerciseFragment.isVisible()) {
+                closeChooseFragment();
+
+            } else {
+                if(clickedExercise.sets == null || clickedExercise.sets.size() == 0) {
+                    //Start exercise data activity and send the data
+
+                    String exerciseName = adapterView.getItemAtPosition(i).toString();
+
+                    Intent intent = new Intent(ExercisesActivity.this, ExerciseDataActivity.class);
+                    intent.putExtra("exercise_name", exerciseName);
+                    intent.putExtra("exercise_id", clickedExercise.id);
+                    intent.putExtra("date", date);
+                    startActivity(intent);
 
                 } else {
-                    if(clickedExercise.sets == null || clickedExercise.sets.size() == 0) {
-                        //Start exercise data activity and send the data
-
-                        //Save data
-                        //Data(getApplicationContext(), date);
-
-                        String exerciseName = adapterView.getItemAtPosition(i).toString();
-
-                        Intent exerciseIntent = new Intent(ExercisesActivity.this, ExerciseDataActivity.class);
-                        exerciseIntent.putExtra("exercise_name", exerciseName);
-                        exerciseIntent.putExtra("exercise_id", clickedExercise.id);
-                        exerciseIntent.putExtra("date", date);
-                        startActivity(exerciseIntent);
-
-                    } else {
-                        //Start set activity
-                        Intent intent = new Intent(ExercisesActivity.this, SetsActivity.class);
-                        intent.putExtra("exercise_id", clickedExercise.id);
-                        intent.putExtra("date", date);
-                        intent.putExtra("markedAsDone", markedAsDone);
-                        startActivity(intent);
-                    }
+                    //Start set activity
+                    Intent intent = new Intent(ExercisesActivity.this, SetsActivity.class);
+                    intent.putExtra("exercise_id", clickedExercise.id);
+                    intent.putExtra("date", date);
+                    intent.putExtra("markedAsDone", markedAsDone);
+                    startActivity(intent);
                 }
             }
         });
-        exercisesList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int exerciseId = i;
 
-                //AlertDialog and able to remove exercise
-                AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
-                alert.setTitle("Delete Exercise");
-                alert.setMessage("Are you sure you want to delete exercise?");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //Delete exercises
-                        Exercises.removeExercise(getApplicationContext(), exercises.get(exerciseId).id, date);
-                        saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
+        exercisesList.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            int exerciseId = i;
 
-                        //Need to restart this activity
-                       restartActivity();
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+            //AlertDialog and able to remove exercise
+            AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
+            alert.setTitle("Delete Exercise");
+            alert.setMessage("Are you sure you want to delete exercise?");
+            alert.setPositiveButton("Yes", (dialogInterface, i1) -> {
+                //Delete exercises
+                Exercises.removeExercise(getApplicationContext(), exercises.get(exerciseId).id, date);
+                saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_saved_24));
 
-                    }
-                });
-                alert.create().show();
-                return true;
-            }
+                //Need to restart this activity
+               restartActivity();
+            });
+            alert.setNegativeButton("No", (dialogInterface, i12) -> { });
+            alert.create().show();
+
+            return true;
         });
 
         if(Exercises.markedAsDone(getApplicationContext(), date)) {
@@ -190,13 +169,13 @@ public class ExercisesActivity extends AppCompatActivity {
             markedAsDone = true;
         }
 
-        checkMarkStatus(getApplicationContext());
+        checkMarkStatus();
     }
 
     @Override
     public void onBackPressed() {
-        Intent backIntent = NavUtils.getParentActivityIntent(this);
-        startActivity(backIntent);
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        startActivity(intent);
     }
 
     //Closes the choose fragment and reload the list data
@@ -207,13 +186,13 @@ public class ExercisesActivity extends AppCompatActivity {
             saveButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_24));
         }
 
-        checkMarkStatus(getApplicationContext());
+        checkMarkStatus();
     }
 
     public void restartActivity() {
-        Intent restartIntent = new Intent(ExercisesActivity.this, ExercisesActivity.class);
-        restartIntent.putExtra("date", date);
-        startActivity(restartIntent);
+        Intent intent = new Intent(ExercisesActivity.this, ExercisesActivity.class);
+        intent.putExtra("date", date);
+        startActivity(intent);
     }
 
     public static void updateListview() {
@@ -227,7 +206,7 @@ public class ExercisesActivity extends AppCompatActivity {
     private static ArrayList<String> getExercisesName() {
         ArrayList<String> names = new ArrayList<>();
 
-        if(exercises!=null) {
+        if(exercises != null) {
             for(Exercise exercise : exercises) {
                 String name = exercise.name;
                 names.add(name);
@@ -242,22 +221,14 @@ public class ExercisesActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
         alert.setTitle("Mark Exercise As Done?");
         alert.setMessage("You have completed all the exercise and they will be added to statistics");
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //Mark as done
-                Exercises.markAsDone(getApplicationContext(), date, exercises);
-                markedAsDone = true;
-                markedAsDone(getResources().getDrawable(R.drawable.ic_baseline_saved_24),
-                        getResources().getDrawable(R.drawable.ic_baseline_add_disabled_24));
-            }
+        alert.setPositiveButton("Yes", (dialogInterface, i) -> {
+            //Mark as done
+            Exercises.markAsDone(getApplicationContext(), date, exercises);
+            markedAsDone = true;
+            markedAsDone(getResources().getDrawable(R.drawable.ic_baseline_saved_24),
+                    getResources().getDrawable(R.drawable.ic_baseline_add_disabled_24));
         });
-        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
+        alert.setNegativeButton("No", (dialogInterface, i) -> { });
         alert.create().show();
     }
 
@@ -274,7 +245,7 @@ public class ExercisesActivity extends AppCompatActivity {
         saveButton.setImageDrawable(saveBtnDisabled);
     }
 
-    private static void checkMarkStatus(Context context) {
+    private static void checkMarkStatus() {
         boolean canMark = false;
         int counter = 0;
 
@@ -301,9 +272,6 @@ public class ExercisesActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-//        Toast.makeText(context, "Clicked date is after current date: " + String.valueOf(clickedDate.after(curDate)),
-//                Toast.LENGTH_LONG).show();
 
         if(clickedDate.after(curDate)) {
             //Cannot mark

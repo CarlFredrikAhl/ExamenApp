@@ -1,27 +1,18 @@
 package com.example.examenapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.CalendarView;
 import android.widget.Toast;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
+//CLEANED
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
     HomeFragment homeFragment = new HomeFragment();
     FitnessFragment fitnessFragment = new FitnessFragment();
+
     int backBtnCounter;
 
     @Override
@@ -36,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
         boolean goToFitness = getIntent().getBooleanExtra("go_to_fitness", false);
         boolean goToSettings = getIntent().getBooleanExtra("go_to_settings", false);
 
-        //Exercises.removeAllData(getApplicationContext());
-
         bottomNavigationView = findViewById(R.id.bottonNav);
 
         //Sets the container to home fragment which should be default
@@ -50,22 +39,17 @@ public class MainActivity extends AppCompatActivity {
             goToSettingsFragment();
         }
 
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
-                        setTitle("Kalender");
-                        return true;
-                    case R.id.workout:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
-                        setTitle("Alla Övningar");
-                        return true;
-                }
-
-                return false;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.home:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+                    return true;
+                case R.id.workout:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
+                    return true;
             }
+
+            return false;
         });
     }
 
@@ -100,14 +84,12 @@ public class MainActivity extends AppCompatActivity {
     public void goToFitnessFragment() {
         FitnessFragment fitnessFragment = new FitnessFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fitnessFragment).commit();
-
         bottomNavigationView.setSelectedItemId(R.id.workout);
     }
 
     public void goToSettingsFragment() {
         SettingsFragment settingsFragment = new SettingsFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, settingsFragment).commit();
-
         bottomNavigationView.setSelectedItemId(R.id.home);
     }
 }

@@ -2,42 +2,41 @@ package com.example.examenapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
+//CLEANED
 public class StatisticsActivity extends AppCompatActivity {
-
+    final String START_LINK = "https://github.com/CarlFredrikAhl/ExamenApp/blob/master/";
+    final String END_LINK = "_compressed.glb?raw=true";
+    String modelLink = "";
+    String fullLink = "";
     String exerciseName;
+
+    ArrayList<Exercise> statisticsExercises = new ArrayList<>();
+    ArrayList<BarEntry> barEntryArrayList1;
+    ArrayList<BarEntry> barEntryArrayList2;
+    ArrayList<String> labelNames;
+
+    boolean hasModel = true;
+    boolean useBodyweight = false;
+    boolean clickedNotNow = false;
 
     TextView toolbarText;
 
@@ -46,20 +45,6 @@ public class StatisticsActivity extends AppCompatActivity {
     CheckBox useBodyweightCheck;
 
     BarChart barChart;
-
-    ArrayList<Exercise> statisticsExercises = new ArrayList<>();
-    ArrayList<BarEntry> barEntryArrayList1;
-    ArrayList<BarEntry> barEntryArrayList2;
-    ArrayList<String> labelNames;
-
-    final String START_LINK = "https://github.com/CarlFredrikAhl/ExamenApp/blob/master/";
-    final String END_LINK = "_compressed.glb?raw=true";
-    String modelLink = "";
-    String fullLink = "";
-
-    Boolean hasModel = true;
-    Boolean useBodyweight = false;
-    Boolean clickedNotNow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,64 +58,52 @@ public class StatisticsActivity extends AppCompatActivity {
 
         useBodyweightCheck = findViewById(R.id.useBodyWeightCheck);
         useBodyweightCheck.setChecked(useBodyweight);
-        useBodyweightCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                //If user has entered a weight
-                if(SettingsFragment.getUserWeight(getApplicationContext()) > 0) {
-                    //Reload the activity
-                    Intent intent = new Intent(StatisticsActivity.this, StatisticsActivity.class);
-                    intent.putExtra("exercise_name", exerciseName);
-                    if(b) {
-                        intent.putExtra("use_bodyweight", true);
-                    } else {
-                        intent.putExtra("use_bodyweight", false);
-                    }
-                    startActivity(intent);
-
+        useBodyweightCheck.setOnCheckedChangeListener((compoundButton, checked) -> {
+            //If user has entered a weight
+            if(SettingsFragment.getUserWeight(getApplicationContext()) > 0) {
+                //Reload the activity
+                Intent intent = new Intent(StatisticsActivity.this, StatisticsActivity.class);
+                intent.putExtra("exercise_name", exerciseName);
+                if(checked) {
+                    intent.putExtra("use_bodyweight", true);
                 } else {
-                    if(!clickedNotNow) {
-                        //AlertDialog and able to mark as done exercises
-                        AlertDialog.Builder alert = new AlertDialog.Builder(StatisticsActivity.this);
-                        alert.setTitle("You have not entered your weight");
-                        alert.setMessage("In order to see this data you need to enter a weight in the settings");
-                        alert.setPositiveButton("Go to settings", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(StatisticsActivity.this, MainActivity.class);
-                                intent.putExtra("go_to_settings", true);
-                                startActivity(intent);
-                            }
-                        });
-                        alert.setNegativeButton("Not now", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                clickedNotNow = true;
-                                useBodyweightCheck.setChecked(false);
-                                clickedNotNow = false;
-                            }
-                        });
-                        alert.create().show();
-                    }
+                    intent.putExtra("use_bodyweight", false);
+                }
+                startActivity(intent);
+
+            } else {
+                if(!clickedNotNow) {
+                    //AlertDialog and able to mark as done exercises
+                    AlertDialog.Builder alert = new AlertDialog.Builder(StatisticsActivity.this);
+                    alert.setTitle("You have not entered your weight");
+                    alert.setMessage("In order to see this data you need to enter a weight in the settings");
+                    alert.setPositiveButton("Go to settings", (dialogInterface, i) -> {
+                        Intent intent = new Intent(StatisticsActivity.this, MainActivity.class);
+                        intent.putExtra("go_to_settings", true);
+                        startActivity(intent);
+                    });
+                    alert.setNegativeButton("Not now", (dialogInterface, i) -> {
+                        clickedNotNow = true;
+                        useBodyweightCheck.setChecked(false);
+                        clickedNotNow = false;
+                    });
+                    alert.create().show();
                 }
             }
         });
 
         barChart = findViewById(R.id.barChart);
         howToBtn = findViewById(R.id.howToBtn);
-        howToBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Launch intent to googles AR Core model viewer
-                Intent sceneViewerIntent = new Intent(Intent.ACTION_VIEW);
-                Uri intentUri =
-                        Uri.parse("https://arvr.google.com/scene-viewer/1.0").buildUpon()
-                                .appendQueryParameter("file", fullLink)
-                                .build();
-                sceneViewerIntent.setData(intentUri);
-                sceneViewerIntent.setPackage("com.google.ar.core");
-                startActivity(sceneViewerIntent);
-            }
+        howToBtn.setOnClickListener(view -> {
+            //Launch intent to googles AR Core model viewer
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri intentUri =
+                    Uri.parse("https://arvr.google.com/scene-viewer/1.0").buildUpon()
+                            .appendQueryParameter("file", fullLink)
+                            .build();
+            intent.setData(intentUri);
+            intent.setPackage("com.google.ar.core");
+            startActivity(intent);
         });
 
         if(!hasModel) {
@@ -164,7 +137,6 @@ public class StatisticsActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(StatisticsActivity.this, MainActivity.class);
         intent.putExtra("go_to_fitness", true);
-
         startActivity(intent);
     }
 
@@ -261,7 +233,7 @@ public class StatisticsActivity extends AppCompatActivity {
         xAxis.setCenterAxisLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        //Makes the labels be in the right place
+        //Puts the labels be in the right place
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
@@ -271,6 +243,8 @@ public class StatisticsActivity extends AppCompatActivity {
         barData.setBarWidth(0.4f);
         barData.setValueTextSize(10f);
         barData.setValueTextColor(Color.GRAY);
+
+        //This makes sure that the value 0 wont be written out
         barData.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -299,7 +273,6 @@ public class StatisticsActivity extends AppCompatActivity {
         desc.setText("Current week: " + curWeek);
 
         barChart.setDescription(desc);
-        //barChart.getDescription().setEnabled(false);
         barChart.setScaleEnabled(false);
         barChart.groupBars(0f, groupSpace, barSpace);
         barChart.setDragEnabled(true);
@@ -309,40 +282,7 @@ public class StatisticsActivity extends AppCompatActivity {
         barChart.invalidate();
     }
 
-    private ArrayList<BarEntry> fillTestData1() {
-        ArrayList<Float> testNumbers = new ArrayList<>();
-        testNumbers.add(10f);
-        testNumbers.add(20f);
-        testNumbers.add(30f);
-        testNumbers.add(40f);
-        testNumbers.add(50f);
-
-        ArrayList<BarEntry> testDataArray = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++)  {
-            testDataArray.add(new BarEntry(i, testNumbers.get(i)));
-        }
-
-        return testDataArray;
-    }
-
-    private ArrayList<BarEntry> fillTestData2() {
-        ArrayList<Float> testNumbers = new ArrayList<>();
-        testNumbers.add(6f);
-        testNumbers.add(40f);
-        testNumbers.add(10f);
-        testNumbers.add(4f);
-        testNumbers.add(100f);
-
-        ArrayList<BarEntry> testDataArray = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++)  {
-            testDataArray.add(new BarEntry(i, testNumbers.get(i)));
-        }
-
-        return testDataArray;
-    }
-
+    //This calculates the max weight of the specific exercise for each week
     private ArrayList<BarEntry> bestMaxWeightWeek() {
         ArrayList<BarEntry> weeklyMaxWeight = new ArrayList<>();
 
@@ -368,7 +308,6 @@ public class StatisticsActivity extends AppCompatActivity {
                     }
 
                     weeklyMaxWeight.add(new BarEntry(i, maxWeight));
-
                 } else {
                     float maxWeight = curWeekExercises.get(0).getMaxWeight(getApplicationContext(), true);
 
@@ -380,7 +319,6 @@ public class StatisticsActivity extends AppCompatActivity {
 
                     weeklyMaxWeight.add(new BarEntry(i, maxWeight));
                 }
-
             } else {
                 weeklyMaxWeight.add(new BarEntry(i, 0f));
             }
@@ -393,6 +331,7 @@ public class StatisticsActivity extends AppCompatActivity {
         return weeklyMaxWeight;
     }
 
+    //This calculates the best total weight of the specific exercise for each week
     private ArrayList<BarEntry> bestTotalWeightWeek() {
         ArrayList<BarEntry> weeklyBestTotalWeight = new ArrayList<>();
 
@@ -420,7 +359,6 @@ public class StatisticsActivity extends AppCompatActivity {
                     }
 
                     weeklyBestTotalWeight.add(new BarEntry(i, totalWeight));
-
                 } else {
                     float totalWeight = curWeekExercises.get(0).getTotalWeight(getApplicationContext(), true);
 
@@ -446,6 +384,7 @@ public class StatisticsActivity extends AppCompatActivity {
         return weeklyBestTotalWeight;
     }
 
+    //This calculates the max weight of the specific exercise
     private float bestMaxWeight() {
         if(statisticsExercises != null) {
             if(statisticsExercises.size() > 0) {
@@ -461,13 +400,11 @@ public class StatisticsActivity extends AppCompatActivity {
                                         false);
                             }
                         }
-
                     } else if(statisticsExercises.size() == 1) {
                         bestMaxWeight = statisticsExercises.get(0).getMaxWeight(getApplicationContext(), false);
                     }
 
                     return bestMaxWeight;
-
                 } else {
                     float bestMaxWeight = statisticsExercises.get(0).getMaxWeight(getApplicationContext(),
                             true);
@@ -480,23 +417,21 @@ public class StatisticsActivity extends AppCompatActivity {
                                         true);
                             }
                         }
-
                     } else if(statisticsExercises.size() == 1) {
                         bestMaxWeight = statisticsExercises.get(0).getMaxWeight(getApplicationContext(), true);
                     }
 
                     return bestMaxWeight;
                 }
-
             } else {
                 return 0f;
             }
-
         } else {
             return 0f;
         }
     }
 
+    //This calculates the best total weight of the specific exercise
     private float bestTotalWeight() {
         if(statisticsExercises != null) {
             if(statisticsExercises.size() > 0) {
@@ -512,14 +447,12 @@ public class StatisticsActivity extends AppCompatActivity {
                                         false);
                             }
                         }
-
                     } else if(statisticsExercises.size() == 1){
                         bestTotalWeight = statisticsExercises.get(0).getTotalWeight(getApplicationContext(),
                                 false);
                     }
 
                     return bestTotalWeight;
-
                 } else {
                     float bestTotalWeight = statisticsExercises.get(0).getTotalWeight(getApplicationContext(),
                             true);
@@ -532,7 +465,6 @@ public class StatisticsActivity extends AppCompatActivity {
                                         true);
                             }
                         }
-
                     } else if(statisticsExercises.size() == 1){
                         bestTotalWeight = statisticsExercises.get(0).getTotalWeight(getApplicationContext(),
                                 true);
