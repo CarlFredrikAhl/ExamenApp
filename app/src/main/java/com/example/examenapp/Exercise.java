@@ -8,7 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-//CLEANED
 public class Exercise {
     String name;
     String date;

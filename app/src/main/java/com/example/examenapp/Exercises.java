@@ -7,14 +7,17 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-//CLEANED
-//This is like a helper class
+//Many classes calls this class to process
 public final class Exercises {
     private static ArrayList<Exercise> exercises = new ArrayList<>();
     private static ArrayList<Exercise> markedExercises = new ArrayList<>();
 
     //How we save the data (locally)
     private static SharedPreferences sharedPreferences;
+    private static Gson gson;
+    private static Type type;
+    private static String json;
+
 
     public static ArrayList<String> getBicepBackAbs() {
         ArrayList<String> exerciseList = new ArrayList<>();
@@ -146,7 +149,7 @@ public final class Exercises {
         return exercise;
     }
 
-    //Returns the names of all the exercises where users weight matters most
+    //Returns the names of all the exercises where users weight matters the most
     public static ArrayList<String> getBodyweightExercises() {
         ArrayList<String> bodyweightExercises = new ArrayList<>();
         bodyweightExercises.add("Squats");
@@ -178,7 +181,6 @@ public final class Exercises {
     }
 
     public static void removeExercise(Context context, String exerciseId, String date) {
-        //Loop through exercises and remove the right one
         for(int i = 0; i < exercises.size(); i++) {
             if(exercises.get(i).id.equals(exerciseId)) {
                 exercises.remove(i);
@@ -207,8 +209,8 @@ public final class Exercises {
         SharedPreferences.Editor saveEditor = sharedPreferences.edit();
 
         //Serialize to json and save
-        Gson gson = new Gson();
-        String json = gson.toJson(exercises);
+        gson = new Gson();
+        json = gson.toJson(exercises);
         saveEditor.putString(date + "_exercises", json);
         saveEditor.apply();
     }
@@ -217,9 +219,9 @@ public final class Exercises {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
 
         //Deserialize to json and load
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(date + "_exercises", null);
-        Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
+        gson = new Gson();
+        json = sharedPreferences.getString(date + "_exercises", null);
+        type = new TypeToken<ArrayList<Exercise>>(){}.getType();
         exercises = gson.fromJson(json, type);
 
         if(exercises == null) {
@@ -227,14 +229,15 @@ public final class Exercises {
         }
     }
 
+    //Mark the exercises as done
     public static void markAsDone(Context context, String date, ArrayList<Exercise> incomingExercises) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor saveEditor = sharedPreferences.edit();
 
         //Load marked exercises
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(date + "_marked_exercises", null);
-        Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
+        gson = new Gson();
+        json = sharedPreferences.getString(date + "_marked_exercises", null);
+        type = new TypeToken<ArrayList<Exercise>>(){}.getType();
         markedExercises = gson.fromJson(json, type);
 
         if(markedExercises == null) {
@@ -247,7 +250,6 @@ public final class Exercises {
         }
 
         //Serialize to json and save
-        gson = new Gson();
         json = gson.toJson(markedExercises);
         saveEditor.putString(date + "_marked_exercises", json);
         saveEditor.apply();
@@ -255,10 +257,10 @@ public final class Exercises {
         saveToStatistics(context, markedExercises);
     }
 
-    //Check if this day in the calendar is checked as done or not
+    //Check if this day in the calendar is marked as done or not
     public static boolean markedAsDone(Context context, String date) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
-        String json = sharedPreferences.getString(date + "_marked_exercises", null);
+        json = sharedPreferences.getString(date + "_marked_exercises", null);
 
         if(json != null) {
             if(json.contains(date)) {
@@ -275,11 +277,11 @@ public final class Exercises {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor saveEditor = sharedPreferences.edit();
 
-        String json = sharedPreferences.getString("all_marked_exercises", null);
+        json = sharedPreferences.getString("all_marked_exercises", null);
 
-        //Deserialize and get, then serialize and save
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
+        //Deserialize and get
+        gson = new Gson();
+        type = new TypeToken<ArrayList<Exercise>>(){}.getType();
         ArrayList<Exercise> alreadyInList = gson.fromJson(json, type);
 
         //No exercises has been marked as done
@@ -291,28 +293,32 @@ public final class Exercises {
             alreadyInList.add(exercise);
         }
 
+        //Serialize and save
         json = gson.toJson(alreadyInList);
         saveEditor.putString("all_marked_exercises", json);
         saveEditor.apply();
     }
 
+    //Returns the current marked exercises of the specific exercises
     public static ArrayList<Exercise> getMarkedExercises(Context context, String name) {
         ArrayList<Exercise> markedExercises;
 
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
 
-        String json = sharedPreferences.getString("all_marked_exercises", null);
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Exercise>>(){}.getType();
+        //Deserialize and get
+        gson = new Gson();
+        json = sharedPreferences.getString("all_marked_exercises", null);
+        type = new TypeToken<ArrayList<Exercise>>(){}.getType();
         markedExercises = gson.fromJson(json, type);
 
         if(markedExercises != null) {
-            //Need to do this because it decreases otherwise
+            //Need to do have this variable because it decreases otherwise
             int size = markedExercises.size();
 
             for(int i = 0; i < size; i++) {
                 if(markedExercises.size() > 0) {
                     try {
+                        //Only get the specific exercises
                         if(!markedExercises.get(i).name.contains(name)) {
                             markedExercises.remove(i);
                             i--;
@@ -325,6 +331,7 @@ public final class Exercises {
         return markedExercises;
     }
 
+    //Removes all the data (Settings- and Exercise-data)
     public static void removeAllData(Context context) {
         sharedPreferences = context.getSharedPreferences("exercise_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor saveEditor = sharedPreferences.edit();

@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
-//CLEANED
 public class ExerciseDataActivity extends AppCompatActivity {
 
     Toolbar toolbar;

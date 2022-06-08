@@ -12,7 +12,6 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//CLEANED
 public class ChooseExerciseFragment extends Fragment {
 
     String date;

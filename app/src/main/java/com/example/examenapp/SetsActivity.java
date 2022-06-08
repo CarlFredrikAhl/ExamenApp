@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import java.util.ArrayList;
 
-//CLEANED
 public class SetsActivity extends AppCompatActivity {
 
     private static String exerciseId;

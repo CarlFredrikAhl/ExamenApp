@@ -21,7 +21,6 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-//CLEANED
 public class StatisticsActivity extends AppCompatActivity {
     final String START_LINK = "https://github.com/CarlFredrikAhl/ExamenApp/blob/master/";
     final String END_LINK = "_compressed.glb?raw=true";

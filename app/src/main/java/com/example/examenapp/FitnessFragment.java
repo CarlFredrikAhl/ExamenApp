@@ -9,7 +9,6 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//CLEANED
 public class FitnessFragment extends Fragment {
     ExpandableListView expandableListView;
     MyExpandableListAdapter myExpandableListAdapter;

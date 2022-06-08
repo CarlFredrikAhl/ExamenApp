@@ -12,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-//CLEANED
 public class SettingsFragment extends Fragment {
     Button clearDataBtn;
     Button doneBtn;
 
     EditText weightPicker;
+
+    //How we save the data (locally)
+    static SharedPreferences sharedPreferences;
 
     float startWeight;
 
@@ -40,7 +42,7 @@ public class SettingsFragment extends Fragment {
     }
 
     public void setWeight() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings_data", Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences("settings_data", Context.MODE_PRIVATE);
 
         float savedWeight = sharedPreferences.getFloat("weight", 0f);
         startWeight = savedWeight;
@@ -95,7 +97,7 @@ public class SettingsFragment extends Fragment {
     }
 
     public static float getUserWeight(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings_data", Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("settings_data", Context.MODE_PRIVATE);
         float savedWeight = sharedPreferences.getFloat("weight", 0f);
 
         return savedWeight;

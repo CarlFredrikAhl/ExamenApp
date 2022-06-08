@@ -1,6 +1,5 @@
 package com.example.examenapp;
 
-//CLEANED
 public class MySet {
     //This changes to time (in seconds) for plank exercise
     String reps;

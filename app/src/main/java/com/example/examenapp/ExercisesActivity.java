@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-//CLEANED
 public class ExercisesActivity extends AppCompatActivity {
     private static ArrayList<Exercise> exercises;
     private static ArrayList<String> exercisesArray;

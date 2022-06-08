@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//CLEANED
 //This is a custom class to use expandable list and implement my own functionality
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     //The groups

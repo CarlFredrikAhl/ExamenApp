@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 
-//CLEANED
 public class HomeFragment extends Fragment {
 
     @Override
