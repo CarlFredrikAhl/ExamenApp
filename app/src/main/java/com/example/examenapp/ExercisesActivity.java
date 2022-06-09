@@ -142,9 +142,7 @@ public class ExercisesActivity extends AppCompatActivity {
             }
         });
 
-        exercisesList.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            int exerciseId = i;
-
+        exercisesList.setOnItemLongClickListener((adapterView, view, exerciseId, l) -> {
             //AlertDialog and able to remove exercise
             AlertDialog.Builder alert = new AlertDialog.Builder(ExercisesActivity.this);
             alert.setTitle("Delete Exercise");
