@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -213,20 +214,22 @@ public class StatisticsActivity extends AppCompatActivity {
 
         //Setting the bar data
 
-        BarDataSet barDataSet1 = new BarDataSet(barEntryArrayList1, "Max Weight Lifted");
+        BarDataSet barDataSet1 = new BarDataSet(barEntryArrayList1, "Max Weight Lifted (Kg)");
         barDataSet1.setColor(Color.YELLOW);
 
         BarDataSet  barDataSet2;
         if(exerciseName.equals("Plank") == false) {
-            barDataSet2 = new BarDataSet(barEntryArrayList2, "Total Weight Lifted");
+            barDataSet2 = new BarDataSet(barEntryArrayList2, "Total Weight Lifted (Kg)");
 
         } else {
-            barDataSet2 = new BarDataSet(barEntryArrayList2, "Total Volume (Weight x Time)");
+            barDataSet2 = new BarDataSet(barEntryArrayList2, "Total Volume (Kg x Seconds)");
         }
         barDataSet1.setColor(Color.BLUE);
 
         BarData barData = new BarData(barDataSet1, barDataSet2);
         barChart.setData(barData);
+
+        YAxis yAxis = barChart.getAxisLeft();
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labelNames));
@@ -257,14 +260,14 @@ public class StatisticsActivity extends AppCompatActivity {
             }
         });
 
-        barChart.getXAxis().setAxisMinimum(0f);
-        barChart.getXAxis().setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*labelNames.size());
-        barChart.getAxisLeft().setAxisMinimum(0);
-        barChart.getAxisLeft().setTextSize(18f);
-        barChart.getAxisLeft().setTextColor(Color.BLACK);
-        barChart.getAxisLeft().setGridColor(Color.RED);
-        barChart.getAxisLeft().setGridLineWidth(1f);
-        barChart.getAxisLeft().enableGridDashedLine(10f, 10f, 0f);
+        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMaximum(0 + barChart.getBarData().getGroupWidth(groupSpace, barSpace)*labelNames.size());
+        yAxis.setAxisMinimum(0);
+        yAxis.setTextSize(18f);
+        yAxis.setTextColor(Color.BLACK);
+        yAxis.setGridColor(Color.RED);
+        yAxis.setGridLineWidth(1f);
+        yAxis.enableGridDashedLine(10f, 10f, 0f);
         barChart.getAxisRight().setDrawLabels(false);
         barChart.getAxisRight().setDrawGridLines(false);
         barChart.getAxisRight().setGridColor(Color.RED);
